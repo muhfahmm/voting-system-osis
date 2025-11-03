@@ -332,7 +332,7 @@ while ($row = mysqli_fetch_assoc($q)) {
             <?php foreach ($dataKelas as $kelas => $info): ?>
                 <?php
                 $idKelas = $info['id_kelas'];
-                $kelasIDToken = $info['kelas_id']; // ini dari tb_buat_token
+                $kelasIDToken = $info['kelas_id'];
                 $target = $info['jumlah_siswa'];
                 $voted = $kelasSummary[$kelas]['voted'];
                 $percent = $target > 0 ? round(($voted / $target) * 100, 2) : 0;
