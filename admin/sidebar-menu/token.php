@@ -25,29 +25,14 @@ function generateTokenByPrefixAndNumber($prefix, $classNum, $db)
 
     return $prefix . $classNum . str_pad($jumlah, 3, '0', STR_PAD_LEFT);
 }
-// jumlah data per halaman
-$limit = 10;
 
-// halaman untuk kelas
-$pageKelas = isset($_GET['page_kelas']) ? (int)$_GET['page_kelas'] : 1;
-if ($pageKelas < 1) $pageKelas = 1;
-$offsetKelas = ($pageKelas - 1) * $limit;
-
-// halaman untuk token
-$pageToken = isset($_GET['page_token']) ? (int)$_GET['page_token'] : 1;
-if ($pageToken < 1) $pageToken = 1;
-$offsetToken = ($pageToken - 1) * $limit;
-
-$totalKelasResult = mysqli_query($db, "SELECT COUNT(*) AS total FROM tb_kelas");
-$totalKelas = mysqli_fetch_assoc($totalKelasResult)['total'] ?? 0;
-$totalPagesKelas = max(1, ceil($totalKelas / $limit));
-
-$kelasQuery = mysqli_query($db, "SELECT * FROM tb_kelas ORDER BY id ASC LIMIT $limit OFFSET $offsetKelas");
-
+// Ambil semua data kelas tanpa pagination
+$kelasQuery = mysqli_query($db, "SELECT * FROM tb_kelas ORDER BY id ASC");
 $kelasList = [];
 while ($r = mysqli_fetch_assoc($kelasQuery)) {
     $kelasList[] = $r;
 }
+$totalKelas = count($kelasList);
 
 $classNumberMap = [];
 $prefixCounters = [];
@@ -106,6 +91,40 @@ if (isset($_GET['hapus'])) {
     }
 }
 
+if (isset($_GET['edit'])) {
+    $id = (int)$_GET['edit'];
+    $q = mysqli_query($db, "SELECT * FROM tb_kelas WHERE id = $id");
+    $editRow = mysqli_fetch_assoc($q);
+
+    if (!$editRow) {
+        $message = "⚠️ Kelas tidak ditemukan untuk diedit.";
+    }
+}
+
+if (isset($_POST['update_class'])) {
+    $id = (int)$_POST['id'];
+    $kelas_baru = trim($_POST['kelas_baru']);
+    $jumlah_siswa_baru = (int)$_POST['jumlah_siswa_baru'];
+
+    if ($kelas_baru !== '' && $jumlah_siswa_baru > 0) {
+        $kelas_esc = mysqli_real_escape_string($db, $kelas_baru);
+        $exists = mysqli_query($db, "SELECT * FROM tb_kelas WHERE nama_kelas='$kelas_esc' AND id != $id");
+
+        if (mysqli_num_rows($exists) == 0) {
+            mysqli_query($db, "UPDATE tb_kelas 
+                               SET nama_kelas='$kelas_esc', jumlah_siswa=$jumlah_siswa_baru 
+                               WHERE id=$id");
+            $message = "✅ Data kelas berhasil diperbarui.";
+            header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
+            exit;
+        } else {
+            $message = "⚠️ Nama kelas '$kelas_baru' sudah digunakan.";
+        }
+    } else {
+        $message = "⚠️ Nama kelas atau jumlah siswa tidak boleh kosong!";
+    }
+}
+
 if (isset($_GET['hapus_token'])) {
     $id_token = (int)$_GET['hapus_token'];
     $check = mysqli_query($db, "SELECT token FROM tb_buat_token WHERE id = $id_token");
@@ -137,7 +156,6 @@ if (isset($_POST['generate'])) {
 }
 
 $kelasTerpilih = isset($_GET['kelas_id']) ? (int)$_GET['kelas_id'] : 0;
-
 if ($kelasTerpilih === 0 && !empty($kelasList)) {
     $kelasTerpilih = (int)$kelasList[0]['id'];
 }
@@ -145,13 +163,13 @@ if ($kelasTerpilih === 0 && !empty($kelasList)) {
 $kelasData = mysqli_query($db, "SELECT * FROM tb_kelas WHERE id = $kelasTerpilih");
 $kelasRow = mysqli_fetch_assoc($kelasData);
 
-$limitToken = isset($kelasRow['jumlah_siswa']) ? (int)$kelasRow['jumlah_siswa'] : 10;
+$limitToken = 10;
+
 
 $pageToken = isset($_GET['page_token']) ? (int)$_GET['page_token'] : 1;
 if ($pageToken < 1) $pageToken = 1;
 $offsetToken = ($pageToken - 1) * $limitToken;
 
-// Hitung total token per kelas
 $totalTokenResult = mysqli_query($db, "SELECT COUNT(*) AS total FROM tb_buat_token WHERE kelas_id = $kelasTerpilih");
 $totalToken = mysqli_fetch_assoc($totalTokenResult)['total'] ?? 0;
 $totalPagesToken = max(1, ceil($totalToken / $limitToken));
@@ -161,9 +179,32 @@ $tokens = mysqli_query($db, "
     FROM tb_buat_token t
     LEFT JOIN tb_kelas k ON t.kelas_id = k.id
     WHERE t.kelas_id = $kelasTerpilih
-    ORDER BY t.created_at DESC
+    ORDER BY t.created_at
     LIMIT $limitToken OFFSET $offsetToken
 ");
+
+// Ambil jumlah token per kelas
+$tokenCountQuery = mysqli_query($db, "
+    SELECT kelas_id, COUNT(*) AS total_token 
+    FROM tb_buat_token 
+    GROUP BY kelas_id
+");
+$tokenCountMap = [];
+while ($row = mysqli_fetch_assoc($tokenCountQuery)) {
+    $tokenCountMap[$row['kelas_id']] = (int)$row['total_token'];
+}
+
+// Ambil jumlah token yang sudah digunakan per kelas
+$usedTokenQuery = mysqli_query($db, "
+    SELECT kelas_id, COUNT(*) AS used_token 
+    FROM tb_buat_token 
+    WHERE status_token IN ('sudah', 'used', 'ya', '1', 'true') 
+    GROUP BY kelas_id
+");
+$usedTokenMap = [];
+while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
+    $usedTokenMap[$row['kelas_id']] = (int)$row['used_token'];
+}
 
 ?>
 <!DOCTYPE html>
@@ -172,7 +213,9 @@ $tokens = mysqli_query($db, "
 <head>
     <meta charset="UTF-8">
     <title>Manajemen Token Voting</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
+        /* (style tetap sama seperti versi sebelumnya) */
         * {
             margin: 0;
             padding: 0;
@@ -333,7 +376,7 @@ $tokens = mysqli_query($db, "
         <?php endif; ?>
 
         <form method="POST" class="form-modern">
-            <input type="text" name="kelas" placeholder="Masukkan nama kelas" required>
+            <input type="text" name="kelas" placeholder="Masukkan nama kelas" required autocomplete="off">
             <input type="number" name="jumlah_siswa" placeholder="Jumlah siswa" min="1" required>
             <button type="submit" name="add_class" class="btn btn-blue">Tambah Kelas</button>
             <style>
@@ -396,36 +439,50 @@ $tokens = mysqli_query($db, "
                 <th>No</th>
                 <th>Nama Kelas</th>
                 <th>Jumlah Siswa</th>
+                <th>Jumlah Token</th>
+                <th>Jumlah Token Yang Digunakan</th>
                 <th>Aksi</th>
             </tr>
-            <?php if ($totalKelas > 0): $no = $offsetKelas + 1;
+
+            <?php if ($totalKelas > 0): $no = 1;
                 foreach ($kelasList as $k): ?>
                     <tr>
                         <td><?= $no++; ?></td>
                         <td><?= htmlspecialchars($k['nama_kelas']); ?></td>
                         <td><?= htmlspecialchars($k['jumlah_siswa']); ?></td>
+                        <td><?= $tokenCountMap[$k['id']] ?? 0; ?></td>
+                        <td><?= $usedTokenMap[$k['id']] ?? 0; ?></td>
+
                         <td>
                             <form method="POST" style="display:inline;">
                                 <input type="hidden" name="kelas_id" value="<?= $k['id']; ?>">
                                 <button type="submit" name="generate" class="btn btn-blue">Buat Token</button>
                             </form>
                             <a href="?hapus=<?= $k['id']; ?>" class="btn btn-border-red"
-                                onclick="return confirm('Yakin ingin menghapus kelas ini?')">Hapus</a>
+                                onclick="return confirm('Yakin ingin menghapus kelas ini?')">Hapus Data Kelas</a>
+                            <a href="?edit=<?= $k['id']; ?>" class="btn btn-blue" style="background:#f39c12;">Edit Data Kelas</a>
+                            <?php if (isset($editRow) && $editRow['id'] == $k['id']): ?>
+                                <form method="POST" class="form-modern" style="margin-top:20px;">
+                                    <input type="hidden" name="id" value="<?= $editRow['id']; ?>">
+                                    <input type="text" name="kelas_baru" value="<?= htmlspecialchars($editRow['nama_kelas']); ?>" required>
+                                    <input type="number" name="jumlah_siswa_baru" value="<?= htmlspecialchars($editRow['jumlah_siswa']); ?>" min="1" required>
+                                    <button type="submit" name="update_class" class="btn btn-blue">Update Kelas</button>
+                                    <a href="token.php" class="btn btn-border-red">Batal</a>
+                                </form>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach;
             else: ?>
                 <tr>
-                    <td colspan="4">Belum ada kelas.</td>
+                    <td colspan="5">Belum ada kelas.</td>
                 </tr>
             <?php endif; ?>
         </table>
 
-        <div class="pagination">
-            <?php for ($p = 1; $p <= $totalPagesKelas; $p++): ?>
-                <a href="?page_kelas=<?= $p ?>&page_token=<?= $pageToken ?>" class="<?= $p == $pageKelas ? 'active' : '' ?>"><?= $p ?></a>
-            <?php endfor; ?>
-        </div>
+
+        <!-- pagination kelas dihapus karena sekarang semua kelas ditampilkan tanpa limit -->
+
         <form method="GET" class="kelas-filter-form">
             <label for="kelas_id"><b>Filter token berdasarkan kelas:</b></label>
             <select name="kelas_id" id="kelas_id" onchange="this.form.submit()">
@@ -491,8 +548,8 @@ $tokens = mysqli_query($db, "
                         <td><?= $no++; ?></td>
                         <td><?= htmlspecialchars($row['nama_kelas'] ?? '-'); ?></td>
                         <td><?= htmlspecialchars($row['token']); ?></td>
-                        <td><?= $row['status_token'] === 'sudah' ? '<span style="color:green">Sudah</span>' : '<span style="color:red">Belum Dipakai</span>'; ?></td>
-                        <td><a href="?hapus_token=<?= $row['id']; ?>" class="btn btn-border-red" onclick="return confirm('Hapus token ini?')">Hapus</a></td>
+                        <td><?= $row['status_token'] === 'sudah' ? '<span style="color:green">Sudah Dipakai</span>' : '<span style="color:red">Belum Dipakai</span>'; ?></td>
+                        <td><a href="?hapus_token=<?= $row['id']; ?>" class="btn btn-border-red" onclick="return confirm('Hapus token ini?')">Hapus Token</a></td>
                     </tr>
                 <?php endwhile;
             else: ?>
@@ -501,11 +558,22 @@ $tokens = mysqli_query($db, "
                 </tr>
             <?php endif; ?>
         </table>
-        <!-- <div class="pagination">
-            <?php for ($p = 1; $p <= $totalPagesToken; $p++): ?>
-                <a href="?page_token=<?= $p ?>&page_kelas=<?= $pageKelas ?>" class="<?= $p == $pageToken ? 'active' : '' ?>"><?= $p ?></a>
-            <?php endfor; ?>
-        </div> -->
+
+        <!-- pagination token (jika dibutuhkan) -->
+        <?php if ($totalPagesToken > 1): ?>
+            <div class="pagination">
+                <?php for ($p = 1; $p <= $totalPagesToken; $p++): ?>
+                    <a href="?page_token=<?= $p ?>&kelas_id=<?= $kelasTerpilih ?>" class="<?= $p == $pageToken ? 'active' : '' ?>"><?= $p ?></a>
+                <?php endfor; ?>
+            </div>
+        <?php endif; ?>
+
+        <form method="POST" action="../api/export_token.php" style="margin-bottom:15px;">
+            <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">
+            <button type="submit" class="btn btn-blue" style="background:#27ae60;">Ekspor Token ke Excel</button>
+            <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_buat_token" style="text-decoration: none; background-color: #3498db; padding: 10px; color: white; font-weight: 700; border-radius: 5px;" target="_blank"><i class="bi bi-database"></i> buka database</a>
+        </form>
+
     </div>
 </body>
 

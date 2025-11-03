@@ -15,6 +15,9 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
 <head>
     <meta charset="UTF-8">
     <title>Daftar Kandidat - Voting OSIS</title>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <style>
         * {
             margin: 0;
@@ -281,8 +284,9 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                 <label for="foto_wakil">Foto Wakil</label>
                 <input type="file" id="foto_wakil" name="foto_wakil" required autocomplete="off">
 
-                <button type="submit">💾 Simpan Kandidat</button>
+                <button type="submit" style="margin-bottom: 20px;">💾 Simpan Kandidat</button>
             </form>
+            <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_kandidat" style="text-decoration: none; background-color: #3498db; padding: 10px; color: white; font-weight: 700; border-radius: 5px;" target="_blank"><i class="bi bi-database"></i> buka database</a>
         </div>
     </div>
 </body>

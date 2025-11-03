@@ -107,6 +107,7 @@ $kodeGuruQuery = mysqli_query($db, "
 <head>
     <meta charset="UTF-8">
     <title>Manajemen Kode Guru</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         * {
             margin: 0;
@@ -308,7 +309,7 @@ $kodeGuruQuery = mysqli_query($db, "
         </div>
 
         <form method="POST" class="input-form">
-            <input type="text" name="kode_manual" placeholder="Masukkan Kode Guru (contoh: GURU1, STAFFBP)" required>
+            <input type="text" name="kode_manual" placeholder="Masukkan Kode Guru" required autocomplete="OFF">
             <button type="submit" name="tambah_kode">Tambah Kode Guru</button>
         </form>
 
@@ -349,6 +350,7 @@ $kodeGuruQuery = mysqli_query($db, "
                 </tr>
             <?php endif; ?>
         </table>
+        <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_kode_guru" style="text-decoration: none; background-color: #3498db; padding: 10px; color: white; font-weight: 700; border-radius: 5px;" target="_blank"><i class="bi bi-database"></i> buka database</a>
     </div>
 </body>
 

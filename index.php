@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
         }
 
         if (!$token_db_id) {
-            $errorMessage = "Kode/Token tidak terdaftar.";
+            $errorMessage = "Token tidak terdaftar.";
         }
         if (empty($errorMessage) && $token_db_id) {
             $is_already_used = false;
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                 $is_already_used = true;
             }
             if ($is_already_used) {
-                $tokenUsedMessage = "Kode/Token sudah digunakan.";
+                $tokenUsedMessage = "Token sudah digunakan.";
             } else {
                 mysqli_begin_transaction($db);
                 try {
@@ -512,7 +512,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Token Sudah Digunakan</h2>
-            <p>Kode/Token ini sudah dipakai untuk memilih.</p>
+            <p>Token ini sudah dipakai untuk memilih.</p>
             <button id="tokenUsedBtn" class="button-ok" style="cursor: pointer;">OK</button>
         </div>
     </div>

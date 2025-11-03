@@ -10,9 +10,6 @@ if (!isset($_SESSION['login'])) {
 
 $admin = $_SESSION['username'];
 
-/* ================================
-   🔹 Ambil data kelas dari database
-   ================================ */
 $dataKelas = [];
 $resultKelas = mysqli_query($db, "SELECT nama_kelas, jumlah_siswa FROM tb_kelas ORDER BY nama_kelas ASC");
 while ($row = mysqli_fetch_assoc($resultKelas)) {
@@ -20,9 +17,6 @@ while ($row = mysqli_fetch_assoc($resultKelas)) {
 }
 $total_siswa = array_sum($dataKelas);
 
-/* ================================
-   🔹 Ambil data kandidat beserta jumlah suara
-   ================================ */
 $query = mysqli_query($db, "
     SELECT k.nomor_kandidat, k.nama_ketua, k.nama_wakil, COUNT(v.id) AS total_suara
     FROM tb_kandidat k
@@ -39,12 +33,8 @@ while ($row = mysqli_fetch_assoc($query)) {
     $dataVotes[] = $row['total_suara'];
 }
 
-// Reset pointer untuk diagram bar custom
 mysqli_data_seek($query, 0);
 
-/* ================================
-   🔹 Hitung total siswa & guru voting
-   ================================ */
 $totalVotesSiswaQuery = mysqli_query($db, "
     SELECT COUNT(DISTINCT v.id) AS total 
     FROM tb_voter v
@@ -61,16 +51,10 @@ $totalVotesGuruQuery = mysqli_query($db, "
 ");
 $totalVotesGuru = (int)mysqli_fetch_assoc($totalVotesGuruQuery)['total'];
 
-/* ================================
-   🔹 Hitung total semua suara
-   ================================ */
 $totalQuery = mysqli_query($db, "SELECT COUNT(*) AS total FROM tb_vote_log");
 $totalVotes = (int)mysqli_fetch_assoc($totalQuery)['total'];
 
-/* ================================
-   🔹 Total target dinamis
-   ================================ */
-$totalSiswaTarget = $total_siswa; // total siswa dari tb_kelas
+$totalSiswaTarget = $total_siswa;
 
 // total guru dari tb_kode_guru
 $guruResult = mysqli_query($db, "SELECT COUNT(*) AS total_guru FROM tb_kode_guru");

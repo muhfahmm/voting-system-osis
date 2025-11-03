@@ -79,12 +79,22 @@ while ($row = mysqli_fetch_assoc($votedGuruQuery)) {
     $votersGuru[] = $row;
 }
 
-// jumlah siswa setiap kelas
+// jumlah siswa setiap kelas + ambil kelas_id dari tb_buat_token
 $dataKelas = [];
-$qKelas = mysqli_query($db, "SELECT nama_kelas, jumlah_siswa FROM tb_kelas ORDER BY id ASC");
+$qKelas = mysqli_query($db, "
+    SELECT k.id AS id_kelas, k.nama_kelas, k.jumlah_siswa, t.kelas_id
+    FROM tb_kelas k
+    LEFT JOIN tb_buat_token t ON t.kelas_id = k.id
+    ORDER BY k.id ASC
+");
 while ($row = mysqli_fetch_assoc($qKelas)) {
-    $dataKelas[$row['nama_kelas']] = (int)$row['jumlah_siswa'];
+    $dataKelas[$row['nama_kelas']] = [
+        'id_kelas' => (int)$row['id_kelas'],
+        'kelas_id' => (int)$row['kelas_id'],
+        'jumlah_siswa' => (int)$row['jumlah_siswa']
+    ];
 }
+
 
 
 $kelasSummary = [];
@@ -134,6 +144,7 @@ while ($row = mysqli_fetch_assoc($q)) {
 <head>
     <meta charset="UTF-8">
     <title>Daftar Voter - Voting OSIS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         * {
             margin: 0;
@@ -326,39 +337,128 @@ while ($row = mysqli_fetch_assoc($q)) {
 
         <h3>Ringkasan Voting per Kelas</h3>
         <div class="kelas-grid">
-            <?php foreach ($dataKelas as $kelas => $target): ?>
+            <?php foreach ($dataKelas as $kelas => $info): ?>
                 <?php
+                $idKelas = $info['id_kelas'];
+                $kelasIDToken = $info['kelas_id']; // ini dari tb_buat_token
+                $target = $info['jumlah_siswa'];
                 $voted = $kelasSummary[$kelas]['voted'];
                 $percent = $target > 0 ? round(($voted / $target) * 100, 2) : 0;
                 ?>
-                <div class="kelas-card">
-                    <h4><?= $kelas ?></h4>
-                    <p><?= $voted ?> dari <?= $target ?> siswa (<?= $percent ?>%)</p>
-                    <div class="progress">
-                        <div class="progress-fill" style="width: <?= $percent ?>%;"></div>
-                    </div>
-                    <div class="kandidat-list">
-                        <?php if (isset($hasilKandidat[$kelas])): ?>
-                            <?php foreach ($hasilKandidat[$kelas]["kandidat"] as $nomor => $jumlah): ?>
-                                <?php
-                                $persen = $hasilKandidat[$kelas]["total"] > 0
-                                    ? round(($jumlah / $hasilKandidat[$kelas]["total"]) * 100, 2)
-                                    : 0;
-                                ?>
-                                <div class="kandidat-item">
-                                    <span>Kandidat <?= $nomor ?> - <?= $jumlah ?> suara (<?= $persen ?>%)</span>
-                                    <div class="progress sub-progress">
-                                        <div class="sub-fill" style="width: <?= $persen ?>%;"></div>
+                <a href="daftar voter/per-kelas.php?kelas_id=<?= $kelasIDToken ?>">
+                    <div class="kelas-card">
+                        <h4><?= $kelas ?></h4>
+                        <p><?= $voted ?> dari <?= $target ?> siswa (<?= $percent ?>%)</p>
+                        <div class="progress">
+                            <div class="progress-fill" style="width: <?= $percent ?>%;"></div>
+                        </div>
+                        <div class="kandidat-list">
+                            <?php if (isset($hasilKandidat[$kelas])): ?>
+                                <?php foreach ($hasilKandidat[$kelas]["kandidat"] as $nomor => $jumlah): ?>
+                                    <?php
+                                    $persen = $hasilKandidat[$kelas]["total"] > 0
+                                        ? round(($jumlah / $hasilKandidat[$kelas]["total"]) * 100, 2)
+                                        : 0;
+                                    ?>
+                                    <div class="kandidat-item">
+                                        <span>Kandidat <?= $nomor ?> - <?= $jumlah ?> suara (<?= $persen ?>%)</span>
+                                        <div class="progress sub-progress">
+                                            <div class="sub-fill" style="width: <?= $persen ?>%;"></div>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <i>Belum ada suara di kelas ini.</i>
-                        <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <i>Belum ada suara di kelas ini.</i>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                </div>
+                </a>
+                <style>
+                    /* Hilangkan underline dari seluruh link yang berisi .kelas-card */
+                    a {
+                        text-decoration: none;
+                        color: inherit;
+                    }
+
+                    /* Styling utama kartu kelas */
+                    .kelas-card {
+                        background: #ffffff;
+                        border: 1px solid #e3e3e3;
+                        border-radius: 12px;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+                        transition: all 0.25s ease;
+                    }
+
+                    /* Judul kelas */
+                    .kelas-card h4 {
+                        margin: 0 0 8px 0;
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                        color: #333;
+                    }
+
+                    /* Teks kecil di bawah judul */
+                    .kelas-card p {
+                        margin: 0 0 15px 0;
+                        color: #555;
+                        font-size: 0.95rem;
+                    }
+
+                    /* Progress utama */
+                    .progress {
+                        background: #f1f1f1;
+                        border-radius: 8px;
+                        height: 10px;
+                        overflow: hidden;
+                        margin-bottom: 15px;
+                    }
+
+                    .progress-fill {
+                        background: linear-gradient(90deg, #4e9af1, #007bff);
+                        height: 100%;
+                        border-radius: 8px;
+                        transition: width 0.3s ease;
+                    }
+
+                    /* Daftar kandidat */
+                    .kandidat-list {
+                        margin-top: 10px;
+                    }
+
+                    /* Item kandidat */
+                    .kandidat-item {
+                        font-size: 0.9rem;
+                        color: #444;
+                        margin-bottom: 10px;
+                    }
+
+                    /* Sub progress bar (per kandidat) */
+                    .sub-progress {
+                        background: #ebebeb;
+                        border-radius: 6px;
+                        height: 8px;
+                        overflow: hidden;
+                        margin-top: 4px;
+                    }
+
+                    .sub-fill {
+                        background: linear-gradient(90deg, #00c6ff, #0072ff);
+                        height: 100%;
+                        border-radius: 6px;
+                        transition: width 0.3s ease;
+                    }
+
+                    /* Teks italic untuk status kosong */
+                    .kandidat-list i {
+                        color: #777;
+                        font-size: 0.9rem;
+                    }
+                </style>
             <?php endforeach; ?>
         </div>
+
         <h1>Daftar Voter Khusus Guru</h1>
         <table>
             <tr>
@@ -448,7 +548,9 @@ while ($row = mysqli_fetch_assoc($q)) {
                     <?php endif; ?>
                 </div>
             </div>
+
         </div>
+        <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_kandidat" style="text-decoration: none; background-color: #3498db; padding: 10px; color: white; font-weight: 700; border-radius: 5px;" target="_blank"><i class="bi bi-database"></i> buka database</a>
     </div>
 </body>
 
