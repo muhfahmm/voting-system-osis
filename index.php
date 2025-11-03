@@ -122,13 +122,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                         throw new Exception("Role tidak terdefinisi.");
                     }
 
-                    // Masukkan ke tb_vote_log
                     $vote_log = mysqli_prepare($db, "INSERT INTO tb_vote_log (voter_id, nomor_kandidat, created_at) VALUES (?, ?, NOW())");
                     mysqli_stmt_bind_param($vote_log, "ii", $voter_id, $kandidat_terpilih);
                     mysqli_stmt_execute($vote_log);
                     mysqli_stmt_close($vote_log);
 
-                    // Update hasil vote
                     $update = mysqli_prepare($db, "UPDATE tb_vote_result SET jumlah_vote = jumlah_vote + 1 WHERE nomor_kandidat = ?");
                     mysqli_stmt_bind_param($update, "i", $kandidat_terpilih);
                     mysqli_stmt_execute($update);
@@ -531,9 +529,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     document.getElementById('kelas').value = '';
                 }
             });
-
             kelasWrap.style.display = (roleSelect.value === 'siswa') ? 'block' : 'none';
-
 
             kandidatCards.forEach(card => {
                 const btn = card.querySelector('button');
