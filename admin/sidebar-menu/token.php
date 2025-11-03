@@ -26,7 +26,6 @@ function generateTokenByPrefixAndNumber($prefix, $classNum, $db)
     return $prefix . $classNum . str_pad($jumlah, 3, '0', STR_PAD_LEFT);
 }
 
-// Ambil semua data kelas tanpa pagination
 $kelasQuery = mysqli_query($db, "SELECT * FROM tb_kelas ORDER BY id ASC");
 $kelasList = [];
 while ($r = mysqli_fetch_assoc($kelasQuery)) {
@@ -183,7 +182,6 @@ $tokens = mysqli_query($db, "
     LIMIT $limitToken OFFSET $offsetToken
 ");
 
-// Ambil jumlah token per kelas
 $tokenCountQuery = mysqli_query($db, "
     SELECT kelas_id, COUNT(*) AS total_token 
     FROM tb_buat_token 
@@ -194,7 +192,6 @@ while ($row = mysqli_fetch_assoc($tokenCountQuery)) {
     $tokenCountMap[$row['kelas_id']] = (int)$row['total_token'];
 }
 
-// Ambil jumlah token yang sudah digunakan per kelas
 $usedTokenQuery = mysqli_query($db, "
     SELECT kelas_id, COUNT(*) AS used_token 
     FROM tb_buat_token 
@@ -215,7 +212,6 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
     <title>Manajemen Token Voting</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        /* (style tetap sama seperti versi sebelumnya) */
         * {
             margin: 0;
             padding: 0;
@@ -480,9 +476,6 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             <?php endif; ?>
         </table>
 
-
-        <!-- pagination kelas dihapus karena sekarang semua kelas ditampilkan tanpa limit -->
-
         <form method="GET" class="kelas-filter-form">
             <label for="kelas_id"><b>Filter token berdasarkan kelas:</b></label>
             <select name="kelas_id" id="kelas_id" onchange="this.form.submit()">
@@ -559,7 +552,6 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             <?php endif; ?>
         </table>
 
-        <!-- pagination token (jika dibutuhkan) -->
         <?php if ($totalPagesToken > 1): ?>
             <div class="pagination">
                 <?php for ($p = 1; $p <= $totalPagesToken; $p++): ?>

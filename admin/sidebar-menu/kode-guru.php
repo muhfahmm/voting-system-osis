@@ -23,7 +23,6 @@ if (isset($_POST['tambah_kode'])) {
             if (!preg_match('/^[a-zA-Z0-9]+$/', $kode_manual)) {
                 $message = "⚠️ Kode Guru hanya boleh berisi huruf dan angka (tanpa spasi/simbol).";
             } else {
-                // Tambahkan kode ke database
                 $insert_stmt = mysqli_prepare($db, "INSERT INTO tb_kode_guru (kode, status_kode) VALUES (?, 'belum')");
                 mysqli_stmt_bind_param($insert_stmt, "s", $kode_esc);
                 $insert = mysqli_stmt_execute($insert_stmt);
