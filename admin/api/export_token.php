@@ -4,11 +4,9 @@ require '../../db/db.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kelas_id'])) {
     $kelas_id = (int) $_POST['kelas_id'];
 
-    // Ambil nama kelas
     $qKelas = mysqli_query($db, "SELECT nama_kelas FROM tb_kelas WHERE id = $kelas_id");
     $kelas = mysqli_fetch_assoc($qKelas)['nama_kelas'] ?? 'Tidak Diketahui';
 
-    // Ambil semua token berdasarkan kelas
     $query = mysqli_query($db, "
         SELECT t.token, t.status_token, k.nama_kelas, t.created_at
         FROM tb_buat_token t
@@ -17,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kelas_id'])) {
         ORDER BY t.created_at ASC
     ");
 
-    // Siapkan file Excel (HTML table)
     header("Content-Type: application/vnd.ms-excel");
     header("Content-Disposition: attachment; filename=Token_{$kelas}.xls");
 
