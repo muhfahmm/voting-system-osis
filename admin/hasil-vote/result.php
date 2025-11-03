@@ -2,7 +2,6 @@
 session_start();
 require '../../db/db.php';
 
-// cek login
 if (!isset($_SESSION['login'])) {
     header("Location: ../auth/login.php");
     exit;

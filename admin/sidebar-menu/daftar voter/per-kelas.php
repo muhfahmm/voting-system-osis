@@ -2,13 +2,11 @@
 session_start();
 require '../../../db/db.php';
 
-// Cek login
 if (!isset($_SESSION['login'])) {
     header("Location: ../auth/login.php");
     exit;
 }
 
-// Ambil kelas_id dari URL
 if (!isset($_GET['kelas_id'])) {
     echo "<script>alert('Kelas tidak ditemukan!'); window.location.href='../kode-guru.php';</script>";
     exit;
@@ -16,7 +14,6 @@ if (!isset($_GET['kelas_id'])) {
 
 $kelas_id = (int)$_GET['kelas_id'];
 
-// Ambil nama kelas
 $qKelas = mysqli_query($db, "SELECT nama_kelas FROM tb_kelas WHERE id = $kelas_id");
 if (mysqli_num_rows($qKelas) === 0) {
     echo "<script>alert('Kelas tidak valid!'); window.location.href='../kode-guru.php';</script>";
@@ -24,7 +21,6 @@ if (mysqli_num_rows($qKelas) === 0) {
 }
 $kelas = mysqli_fetch_assoc($qKelas)['nama_kelas'];
 
-// Ambil daftar token voter dari kelas ini
 $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas_id ORDER BY id ASC");
 ?>
 
