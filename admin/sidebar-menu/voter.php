@@ -9,10 +9,8 @@ if (!isset($_SESSION['login'])) {
 
 $admin = $_SESSION['username'];
 
-// jumlah data per halaman
 $limit = 15;
 
-// halaman untuk siswa & guru
 $pageSiswa = isset($_GET['page_siswa']) ? (int)$_GET['page_siswa'] : 1;
 if ($pageSiswa < 1) $pageSiswa = 1;
 $offsetSiswa = ($pageSiswa - 1) * $limit;
@@ -21,11 +19,9 @@ $pageGuru = isset($_GET['page_guru']) ? (int)$_GET['page_guru'] : 1;
 if ($pageGuru < 1) $pageGuru = 1;
 $offsetGuru = ($pageGuru - 1) * $limit;
 
-// variabel hasil
 $votersSiswa = [];
 $votersGuru = [];
 
-// hitung total siswa yang sudah vote
 $totalSiswaQuery = mysqli_query($db, "
     SELECT COUNT(*) as total
     FROM tb_voter v
@@ -36,7 +32,6 @@ $totalSiswaRow = mysqli_fetch_assoc($totalSiswaQuery);
 $totalSiswa = isset($totalSiswaRow['total']) ? (int)$totalSiswaRow['total'] : 0;
 $totalPagesSiswa = $totalSiswa > 0 ? ceil($totalSiswa / $limit) : 1;
 
-// ambil data vote untuk siswa
 $votedSiswaQuery = mysqli_query($db, "
     SELECT v.id, v.nama_voter, v.kelas, v.role, l.nomor_kandidat
     FROM tb_voter v
@@ -79,7 +74,6 @@ while ($row = mysqli_fetch_assoc($votedGuruQuery)) {
     $votersGuru[] = $row;
 }
 
-// jumlah siswa setiap kelas + ambil kelas_id dari tb_buat_token
 $dataKelas = [];
 $qKelas = mysqli_query($db, "
     SELECT k.id AS id_kelas, k.nama_kelas, k.jumlah_siswa, t.kelas_id
@@ -94,8 +88,6 @@ while ($row = mysqli_fetch_assoc($qKelas)) {
         'jumlah_siswa' => (int)$row['jumlah_siswa']
     ];
 }
-
-
 
 $kelasSummary = [];
 foreach ($dataKelas as $kelas => $target) {
