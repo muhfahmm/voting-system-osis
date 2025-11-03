@@ -49,4 +49,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kelas_id'])) {
     echo "Kelas tidak ditemukan.";
     exit;
 }
-?>

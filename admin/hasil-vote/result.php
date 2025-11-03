@@ -175,7 +175,7 @@ $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
 
         <div class="bar-chart">
             <?php
-            mysqli_data_seek($query, 0); // pastikan ulang pointer ke awal
+            mysqli_data_seek($query, 0);
             while ($row = mysqli_fetch_assoc($query)) {
                 $persentase = $totalVotes > 0 ? round(($row['total_suara'] / $totalVotes) * 100, 2) : 0;
             ?>
