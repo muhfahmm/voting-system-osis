@@ -14,14 +14,14 @@ if (isset($_POST['tambah_kode'])) {
     $kode_manual = trim($_POST['kode_manual'] ?? '');
 
     if (empty($kode_manual)) {
-        $message = "⚠️ Kode Guru tidak boleh kosong.";
+        $message = "⚠️ Token Guru tidak boleh kosong.";
     } else {
         $kode_esc = mysqli_real_escape_string($db, $kode_manual);
 
         $check = mysqli_query($db, "SELECT id FROM tb_kode_guru WHERE kode = '$kode_esc'");
         if (mysqli_num_rows($check) == 0) {
             if (!preg_match('/^[a-zA-Z0-9]+$/', $kode_manual)) {
-                $message = "⚠️ Kode Guru hanya boleh berisi huruf dan angka (tanpa spasi/simbol).";
+                $message = "⚠️ Token Guru hanya boleh berisi huruf dan angka (tanpa spasi/simbol).";
             } else {
                 $insert_stmt = mysqli_prepare($db, "INSERT INTO tb_kode_guru (kode, status_kode) VALUES (?, 'belum')");
                 mysqli_stmt_bind_param($insert_stmt, "s", $kode_esc);
@@ -29,15 +29,15 @@ if (isset($_POST['tambah_kode'])) {
                 mysqli_stmt_close($insert_stmt);
 
                 if ($insert) {
-                    $message = "✅ Kode Guru <b>$kode_manual</b> berhasil ditambahkan.";
+                    $message = "✅ Token Guru <b>$kode_manual</b> berhasil ditambahkan.";
                     header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']) . "?msg=" . urlencode($message));
                     exit;
                 } else {
-                    $message = "❌ Gagal menambahkan Kode Guru.";
+                    $message = "❌ Gagal menambahkan Token Guru.";
                 }
             }
         } else {
-            $message = "⚠️ Kode Guru <b>$kode_manual</b> sudah ada. Silakan gunakan kode lain.";
+            $message = "⚠️ Token Guru <b>$kode_manual</b> sudah ada. Silakan gunakan kode lain.";
         }
     }
 }
@@ -60,14 +60,14 @@ if (isset($_GET['hapus_kode'])) {
         mysqli_stmt_close($delete_stmt);
 
         if ($hapus) {
-            $message = "🗑️ Kode Guru '$kode' berhasil dihapus. <b>$total_voter</b> voter terkait juga dihapus otomatis.";
+            $message = "🗑️ Token Guru '$kode' berhasil dihapus. <b>$total_voter</b> voter terkait juga dihapus otomatis.";
             header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
             exit;
         } else {
-            $message = "❌ Gagal menghapus Kode Guru.";
+            $message = "❌ Gagal menghapus Token Guru.";
         }
     } else {
-        $message = "⚠️ Kode Guru tidak ditemukan.";
+        $message = "⚠️ Token Guru tidak ditemukan.";
     }
 }
 
@@ -105,7 +105,7 @@ $kodeGuruQuery = mysqli_query($db, "
 
 <head>
     <meta charset="UTF-8">
-    <title>Manajemen Kode Guru</title>
+    <title>Manajemen Token Guru</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         * {
@@ -278,13 +278,13 @@ $kodeGuruQuery = mysqli_query($db, "
             <li><a href="../kandidat/daftar.php">Daftar Kandidat</a></li>
             <li><a href="../sidebar-menu/voter.php">Daftar Voter</a></li>
             <li><a href="../sidebar-menu/token-siswa.php">Kelas & Token Siswa</a></li>
-            <li><a href="../sidebar-menu/kode-guru.php" class="active">Token Guru</a></li>
+            <li><a href="../sidebar-menu/token-guru.php" class="active">Token Guru</a></li>
             <li><a href="../auth/logout.php">Logout</a></li>
         </ul>
     </div>
 
     <div class="main-content">
-        <h1>Manajemen Kode Guru</h1>
+        <h1>Manajemen Token Guru</h1>
 
         <?php if (!empty($message)): ?>
             <div style="text-align:center;margin-bottom:15px;color:#2c3e50;padding:10px;border:1px solid #ccc;border-radius:5px;background:#fff;">
@@ -294,7 +294,7 @@ $kodeGuruQuery = mysqli_query($db, "
 
         <div class="statistik-cards">
             <div class="card" style="border-left:5px solid #3498db;">
-                <h4>Total Kode Guru</h4>
+                <h4>Total Token Guru</h4>
                 <p style="color:#3498db;"><?= $total_kode; ?></p>
             </div>
             <div class="card" style="border-left:5px solid #e67e22;">
@@ -308,15 +308,15 @@ $kodeGuruQuery = mysqli_query($db, "
         </div>
 
         <form method="POST" class="input-form">
-            <input type="text" name="kode_manual" placeholder="Masukkan Kode Guru" required autocomplete="OFF">
-            <button type="submit" name="tambah_kode">Tambah Kode Guru</button>
+            <input type="text" name="kode_manual" placeholder="Masukkan Token Guru" required autocomplete="OFF">
+            <button type="submit" name="tambah_kode">Tambah Token Guru</button>
         </form>
 
-        <h3>Daftar Kode Guru yang Sudah Dibuat</h3>
+        <h3>Daftar Token Guru yang Sudah Dibuat</h3>
         <table>
             <tr>
                 <th>No</th>
-                <th>Kode Guru</th>
+                <th>Token Guru</th>
                 <th>Status</th>
                 <th>Waktu Dibuat</th>
                 <th>Aksi</th>
@@ -337,7 +337,7 @@ $kodeGuruQuery = mysqli_query($db, "
                         <td><?= date('d-m-Y H:i:s', strtotime($row['created_at'])); ?></td>
                         <td>
                             <a href="?hapus_kode=<?= $row['id']; ?>" class="btn-delete"
-                                onclick="return confirm('Yakin ingin menghapus kode guru ini? Semua voter terkait akan dihapus otomatis.')">
+                                onclick="return confirm('Yakin ingin menghapus Token guru ini? Semua voter terkait akan dihapus otomatis.')">
                                 Hapus
                             </a>
                         </td>
@@ -345,7 +345,7 @@ $kodeGuruQuery = mysqli_query($db, "
                 <?php endwhile;
             else: ?>
                 <tr>
-                    <td colspan="5">Belum ada Kode Guru dibuat.</td>
+                    <td colspan="5">Belum ada Token Guru dibuat.</td>
                 </tr>
             <?php endif; ?>
         </table>

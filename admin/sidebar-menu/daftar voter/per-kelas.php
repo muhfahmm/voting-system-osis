@@ -8,7 +8,7 @@ if (!isset($_SESSION['login'])) {
 }
 
 if (!isset($_GET['kelas_id'])) {
-    echo "<script>alert('Kelas tidak ditemukan!'); window.location.href='../kode-guru.php';</script>";
+    echo "<script>alert('Kelas tidak ditemukan!'); window.location.href='../token-guru.php';</script>";
     exit;
 }
 
@@ -16,7 +16,7 @@ $kelas_id = (int)$_GET['kelas_id'];
 
 $qKelas = mysqli_query($db, "SELECT nama_kelas FROM tb_kelas WHERE id = $kelas_id");
 if (mysqli_num_rows($qKelas) === 0) {
-    echo "<script>alert('Kelas tidak valid!'); window.location.href='../kode-guru.php';</script>";
+    echo "<script>alert('Kelas tidak valid!'); window.location.href='../token-guru.php';</script>";
     exit;
 }
 $kelas = mysqli_fetch_assoc($qKelas)['nama_kelas'];
@@ -170,7 +170,7 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
             <li><a href="../../kandidat/daftar.php">Daftar Kandidat</a></li>
             <li><a href="../voter.php" class="active">Daftar Voter</a></li>
             <li><a href="../token-siswa.php">Kelas & Token Siswa</a></li>
-            <li><a href="../kode-guru.php">Token Guru</a></li>
+            <li><a href="../token-guru.php">Token Guru</a></li>
             <li><a href="../auth/logout.php">Logout</a></li>
         </ul>
     </div>

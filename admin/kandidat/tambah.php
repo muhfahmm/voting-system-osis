@@ -131,7 +131,7 @@ if (!isset($_SESSION['login'])) {
             <li><a href="../kandidat/daftar.php">Daftar Kandidat</a></li>
             <li><a href="../kandidat/voter.php">Daftar Voter</a></li>
             <li><a href="../kandidat/token-siswa.php">Kelas dan Token</a></li>
-            <li><a href="../kandidat/kode-guru.php">Buat Kode Guru</a></li>
+            <li><a href="../kandidat/token-guru.php">Buat Token Guru</a></li>
             <li><a href="../auth/logout.php">Logout</a></li>
         </ul>
     </div>
