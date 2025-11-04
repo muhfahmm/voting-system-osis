@@ -127,11 +127,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                     mysqli_stmt_execute($vote_log);
                     mysqli_stmt_close($vote_log);
 
-                    $update = mysqli_prepare($db, "UPDATE tb_vote_result SET jumlah_vote = jumlah_vote + 1 WHERE nomor_kandidat = ?");
-                    mysqli_stmt_bind_param($update, "i", $kandidat_terpilih);
-                    mysqli_stmt_execute($update);
-                    mysqli_stmt_close($update);
-
                     if ($token_table_name === 'tb_buat_token') {
                         mysqli_query($db, "UPDATE tb_buat_token SET status_token = 'sudah' WHERE id = $token_db_id");
                     } elseif ($token_table_name === 'tb_kode_guru') {
