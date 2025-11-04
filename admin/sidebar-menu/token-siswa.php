@@ -357,7 +357,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             <li><a href="../index.php">Dashboard</a></li>
             <li><a href="../hasil-vote/result.php">Hasil</a></li>
             <li><a href="../kandidat/daftar.php">Daftar Kandidat</a></li>
-            <li><a href="../sidebar-menu/voter.php">Daftar Voter</a></li>
+            <li><a href="../sidebar-menu/daftar-voter.php">Daftar Voter</a></li>
             <li><a href="../sidebar-menu/token-siswa.php" class="active">Kelas & Token Siswa</a></li>
             <li><a href="../sidebar-menu/token-guru.php">Token Guru</a></li>
             <li><a href="../auth/logout.php">Logout</a></li>
