@@ -155,7 +155,7 @@ if (!$data) {
             <li><a href="../index.php">🏠 Dashboard</a></li>
             <li><a href="result.php">📋 Hasil</a></li>
             <li><a href="tambah.php">➕ Tambah Kandidat</a></li>
-            <li><a href="daftar.php" class="active">📋 Daftar Kandidat</a></li>
+            <li><a href="daftar-kandidat.php" class="active">📋 Daftar Kandidat</a></li>
             <li><a href="../kandidat/daftar-voter.php">📋 voter</a></li>
             <li><a href="../auth/logout.php">🚪 Logout</a></li>
         </ul>
@@ -189,7 +189,7 @@ if (!$data) {
                 <input type="file" name="foto_wakil" accept="image/*" onchange="previewImage(this, 'preview_wakil')">
 
                 <button type="submit" name="edit" class="btn btn-primary">💾 Simpan Perubahan</button>
-                <a href="daftar.php" class="btn back-btn">⬅ Kembali</a>
+                <a href="daftar-kandidat.php" class="btn back-btn">⬅ Kembali</a>
             </form>
         </div>
     </div>

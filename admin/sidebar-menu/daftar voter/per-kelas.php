@@ -167,7 +167,7 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
         <ul>
             <li><a href="../../index.php">Dashboard</a></li>
             <li><a href="../../hasil-vote/result.php">Hasil</a></li>
-            <li><a href="../../kandidat/daftar.php">Daftar Kandidat</a></li>
+            <li><a href="../../kandidat/daftar-kandidat.php">Daftar Kandidat</a></li>
             <li><a href="../daftar-voter.php" class="active">Daftar Voter</a></li>
             <li><a href="../token-siswa.php">Kelas & Token Siswa</a></li>
             <li><a href="../token-guru.php">Token Guru</a></li>

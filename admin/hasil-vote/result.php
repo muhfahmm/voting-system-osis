@@ -151,7 +151,7 @@ $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
         <ul>
             <li><a href="../index.php">Dashboard</a></li>
             <li><a href="result.php" class="active">Hasil</a></li>
-            <li><a href="../kandidat/daftar.php">Daftar Kandidat</a></li>
+            <li><a href="../kandidat/daftar-kandidat.php">Daftar Kandidat</a></li>
             <li><a href="../sidebar-menu/daftar-voter.php">Daftar Voter</a></li>
             <li><a href="../sidebar-menu/token-siswa.php">Kelas & Token Siswa</a></li>
             <li><a href="../sidebar-menu/token-guru.php">Token Guru</a></li>

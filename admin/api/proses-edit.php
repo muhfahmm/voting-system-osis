@@ -20,7 +20,7 @@ if (isset($_POST['edit'])) {
         
         echo "<script>
             alert('" . $message . "');
-            window.location.href = '../pages/../kandidat/daftar.php'; 
+            window.location.href = '../pages/../kandidat/daftar-kandidat.php'; 
         </script>";
         
         exit;
@@ -66,7 +66,7 @@ if (isset($_POST['edit'])) {
         WHERE id='$id'");
 
     if ($update) {
-        header("Location: ../pages/../kandidat/daftar.php");
+        header("Location: ../pages/../kandidat/daftar-kandidat.php");
         exit;
     } else {
         echo "Gagal update kandidat: " . mysqli_error($db);
