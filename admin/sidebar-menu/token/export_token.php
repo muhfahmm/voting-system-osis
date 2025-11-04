@@ -1,5 +1,5 @@
 <?php
-require '../../db/db.php';
+require '../../../db/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kelas_id'])) {
     $kelas_id = (int) $_POST['kelas_id'];

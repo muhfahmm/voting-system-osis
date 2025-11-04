@@ -358,7 +358,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             <li><a href="../hasil-vote/result.php">Hasil</a></li>
             <li><a href="../kandidat/daftar.php">Daftar Kandidat</a></li>
             <li><a href="../sidebar-menu/voter.php">Daftar Voter</a></li>
-            <li><a href="../sidebar-menu/token.php" class="active">Kelas & Token Siswa</a></li>
+            <li><a href="../sidebar-menu/token-siswa.php" class="active">Kelas & Token Siswa</a></li>
             <li><a href="../sidebar-menu/kode-guru.php">Token Guru</a></li>
             <li><a href="../auth/logout.php">Logout</a></li>
         </ul>
@@ -463,7 +463,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                                     <input type="text" name="kelas_baru" value="<?= htmlspecialchars($editRow['nama_kelas']); ?>" required>
                                     <input type="number" name="jumlah_siswa_baru" value="<?= htmlspecialchars($editRow['jumlah_siswa']); ?>" min="1" required>
                                     <button type="submit" name="update_class" class="btn btn-blue">Update Kelas</button>
-                                    <a href="token.php" class="btn btn-border-red">Batal</a>
+                                    <a href="token-siswa.php" class="btn btn-border-red">Batal</a>
                                 </form>
                             <?php endif; ?>
                         </td>
@@ -560,7 +560,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="../api/export_token.php" style="margin-bottom:15px;">
+        <form method="POST" action="token/token-siswa.php" style="margin-bottom:15px;">
             <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">
             <button type="submit" class="btn btn-blue" style="background:#27ae60;">Ekspor Token ke Excel</button>
             <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_buat_token" style="text-decoration: none; background-color: #3498db; padding: 10px; color: white; font-weight: 700; border-radius: 5px;" target="_blank"><i class="bi bi-database"></i> buka database</a>

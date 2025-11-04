@@ -286,7 +286,7 @@ while ($row = mysqli_fetch_assoc($q)) {
             <li><a href="../hasil-vote/result.php">Hasil</a></li>
             <li><a href="../kandidat/daftar.php">Daftar Kandidat</a></li>
             <li><a href="../sidebar-menu/voter.php" class="active">Daftar Voter</a></li>
-            <li><a href="../sidebar-menu/token.php">Kelas & Token Siswa</a></li>
+            <li><a href="../sidebar-menu/token-siswa.php">Kelas & Token Siswa</a></li>
             <li><a href="../sidebar-menu/kode-guru.php">Token Guru</a></li>
             <li><a href="../auth/logout.php">Logout</a></li>
         </ul>
