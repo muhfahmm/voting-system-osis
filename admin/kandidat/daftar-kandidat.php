@@ -232,7 +232,6 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                 <li><a href="../auth/logout.php">Logout</a></li>
             </ul>
         </div>
-
     </div>
 
     <div class="main-content">
