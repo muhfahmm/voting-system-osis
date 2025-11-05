@@ -249,7 +249,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                         <p>Pasangan Nomor: <b><?= $row['nomor_kandidat']; ?></b></p>
                         <div class="actions">
                             <a href="edit.php?id=<?= $row['id']; ?>" class="edit">Edit</a>
-                            <a href="hapus.php?id=<?= $row['id']; ?>" class="delete" onclick="return confirm('Yakin ingin menghapus kandidat ini?')"> Hapus</a>
+                            <a href="hapus.php?id=<?= $row['id']; ?>" class="delete" onclick="return confirm('Yakin ingin menghapus kandidat ini?')">Hapus</a>
                         </div>
                     </div>
                 <?php endwhile; ?>
