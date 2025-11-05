@@ -15,17 +15,17 @@ if (isset($_POST['edit'])) {
 
     if (mysqli_stmt_num_rows($check_duplicate) > 0) {
         mysqli_stmt_close($check_duplicate);
-        
+
         $message = "Gagal update kandidat: Nomor Kandidat " . $nomor_kandidat . " sudah digunakan oleh kandidat lain.";
-        
+
         echo "<script>
             alert('" . $message . "');
             window.location.href = '../pages/../kandidat/daftar-kandidat.php'; 
         </script>";
-        
+
         exit;
     }
-    
+
     mysqli_stmt_close($check_duplicate);
     $queryOld = mysqli_query($db, "SELECT * FROM tb_kandidat WHERE id='$id'");
     $old = mysqli_fetch_assoc($queryOld);
@@ -72,4 +72,3 @@ if (isset($_POST['edit'])) {
         echo "Gagal update kandidat: " . mysqli_error($db);
     }
 }
-?>
