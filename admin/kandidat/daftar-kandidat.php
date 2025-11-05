@@ -248,7 +248,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                         <h3><?= htmlspecialchars($row['nama_ketua']); ?> & <?= htmlspecialchars($row['nama_wakil']); ?></h3>
                         <p>Pasangan Nomor: <b><?= $row['nomor_kandidat']; ?></b></p>
                         <div class="actions">
-                            <a href="edit.php?id=<?= $row['id']; ?>" class="edit"> Edit</a>
+                            <a href="edit.php?id=<?= $row['id']; ?>" class="edit">Edit</a>
                             <a href="hapus.php?id=<?= $row['id']; ?>" class="delete" onclick="return confirm('Yakin ingin menghapus kandidat ini?')">🗑 Hapus</a>
                         </div>
                     </div>
