@@ -61,7 +61,6 @@ if (!isset($_SESSION['login'])) {
             background: #34495e;
         }
 
-        /* Main Content */
         .main-content {
             flex: 1;
             padding: 40px 20px;
