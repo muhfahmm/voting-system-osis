@@ -27,7 +27,6 @@ if (!isset($_SESSION['login'])) {
             min-height: 100vh;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 220px;
             background: #2c3e50;
