@@ -69,7 +69,7 @@ $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
     <link rel="stylesheet" href="../assets/css/global.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-                * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -81,22 +81,27 @@ $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
             min-height: 100vh;
             background: #f4f6f9;
         }
+
         .sidebar {
             width: 220px;
             background: #2c3e50;
             color: #fff;
             padding: 20px;
         }
+
         .sidebar h2 {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .sidebar ul {
             list-style: none;
         }
+
         .sidebar ul li {
             margin: 15px 0;
         }
+
         .sidebar ul li a {
             color: #fff;
             text-decoration: none;
@@ -105,18 +110,22 @@ $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
             border-radius: 5px;
             transition: 0.3s;
         }
+
         .sidebar ul li a:hover,
         .sidebar ul li a.active {
             background: #34495e;
         }
+
         .main-content {
             flex: 1;
             padding: 20px;
         }
+
         .bar-chart {
             margin-top: 20px;
             margin-bottom: 100px;
         }
+
         .bar {
             margin: 15px 0;
             background: #eee;
@@ -126,6 +135,7 @@ $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
             padding: 5px;
             width: 100%;
         }
+
         .bar-fill {
             height: 60px;
             border-radius: 4px;
@@ -137,17 +147,20 @@ $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
             justify-content: center;
             align-items: center;
         }
+
         .bar-percent {
             font-size: 20px;
             font-weight: bold;
             color: #fff;
         }
+
         .bar-name {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
             margin-right: 10px;
         }
+
         .chart-container {
             width: 35%;
             margin: 20px;
@@ -231,11 +244,14 @@ $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: { stepSize: 1 }
+                        ticks: {
+                            stepSize: 1
+                        }
                     }
                 }
             }
         });
     </script>
 </body>
+
 </html>
