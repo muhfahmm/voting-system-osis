@@ -32,7 +32,7 @@ $totalVotes = $totalRow['total'];
     <link rel="stylesheet" href="./assets/css/index.css">
     <link rel="stylesheet" href="./assets/css/global.css">
     <style>
-                * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -44,6 +44,7 @@ $totalVotes = $totalRow['total'];
             min-height: 100vh;
             background: #f4f6f9;
         }
+
         .sidebar {
             width: 220px;
             background: #2c3e50;
