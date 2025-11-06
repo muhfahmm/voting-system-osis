@@ -69,6 +69,18 @@ $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
     <link rel="stylesheet" href="../assets/css/global.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+                * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background: #f4f6f9;
+        }
         .sidebar {
             width: 220px;
             background: #2c3e50;
