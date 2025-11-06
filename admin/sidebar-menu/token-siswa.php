@@ -111,8 +111,8 @@ if (isset($_POST['update_class'])) {
 
         if (mysqli_num_rows($exists) == 0) {
             mysqli_query($db, "UPDATE tb_kelas 
-                               SET nama_kelas='$kelas_esc', jumlah_siswa=$jumlah_siswa_baru 
-                               WHERE id=$id");
+                                SET nama_kelas='$kelas_esc', jumlah_siswa=$jumlah_siswa_baru 
+                                WHERE id=$id");
             $message = "✅ Data kelas berhasil diperbarui.";
             header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
             exit;
