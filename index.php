@@ -47,8 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                 $token_table_name = 'tb_buat_token';
                 $status_check = $status_token;
 
-                if (strcasecmp($kelas_pemilih, $nama_kelas_token) !== 0) {
-                    $errorMessage = "Token tidak cocok dengan kelas yang dipilih!";
+                // Setelah mysqli_stmt_fetch
+                if (!$nama_kelas_token) {
+                    error_log("nama_kelas_token is NULL for token: $token_pemilih, kelas_id: $kelas_id_token");
                 }
             }
         } elseif ($role === 'guru') {
