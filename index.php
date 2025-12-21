@@ -26,10 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
         $nama_token = '';
         $token_table_name = '';
         $status_check = null;
-        $kelas_token = ''; // Tambahan: simpan nama kelas dari token
+        $kelas_token = '';
 
         if ($role === 'siswa') {
-            // PERBAIKAN: Ambil nama_kelas dari tb_kelas melalui tb_buat_token
             $token_check = mysqli_prepare($db, "
                 SELECT t.id, t.kelas_id, t.status_token, k.nama_kelas 
                 FROM tb_buat_token t
@@ -43,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
             mysqli_stmt_close($token_check);
 
             if ($token_db_id) {
-                // PERBAIKAN PENTING: Validasi kelas
                 if ($nama_kelas_token !== $kelas_pemilih) {
                     $errorMessage = "Token ini bukan untuk kelas $kelas_pemilih. Token ini untuk kelas $nama_kelas_token.";
                 } else {
@@ -52,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                     $nama_token = $nama_kelas_token;
                     $token_table_name = 'tb_buat_token';
                     $status_check = $status_token;
-                    $kelas_token = $nama_kelas_token; // Simpan untuk validasi
+                    $kelas_token = $nama_kelas_token;
                 }
             } else {
                 $errorMessage = "Token tidak terdaftar.";
@@ -93,7 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                 try {
                     $kelas_voter = ($role === 'siswa') ? $kelas_pemilih : $nama_token;
                     
-                    // PERBAIKAN: Query insert voter disesuaikan
                     if ($role === 'siswa') {
                         $sql_voter_siswa = "
                             INSERT INTO tb_voter 
@@ -101,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                             VALUES (?, ?, ?, ?, NOW())
                         ";
                         $voter_siswa = mysqli_prepare($db, $sql_voter_siswa);
-                        // Gunakan token sebagai nama voter (bisa diganti sesuai kebutuhan)
                         mysqli_stmt_bind_param($voter_siswa, "sssi", $token_pemilih, $kelas_voter, $role, $voter_token_id);
                         mysqli_stmt_execute($voter_siswa);
                         $voter_id = mysqli_insert_id($db);
