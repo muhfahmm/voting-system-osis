@@ -194,11 +194,14 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             padding: 16px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
             transition: .2s;
+            /* TAMBAHAN: Border transparan untuk menjaga ukuran */
+            border: 2px solid transparent;
         }
 
         .kandidat-card.active {
             border: 3px solid #2ecc71;
-            transform: scale(1.02);
+            /* DIUBAH: Hapus transform scale untuk mencegah pergerakan layout */
+            transform: none;
         }
 
         .card-wrapper {
@@ -414,8 +417,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 </div>
             </div>
             <div class="logo">
-                <img src="pages/assets/img/logo osis.png">
-                <img src="pages/assets/img/logo sekolah.png">
+                <img src="admin/assets/img/logo osis.png">
+                <img src="admin/assets/img/logo sekolah.png">
                 <style>
                     .logo {
                         width: 100%;
