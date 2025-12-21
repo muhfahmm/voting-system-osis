@@ -476,7 +476,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                         <?php endforeach; ?>
                     </select>
                 </div>
-
                 <input type="hidden" name="kandidat_terpilih" id="kandidat_terpilih" value="<?= $_POST['kandidat_terpilih'] ?? '' ?>">
                 <button type="submit" name="kirim">Kirim Vote</button>
             </form>
