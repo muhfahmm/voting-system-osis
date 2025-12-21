@@ -517,7 +517,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             const roleSelect = document.getElementById('role');
             const kelasWrap = document.getElementById('kelasWrap');
             
-            // Set kandidat yang sudah dipilih sebelumnya
             const selectedKandidat = inputKandidat.value;
             if (selectedKandidat) {
                 kandidatCards.forEach(card => {
@@ -535,7 +534,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     document.getElementById('kelas').value = '';
                 }
             });
-            // Set display awal berdasarkan role yang dipilih
             kelasWrap.style.display = (roleSelect.value === 'siswa') ? 'block' : 'none';
 
             kandidatCards.forEach(card => {
