@@ -160,7 +160,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <link rel="icon" href="admin/assets/img/logo osis.png">
     <link rel="stylesheet" href="assets/css/global.css">
     <style>
-        /* CSS tetap sama */
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f9;
