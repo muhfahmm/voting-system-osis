@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kelas_id'])) {
             <th>Token</th>
             <th>Kelas</th>
             <th>Status</th>
-            <th>Tanggal Dibuat</th>
           </tr>";
 
     $no = 1;
@@ -38,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kelas_id'])) {
                 <td>{$row['token']}</td>
                 <td>{$row['nama_kelas']}</td>
                 <td>{$status}</td>
-                <td>{$row['created_at']}</td>
               </tr>";
         $no++;
     }
