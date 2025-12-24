@@ -94,7 +94,7 @@ $totalVotes = $totalRow['total'];
             <li><a href="kandidat/daftar-kandidat.php">Daftar Kandidat</a></li>
             <li><a href="sidebar-menu/daftar-voter.php">Daftar Voter</a></li>
             <li><a href="sidebar-menu/token-siswa.php">Kelas & Token Siswa</a></li>
-            <li><a href="sidebar-menu/token-guru.php">Token Guru</a></li>
+            <li><a href="sidebar-menu/token-guru.php">Token Guru & Karyawan</a></li>
             <li><a href="./auth/logout.php">Logout</a></li>
         </ul>
     </div>

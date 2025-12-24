@@ -229,7 +229,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         }
 
         .btn-vote button {
-            background: #3498db;
+            background: green;
             color: #fff;
             border: none;
             padding: 8px 14px;
@@ -240,7 +240,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         }
 
         .btn-vote button:hover {
-            background: #2980b9;
+            background: #126a36ff;
         }
 
         .form-user {
