@@ -318,7 +318,6 @@ $kodeGuruQuery = mysqli_query($db, "
                 <th>No</th>
                 <th>Token Guru</th>
                 <th>Status</th>
-                <th>Waktu Dibuat</th>
                 <th>Aksi</th>
             </tr>
             <?php
@@ -334,7 +333,6 @@ $kodeGuruQuery = mysqli_query($db, "
                         <td><?= $no++; ?></td>
                         <td><b><?= htmlspecialchars($row['kode']); ?></b></td>
                         <td><?= $status; ?></td>
-                        <td><?= date('d-m-Y H:i:s', strtotime($row['created_at'])); ?></td>
                         <td>
                             <a href="?hapus_kode=<?= $row['id']; ?>" class="btn-delete"
                                 onclick="return confirm('Yakin ingin menghapus Token guru ini? Semua voter terkait akan dihapus otomatis.')">
@@ -350,54 +348,54 @@ $kodeGuruQuery = mysqli_query($db, "
             <?php endif; ?>
         </table>
         <div style="display: flex; gap: 10px; margin-bottom: 15px; align-items: center;">
-    <form method="POST" action="token/export_token_guru.php" style="margin: 0;">
-        <button type="submit" class="btn btn-export">
-            <i class="bi bi-file-earmark-excel"></i> Ekspor Token Guru ke Excel
-        </button>
-    </form>
-    <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_kode_guru"
-        class="btn btn-db"
-        target="_blank">
-        <i class="bi bi-database"></i> Buka Database
-    </a>
-</div>
-<style>
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        height: 42px;
-        min-width: 120px;
-        padding: 0 18px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 14px;
-        text-decoration: none;
-        transition: all 0.25s ease;
-        border: none;
-        gap: 8px;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    }
+            <form method="POST" action="token/export_token_guru.php" style="margin: 0;">
+                <button type="submit" class="btn btn-export">
+                    <i class="bi bi-file-earmark-excel"></i> Ekspor Token Guru ke Excel
+                </button>
+            </form>
+            <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_kode_guru"
+                class="btn btn-db"
+                target="_blank">
+                <i class="bi bi-database"></i> Buka Database
+            </a>
+        </div>
+        <style>
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                height: 42px;
+                min-width: 120px;
+                padding: 0 18px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                font-size: 14px;
+                text-decoration: none;
+                transition: all 0.25s ease;
+                border: none;
+                gap: 8px;
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            }
 
 
-    .btn-export {
-        background: #27ae60;
-        color: white;
-    }
+            .btn-export {
+                background: #27ae60;
+                color: white;
+            }
 
 
-    .btn-db {
-        background: #3498db;
-        color: #fff;
-    }
+            .btn-db {
+                background: #3498db;
+                color: #fff;
+            }
 
 
-    /* Tambahan untuk ikon */
-    .bi {
-        font-size: 16px;
-    }
-</style>
+            /* Tambahan untuk ikon */
+            .bi {
+                font-size: 16px;
+            }
+        </style>
     </div>
 </body>
 
