@@ -560,7 +560,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="token/token-siswa.php" style="margin-bottom:15px;">
+        <form method="POST" action="token/export_token.php" style="margin-bottom:15px;">
             <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">
             <button type="submit" class="btn btn-blue" style="background:#27ae60;">Ekspor Token ke Excel</button>
             <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_buat_token" style="text-decoration: none; background-color: #3498db; padding: 10px; color: white; font-weight: 700; border-radius: 5px;" target="_blank"><i class="bi bi-database"></i> buka database</a>
