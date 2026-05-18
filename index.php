@@ -260,14 +260,14 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     <div class="flex gap-4 mb-[18px] relative z-10">
                         <!-- Ketua -->
                         <div class="flex-1 bg-slate-950/35 border border-white/5 rounded-2xl p-3 text-center transition-all duration-300 group-hover:border-white/10 group-hover:bg-slate-950/50">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-105">
-                            <h3 class="font-outfit my-1 font-semibold text-sm lg:text-base text-white truncate"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-105">
+                            <h3 class="nama-ketua font-outfit my-1 font-semibold text-sm lg:text-base text-white truncate"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
                             <small class="text-slate-400 text-[10px] lg:text-[11px] font-semibold uppercase tracking-wider">Calon Ketua OSIS</small>
                         </div>
                         <!-- Wakil -->
                         <div class="flex-1 bg-slate-950/35 border border-white/5 rounded-2xl p-3 text-center transition-all duration-300 group-hover:border-white/10 group-hover:bg-slate-950/50">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-105">
-                            <h3 class="font-outfit my-1 font-semibold text-sm lg:text-base text-white truncate"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-105">
+                            <h3 class="nama-wakil font-outfit my-1 font-semibold text-sm lg:text-base text-white truncate"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
                             <small class="text-slate-400 text-[10px] lg:text-[11px] font-semibold uppercase tracking-wider">Calon Wakil OSIS</small>
                         </div>
                     </div>
@@ -284,10 +284,30 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
     <!-- Modal Voting Form -->
     <div id="modalVoteForm" class="modal fixed inset-0 bg-slate-950/80 backdrop-blur-md justify-center items-center z-[1000] p-5">
-        <div class="modal-content bg-slate-800/85 backdrop-blur-[32px] border border-white/10 p-9 rounded-[28px] shadow-[0_35px_70px_-15px_rgba(0,0,0,0.7)] w-full max-w-[550px] text-left relative">
+        <div class="modal-content bg-slate-800/85 backdrop-blur-[32px] border border-white/10 p-9 rounded-[28px] shadow-[0_35px_70px_-15px_rgba(0,0,0,0.7)] w-full max-w-[680px] text-left relative">
             <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-red-500 transition-colors duration-200" id="closeVoteForm">&times;</span>
             <h2 id="modalVoteTitle" class="font-outfit text-xl lg:text-2xl font-bold text-white mb-2">Konfirmasi Pilihan</h2>
             <p id="modalVoteSubtitle" class="text-slate-400 text-sm">Silakan masukkan data Anda untuk melanjutkan pemilihan.</p>
+            
+            <!-- Selected Candidate Preview -->
+            <div id="modalKandidatPreview" class="flex gap-5 mt-5 mb-2 bg-slate-950/40 p-4 rounded-[22px] border border-white/5 shadow-inner">
+                <!-- Ketua Preview -->
+                <div class="flex flex-1 items-center gap-4 bg-slate-900/30 p-3.5 rounded-2xl border border-white/5 overflow-hidden">
+                    <img id="modalKetuaFoto" src="" alt="Ketua" class="w-[84px] h-[100px] object-cover object-top rounded-xl border border-white/10 shadow-lg">
+                    <div class="overflow-hidden flex-1">
+                        <span class="text-xs font-semibold text-indigo-300 uppercase tracking-wider block">Calon Ketua</span>
+                        <p id="modalKetuaNama" class="text-base font-extrabold text-white truncate mt-1"></p>
+                    </div>
+                </div>
+                <!-- Wakil Preview -->
+                <div class="flex flex-1 items-center gap-4 bg-slate-900/30 p-3.5 rounded-2xl border border-white/5 overflow-hidden">
+                    <img id="modalWakilFoto" src="" alt="Wakil" class="w-[84px] h-[100px] object-cover object-top rounded-xl border border-white/10 shadow-lg">
+                    <div class="overflow-hidden flex-1">
+                        <span class="text-xs font-semibold text-indigo-300 uppercase tracking-wider block">Calon Wakil</span>
+                        <p id="modalWakilNama" class="text-base font-extrabold text-white truncate mt-1"></p>
+                    </div>
+                </div>
+            </div>
             
             <form action="" method="post" id="formVote" novalidate class="mt-6 flex flex-col gap-5">
                 <div class="form-user-group-wrap flex flex-col gap-5">
@@ -463,10 +483,22 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 kandidatList.classList.add('has-selection');
                 selectedCard = card;
 
+                // Extract Ketua & Wakil data
+                const fotoKetua = card.querySelector('.foto-ketua').src;
+                const namaKetua = card.querySelector('.nama-ketua').textContent;
+                const fotoWakil = card.querySelector('.foto-wakil').src;
+                const namaWakil = card.querySelector('.nama-wakil').textContent;
+
                 // Update info di dalam modal vote form
                 document.getElementById('modalVoteTitle').textContent = `Konfirmasi Pilihan: Pasangan Nomor ${cardId}`;
                 document.getElementById('modalVoteSubtitle').textContent = `Anda memilih Pasangan Nomor ${cardId}. Silakan masukkan data Anda untuk melanjutkan pemilihan.`;
                 
+                // Populate preview elements
+                document.getElementById('modalKetuaFoto').src = fotoKetua;
+                document.getElementById('modalKetuaNama').textContent = namaKetua;
+                document.getElementById('modalWakilFoto').src = fotoWakil;
+                document.getElementById('modalWakilNama').textContent = namaWakil;
+
                 // Buka modal secara otomatis
                 showModal(modalVoteForm);
             }
