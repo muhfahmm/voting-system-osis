@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../../db/db.php';
+require '../../../../db/db.php';
 
 if (isset($_POST['edit'])) {
     $id = $_POST['id'];
@@ -20,7 +20,7 @@ if (isset($_POST['edit'])) {
 
         echo "<script>
             alert('" . $message . "');
-            window.location.href = '../sidebar-menu/3_kandidat/daftar-kandidat.php'; 
+            window.location.href = '../daftar-kandidat.php'; 
         </script>";
 
         exit;
@@ -35,11 +35,11 @@ if (isset($_POST['edit'])) {
 
     if (!empty($_FILES['foto_ketua']['name'])) {
         $fileName = time() . "_ketua_" . $_FILES['foto_ketua']['name'];
-        $target = "../uploads/" . $fileName;
+        $target = "../../../uploads/" . $fileName;
         move_uploaded_file($_FILES['foto_ketua']['tmp_name'], $target);
         // hapus foto lama
-        if (file_exists("../uploads/" . $foto_ketua)) {
-            unlink("../uploads/" . $foto_ketua);
+        if (file_exists("../../../uploads/" . $foto_ketua)) {
+            unlink("../../../uploads/" . $foto_ketua);
         }
         $foto_ketua = $fileName;
     }
@@ -47,11 +47,11 @@ if (isset($_POST['edit'])) {
     // jika upload foto wakil baru
     if (!empty($_FILES['foto_wakil']['name'])) {
         $fileName2 = time() . "_wakil_" . $_FILES['foto_wakil']['name'];
-        $target2 = "../uploads/" . $fileName2;
+        $target2 = "../../../uploads/" . $fileName2;
         move_uploaded_file($_FILES['foto_wakil']['tmp_name'], $target2);
         // hapus foto lama
-        if (file_exists("../uploads/" . $foto_wakil)) {
-            unlink("../uploads/" . $foto_wakil);
+        if (file_exists("../../../uploads/" . $foto_wakil)) {
+            unlink("../../../uploads/" . $foto_wakil);
         }
         $foto_wakil = $fileName2;
     }
@@ -66,7 +66,7 @@ if (isset($_POST['edit'])) {
         WHERE id='$id'");
 
     if ($update) {
-        header("Location: ../sidebar-menu/3_kandidat/daftar-kandidat.php");
+        header("Location: ../daftar-kandidat.php");
         exit;
     } else {
         echo "Gagal update kandidat: " . mysqli_error($db);

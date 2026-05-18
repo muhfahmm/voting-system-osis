@@ -152,11 +152,14 @@ if (!$data) {
     <div class="sidebar">
         <h2>Admin Panel</h2>
         <ul>
-            <li><a href="../1_dashboard/index.php">🏠 Dashboard</a></li>
+            <li><a href="../1_dashboard/dashboard.php">🏠 Dashboard</a></li>
             <li><a href="../2_hasil-vote/result.php">📋 Hasil</a></li>
             <li><a href="tambah.php">➕ Tambah Kandidat</a></li>
             <li><a href="daftar-kandidat.php" class="active">📋 Daftar Kandidat</a></li>
-            <li><a href="../4_daftar-voter.php">📋 voter</a></li>
+            <li><a href="../4_daftar-voter/daftar-voter.php">📋 Voter</a></li>
+            <li><a href="../5_token-siswa/token-siswa.php">🔑 Token Siswa</a></li>
+            <li><a href="../6_token-guru/token-guru.php">🛡️ Token Guru</a></li>
+            <li><a href="../7_daftar-admin/daftar-admin.php">👤 Daftar Admin</a></li>
             <li><a href="../../auth/logout.php">🚪 Logout</a></li>
         </ul>
     </div>
@@ -164,7 +167,7 @@ if (!$data) {
     <div class="main-content">
         <div class="card">
             <h2>Edit Kandidat</h2>
-            <form action="../../api/proses-edit.php" method="POST" enctype="multipart/form-data">
+            <form action="api/proses-edit.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= $data['id']; ?>">
 
                 <label for="nomor_kandidat">Nomor Urut</label>

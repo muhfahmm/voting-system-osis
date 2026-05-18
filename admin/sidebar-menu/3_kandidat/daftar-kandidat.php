@@ -183,7 +183,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                 <p class="text-xs text-slate-400 mt-1">Lengkapi formulir di bawah untuk menambahkan pasangan calon kandidat</p>
             </div>
 
-            <form action="../../api/proses-tambah.php" method="post" enctype="multipart/form-data" class="flex flex-col gap-5">
+            <form action="api/proses-tambah.php" method="post" enctype="multipart/form-data" class="flex flex-col gap-5">
                 <div class="flex flex-col gap-2">
                     <label class="font-outfit font-semibold text-xs text-slate-300 tracking-wider uppercase" for="nomor_kandidat">Nomor Urut Kandidat</label>
                     <input type="number" id="nomor_kandidat" name="nomor_kandidat" class="py-3 px-4 rounded-xl bg-slate-950/65 border border-white/10 font-sans text-sm text-white w-full transition-all duration-300 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:bg-slate-950/85 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.15)]" placeholder="Masukkan nomor urut..." required autocomplete="off">
