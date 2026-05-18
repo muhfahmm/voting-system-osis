@@ -233,7 +233,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         <div class="flex justify-between items-center bg-slate-800/45 backdrop-blur-md border border-white/5 py-4 px-7 rounded-[20px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
             <h1 class="font-outfit text-xl lg:text-2xl font-extrabold bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
             <div>
-                <button class="bg-white/5 border border-white/10 h-10 px-5 rounded-xl font-sans text-xs lg:text-sm font-semibold cursor-pointer text-[#f1f5f9] transition-all duration-300 hover:bg-indigo-500/20 hover:border-indigo-500/40 hover:text-indigo-200 hover:shadow-[0_0_20px_rgba(99, 102, 241, 0.25)] hover:-translate-y-0.5 active:translate-y-0 backdrop-blur-sm" name="login" onclick="window.open('admin/auth/login.php', '_blank')">Hanya Admin</button>
+                <button class="bg-white/5 border border-white/10 h-10 px-5 rounded-xl font-sans text-xs lg:text-sm font-semibold cursor-pointer text-[#f1f5f9] transition-all duration-300 hover:bg-indigo-500/20 hover:border-indigo-500/40 hover:text-indigo-200 hover:shadow-[0_0_20px_rgba(99, 102, 241, 0.25)] hover:-translate-y-0.5 active:translate-y-0 backdrop-blur-sm" name="login" onclick="window.open('admin/auth/logout.php', '_blank')">Hanya Admin</button>
             </div>
         </div>
         
