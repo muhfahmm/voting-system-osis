@@ -8,34 +8,10 @@ if (!isset($_SESSION['login'])) {
 }
 
 $admin = $_SESSION['username'];
-$message = '';
 
-if (!isset($_GET['kelas_id'])) {
-    header("Location: ../4_daftar-voter/daftar-voter.php");
-    exit;
-}
-
-$kelas_id = (int)$_GET['kelas_id'];
-
-$qKelas = mysqli_query($db, "SELECT nama_kelas FROM tb_kelas WHERE id = $kelas_id");
-if (mysqli_num_rows($qKelas) === 0) {
-    header("Location: ../4_daftar-voter/daftar-voter.php");
-    exit;
-}
-$kelas = mysqli_fetch_assoc($qKelas)['nama_kelas'];
-
-if (isset($_GET['hapus_token'])) {
-    $id_token = (int)$_GET['hapus_token'];
-    $check = mysqli_query($db, "SELECT token FROM tb_buat_token WHERE id = $id_token AND kelas_id = $kelas_id");
-    if (mysqli_num_rows($check) > 0) {
-        $hapus = mysqli_query($db, "DELETE FROM tb_buat_token WHERE id = $id_token");
-        $message = $hapus ? "🗑️ Token berhasil dihapus." : "❌ Gagal menghapus token.";
-    } else {
-        $message = "⚠️ Token tidak ditemukan.";
-    }
-}
-
-$qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas_id ORDER BY id ASC");
+// Ambil data admin
+$adminsQuery = mysqli_query($db, "SELECT id, username FROM tb_admin ORDER BY id ASC");
+$totalAdmins = mysqli_num_rows($adminsQuery);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -43,8 +19,8 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Token - <?= htmlspecialchars($kelas) ?> - Voting OSIS</title>
-    <link rel="icon" href="../../assets/img/logo osis.png">
+    <title>Daftar Admin - Voting OSIS</title>
+    <link class="icon" href="../../assets/img/logo osis.png">
     
     <!-- Tailwind Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -102,8 +78,8 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
                     <i class="bi bi-people text-lg group-hover:text-indigo-400 transition-colors"></i>
                     <span>Daftar Kandidat</span>
                 </a>
-                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-indigo-600/10 text-indigo-300 border-l-4 border-indigo-500 font-semibold group">
-                    <i class="bi bi-card-checklist text-lg text-indigo-400"></i>
+                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 font-medium transition-all duration-300 hover:bg-slate-800/40 hover:text-white group">
+                    <i class="bi bi-card-checklist text-lg group-hover:text-indigo-400 transition-colors"></i>
                     <span>Daftar Voter</span>
                 </a>
                 <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 font-medium transition-all duration-300 hover:bg-slate-800/40 hover:text-white group">
@@ -114,8 +90,8 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
                     <i class="bi bi-shield-lock text-lg group-hover:text-indigo-400 transition-colors"></i>
                     <span>Token Guru</span>
                 </a>
-                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 font-medium transition-all duration-300 hover:bg-slate-800/40 hover:text-white group">
-                    <i class="bi bi-person-workspace text-lg group-hover:text-indigo-400 transition-colors"></i>
+                <a href="daftar-admin.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-indigo-600/10 text-indigo-300 border-l-4 border-indigo-500 font-semibold group">
+                    <i class="bi bi-person-workspace text-lg text-indigo-400"></i>
                     <span>Daftar Admin</span>
                 </a>
             </nav>
@@ -144,76 +120,83 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
         <!-- Top bar / Welcome -->
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/5 pb-6">
             <div>
-                <div class="flex items-center gap-3">
-                    <a href="../4_daftar-voter/daftar-voter.php" class="w-10 h-10 bg-slate-900/60 hover:bg-slate-800 border border-white/5 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300">
-                        <i class="bi bi-arrow-left"></i>
-                    </a>
-                    <div>
-                        <h1 class="font-outfit text-3xl font-extrabold bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent">Daftar Token Kelas <?= htmlspecialchars($kelas) ?></h1>
-                        <p class="text-slate-400 text-sm mt-1">Melihat rincian token voting terbuat beserta status pemakaian kelas terkait</p>
-                    </div>
-                </div>
+                <h1 class="font-outfit text-3xl font-extrabold bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent">Daftar Administrator</h1>
+                <p class="text-slate-400 text-sm mt-1">Mengelola hak akses dan pengguna panel administratif</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="../../auth/register.php" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 border border-indigo-500 hover:bg-indigo-500 hover:border-indigo-400 hover:shadow-[0_8px_20px_rgba(99,102,241,0.25)] active:translate-y-0.5 text-white font-bold text-sm tracking-wide transition-all duration-300">
+                    <i class="bi bi-person-plus"></i>
+                    <span>Tambah Admin Baru</span>
+                </a>
             </div>
         </header>
 
-        <!-- Message Alert -->
-        <?php if (!empty($message)): ?>
-            <div class="bg-indigo-500/10 border border-indigo-500/20 text-indigo-200 p-4 rounded-2xl text-sm flex items-center gap-3">
-                <i class="bi bi-info-circle text-indigo-400 flex-shrink-0 text-lg"></i>
-                <span><?= $message; ?></span>
+        <!-- Stats Widgets -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-slate-900/40 backdrop-blur-md border border-white/5 rounded-3xl p-6 shadow-2xl relative overflow-hidden group">
+                <div class="absolute -right-4 -bottom-4 w-28 h-28 bg-indigo-500/5 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl flex items-center justify-center text-indigo-400 text-xl">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Total Administrator</p>
+                        <p class="text-3xl font-outfit font-extrabold mt-1 text-white"><?= $totalAdmins ?></p>
+                    </div>
+                </div>
             </div>
-        <?php endif; ?>
+        </div>
 
-        <!-- Token Table Section -->
+        <!-- Admins Table Section -->
         <div class="bg-slate-900/40 backdrop-blur-md border border-white/5 rounded-[28px] shadow-2xl p-7 flex flex-col gap-6">
+            <h2 class="font-outfit text-xl font-bold text-slate-200 flex items-center gap-2">
+                <i class="bi bi-list-task text-indigo-400"></i>
+                <span>Data Administrator Terdaftar</span>
+            </h2>
+
             <div class="overflow-x-auto w-full">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="border-b border-white/5 text-xs text-slate-400 font-bold uppercase tracking-wider">
                             <th class="py-4 px-4">No</th>
-                            <th class="py-4 px-4 text-center">Token Voting</th>
-                            <th class="py-4 px-4 text-center">Status Token</th>
-                            <th class="py-4 px-4 text-center">Tanggal Pembuatan</th>
-                            <th class="py-4 px-4 text-center">Aksi Hapus</th>
+                            <th class="py-4 px-4">ID Admin</th>
+                            <th class="py-4 px-4">Username</th>
+                            <th class="py-4 px-4">Tingkat Akses (Role)</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/5 text-sm text-slate-200">
-                        <?php if (mysqli_num_rows($qToken) > 0): $no = 1; ?>
-                            <?php while ($row = mysqli_fetch_assoc($qToken)): ?>
-                                <tr class="hover:bg-white/[0.01] transition-colors duration-200">
-                                    <td class="py-4 px-4 font-semibold text-slate-400"><?= $no++ ?></td>
-                                    <td class="py-4 px-4 text-center">
-                                        <span class="font-mono text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 py-1 px-3.5 rounded-lg text-xs font-bold">
-                                            <?= htmlspecialchars($row['token']); ?>
-                                        </span>
-                                    </td>
-                                    <td class="py-4 px-4 text-center">
-                                        <?php
-                                        $status = strtolower(trim($row['status_token'] ?? ''));
-                                        if (in_array($status, ['used', 'sudah', 'ya', 'true', '1', 'sudah digunakan'])) {
-                                            echo '<span class="inline-flex items-center gap-1.5 text-xs font-semibold py-1 px-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                                                    Sudah Dipakai
-                                                  </span>';
-                                        } else {
-                                            echo '<span class="inline-flex items-center gap-1.5 text-xs font-semibold py-1 px-3 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 animate-pulse">
-                                                    <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
-                                                    Belum Dipakai
-                                                  </span>';
-                                        }
-                                        ?>
-                                    </td>
-                                    <td class="py-4 px-4 text-center text-slate-400 font-semibold"><?= htmlspecialchars($row['created_at'] ?? '-'); ?></td>
-                                    <td class="py-4 px-4 text-center">
-                                        <a href="?kelas_id=<?= $kelas_id; ?>&hapus_token=<?= $row['id']; ?>"
-                                           class="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-xs hover:bg-red-500/20 transition-colors"
-                                           onclick="return confirm('Hapus token ini?')">Hapus Token</a>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        <?php else: ?>
+                        <?php 
+                        $no = 1;
+                        if ($totalAdmins > 0): 
+                            while ($row = mysqli_fetch_assoc($adminsQuery)):
+                        ?>
+                            <tr class="hover:bg-white/[0.02] transition-colors duration-200">
+                                <td class="py-4 px-4 font-semibold text-slate-400"><?= $no++ ?></td>
+                                <td class="py-4 px-4">
+                                    <span class="font-mono text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 py-1 px-2.5 rounded-lg text-xs">
+                                        ADM-<?= str_pad($row['id'], 3, '0', STR_PAD_LEFT) ?>
+                                    </span>
+                                </td>
+                                <td class="py-4 px-4 font-bold flex items-center gap-2 text-white">
+                                    <i class="bi bi-person text-slate-500"></i>
+                                    <span><?= htmlspecialchars($row['username']) ?></span>
+                                    <?php if ($row['username'] === $admin): ?>
+                                        <span class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full ml-1 animate-pulse">Anda</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="py-4 px-4">
+                                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold py-1 px-3 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                                        Full Administrator
+                                    </span>
+                                </td>
+                            </tr>
+                        <?php 
+                            endwhile;
+                        else: 
+                        ?>
                             <tr>
-                                <td colspan="5" class="py-8 text-center text-slate-500">Belum ada token dibuat untuk kelas ini.</td>
+                                <td colspan="4" class="py-8 px-4 text-center text-slate-500">Belum ada administrator terdaftar.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

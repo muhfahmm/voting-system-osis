@@ -1,9 +1,9 @@
 <?php
 session_start();
-require '../../db/db.php';
+require '../../../db/db.php';
 
 if (!isset($_SESSION['login'])) {
-    header("Location: ../auth/login.php");
+    header("Location: ../../auth/login.php");
     exit;
 }
 
@@ -152,19 +152,19 @@ if (!$data) {
     <div class="sidebar">
         <h2>Admin Panel</h2>
         <ul>
-            <li><a href="../index.php">🏠 Dashboard</a></li>
-            <li><a href="result.php">📋 Hasil</a></li>
+            <li><a href="../1_dashboard/index.php">🏠 Dashboard</a></li>
+            <li><a href="../2_hasil-vote/result.php">📋 Hasil</a></li>
             <li><a href="tambah.php">➕ Tambah Kandidat</a></li>
             <li><a href="daftar-kandidat.php" class="active">📋 Daftar Kandidat</a></li>
-            <li><a href="../kandidat/daftar-voter.php">📋 voter</a></li>
-            <li><a href="../auth/logout.php">🚪 Logout</a></li>
+            <li><a href="../4_daftar-voter.php">📋 voter</a></li>
+            <li><a href="../../auth/logout.php">🚪 Logout</a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="card">
             <h2>Edit Kandidat</h2>
-            <form action="../api/proses-edit.php" method="POST" enctype="multipart/form-data">
+            <form action="../../api/proses-edit.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= $data['id']; ?>">
 
                 <label for="nomor_kandidat">Nomor Urut</label>
@@ -178,13 +178,13 @@ if (!$data) {
 
                 <label>Foto Ketua</label>
                 <div class="preview">
-                    <img id="preview_ketua" src="../uploads/<?= $data['foto_ketua']; ?>" alt="Foto Ketua">
+                    <img id="preview_ketua" src="../../uploads/<?= $data['foto_ketua']; ?>" alt="Foto Ketua">
                 </div>
                 <input type="file" name="foto_ketua" accept="image/*" onchange="previewImage(this, 'preview_ketua')">
 
                 <label>Foto Wakil</label>
                 <div class="preview">
-                    <img id="preview_wakil" src="../uploads/<?= $data['foto_wakil']; ?>" alt="Foto Wakil">
+                    <img id="preview_wakil" src="../../uploads/<?= $data['foto_wakil']; ?>" alt="Foto Wakil">
                 </div>
                 <input type="file" name="foto_wakil" accept="image/*" onchange="previewImage(this, 'preview_wakil')">
 

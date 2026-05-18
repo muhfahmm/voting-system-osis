@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 VALUES ('$nomor', '$nama_ketua', '$kelas_ketua', '$path_ketua', '$nama_wakil', '$kelas_wakil', '$path_wakil')";
 
         if (mysqli_query($db, $sql)) {
-            echo "<script>alert('Kandidat berhasil ditambahkan!'); window.location.href='../index.php';</script>";
+            echo "<script>alert('Kandidat berhasil ditambahkan!'); window.location.href='../dashboard/index.php';</script>";
         } else {
             echo "Error: " . mysqli_error($db);
         }

@@ -3,7 +3,7 @@ session_start();
 require '../../db/db.php';
 
 if (isset($_SESSION['login'])) {
-    header("Location: ../index.php");
+    header("Location: ../sidebar-menu/1_dashboard/dashboard.php");
     exit;
 }
 
@@ -23,7 +23,7 @@ if (isset($_POST['login'])) {
             $_SESSION['login'] = true;
             $_SESSION['username'] = $row['username'];
 
-            header("Location: ../index.php");
+            header("Location: ../sidebar-menu/1_dashboard/dashboard.php");
             exit;
         } else {
             $error = "Password salah!";

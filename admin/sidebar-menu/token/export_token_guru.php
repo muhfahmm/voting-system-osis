@@ -4,7 +4,7 @@ require '../../../db/db.php';
 
 // Cek session login
 if (!isset($_SESSION['login'])) {
-    header("Location: ../auth/login.php");
+    header("Location: ../../auth/login.php");
     exit;
 }
 

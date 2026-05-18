@@ -1,9 +1,9 @@
 <?php
 session_start();
-require '../../db/db.php';
+require '../../../db/db.php';
 
 if (!isset($_SESSION['login'])) {
-    header("Location: ../auth/login.php");
+    header("Location: ../../auth/login.php");
     exit;
 }
 ?>
@@ -123,21 +123,21 @@ if (!isset($_SESSION['login'])) {
     <div class="sidebar">
         <h2>Admin Panel</h2>
         <ul>
-            <li><a href="../index.php">Dashboard</a></li>
-            <li><a href="../hasil-vote/result.php">Hasil</a></li>
-            <li><a href="../kandidat/tambah.php" class="active">Tambah Kandidat</a></li>
-            <li><a href="../kandidat/daftar-kandidat.php">Daftar Kandidat</a></li>
-            <li><a href="../kandidat/daftar-voter.php">Daftar Voter</a></li>
-            <li><a href="../kandidat/token-siswa.php">Kelas dan Token</a></li>
-            <li><a href="../kandidat/token-guru.php">Buat Token Guru</a></li>
-            <li><a href="../auth/logout.php">Logout</a></li>
+            <li><a href="../1_dashboard/index.php">Dashboard</a></li>
+            <li><a href="../2_hasil-vote/result.php">Hasil</a></li>
+            <li><a href="tambah.php" class="active">Tambah Kandidat</a></li>
+            <li><a href="daftar-kandidat.php">Daftar Kandidat</a></li>
+            <li><a href="../4_daftar-voter.php">Daftar Voter</a></li>
+            <li><a href="../5_token-siswa.php">Kelas dan Token</a></li>
+            <li><a href="../6_token-guru.php">Buat Token Guru</a></li>
+            <li><a href="../../auth/logout.php">Logout</a></li>
         </ul>
     </div>
 
     <section class="main-content">
         <div class="card">
             <h2>Tambah Kandidat</h2>
-            <form action="../api/proses-tambah.php" method="post" enctype="multipart/form-data">
+            <form action="../../api/proses-tambah.php" method="post" enctype="multipart/form-data">
                 <label for="nomor_kandidat">Nomor Kandidat</label>
                 <input type="number" id="nomor_kandidat" name="nomor_kandidat" placeholder="Masukkan nomor kandidat..." required>
 
