@@ -2,6 +2,6 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$dbnm = "db_vote_osis_generate_token";
+$dbnm = "db_voting_osis";
 
 $db = mysqli_connect($host,$user,$pass,$dbnm);
