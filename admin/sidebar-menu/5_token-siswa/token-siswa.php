@@ -49,7 +49,8 @@ foreach ($kelasList as $k) {
     $classNumberMap[$id] = $classNum;
 }
 
-$message = '';
+
+$showExceedModal = false; // flag for modal display
 
 if (isset($_POST['add_class'])) {
     $kelas_input = trim($_POST['kelas']);
@@ -186,18 +187,32 @@ if (isset($_POST['reset_all_used'])) {
 
 if (isset($_POST['generate'])) {
     $kelas_id = (int)$_POST['kelas_id'];
-    $q = mysqli_query($db, "SELECT nama_kelas FROM tb_kelas WHERE id = $kelas_id LIMIT 1");
+    $q = mysqli_query($db, "SELECT nama_kelas, jumlah_siswa FROM tb_kelas WHERE id = $kelas_id LIMIT 1");
     $r = mysqli_fetch_assoc($q);
+    
     if ($r) {
         $kelas_nama = $r['nama_kelas'];
-        $prefix = kelasToPrefix($kelas_nama);
-        $classNum = $classNumberMap[$kelas_id] ?? 0;
-        $token = generateTokenByPrefixAndNumber($prefix, $classNum, $db);
-        $token_esc = mysqli_real_escape_string($db, $token);
-        mysqli_query($db, "INSERT INTO tb_buat_token (token, kelas_id, created_by) VALUES ('$token_esc', $kelas_id, '$admin')");
-        $message = "✅ Token dibuat untuk <b>$kelas_nama</b>: <b>$token</b>";
-        header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
-        exit;
+        $jumlah_siswa = (int)$r['jumlah_siswa'];
+
+        // Cek jumlah token saat ini sebelum insert
+        $countRes = mysqli_query($db, "SELECT COUNT(*) as total FROM tb_buat_token WHERE kelas_id = $kelas_id");
+        $currentTokenCount = (int)mysqli_fetch_assoc($countRes)['total'];
+
+        if ($currentTokenCount >= $jumlah_siswa) {
+            // Sudah mencapai/melebihi batas, jangan buat token baru
+            $showExceedModal = true;
+            $message = "⚠️ Jumlah token untuk kelas <b>$kelas_nama</b> sudah mencapai batas jumlah siswa ($jumlah_siswa). Token baru tidak dibuat.";
+        } else {
+            // Masih boleh, buat token
+            $prefix = kelasToPrefix($kelas_nama);
+            $classNum = $classNumberMap[$kelas_id] ?? 0;
+            $token = generateTokenByPrefixAndNumber($prefix, $classNum, $db);
+            $token_esc = mysqli_real_escape_string($db, $token);
+            mysqli_query($db, "INSERT INTO tb_buat_token (token, kelas_id, created_by) VALUES ('$token_esc', $kelas_id, '$admin')");
+            $message = "✅ Token dibuat untuk <b>$kelas_nama</b>: <b>$token</b>";
+            header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
+            exit;
+        }
     } else {
         $message = "⚠️ Kelas tidak ditemukan.";
     }
@@ -370,6 +385,9 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                 <span><?= $message; ?></span>
             </div>
         <?php endif; ?>
+<?php if ($showExceedModal): ?>
+    <?php include __DIR__ . '/modals/modal_exceed.php'; ?>
+<?php endif; ?>
 
         <!-- Two Columns: Add Class Form & Kelas List -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -583,6 +601,23 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             </div>
         </div>
     </main>
+
+<?php if ($showExceedModal): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = document.getElementById('exceedModal');
+        var closeBtn = document.getElementById('closeExceedModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+        }
+        if (modal && closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                modal.classList.add('hidden');
+            });
+        }
+    });
+</script>
+<?php endif; ?>
 </body>
 
 </html>
