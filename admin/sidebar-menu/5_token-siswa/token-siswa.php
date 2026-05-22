@@ -184,6 +184,29 @@ if (isset($_POST['reset_all_used'])) {
         $message = "❌ Gagal me-reset token: " . $e->getMessage();
     }
 }
+if (isset($_POST['clear_tokens'])) {
+    $kelas_id = (int)$_POST['kelas_id'];
+    mysqli_begin_transaction($db);
+    try {
+        $tokenIdsRes = mysqli_query($db, "SELECT id FROM tb_buat_token WHERE kelas_id = $kelas_id");
+        while ($t = mysqli_fetch_assoc($tokenIdsRes)) {
+            $tid = $t['id'];
+            $voterQuery = mysqli_query($db, "SELECT id FROM tb_voter WHERE token_id = $tid");
+            while ($v = mysqli_fetch_assoc($voterQuery)) {
+                $vid = $v['id'];
+                mysqli_query($db, "DELETE FROM tb_vote_log WHERE voter_id = $vid");
+            }
+            mysqli_query($db, "DELETE FROM tb_voter WHERE token_id = $tid");
+        }
+        mysqli_query($db, "DELETE FROM tb_buat_token WHERE kelas_id = $kelas_id");
+        mysqli_commit($db);
+        $message = "🗑️ Semua token untuk kelas ini telah dihapus.";
+    } catch (Exception $e) {
+        mysqli_rollback($db);
+        $message = "❌ Gagal mengosongkan token: " . $e->getMessage();
+    }
+}
+
 
 if (isset($_POST['generate'])) {
     $kelas_id = (int)$_POST['kelas_id'];
