@@ -224,6 +224,7 @@ if (isset($_POST['generate'])) {
         if ($currentTokenCount >= $jumlah_siswa) {
             // Sudah mencapai/melebihi batas, jangan buat token baru
             $showExceedModal = true;
+            $kelasTerpilih = $kelas_id;
             $message = "⚠️ Jumlah token untuk kelas <b>$kelas_nama</b> sudah mencapai batas jumlah siswa ($jumlah_siswa). Token baru tidak dibuat.";
         } else {
             // Masih boleh, buat token
@@ -233,7 +234,7 @@ if (isset($_POST['generate'])) {
             $token_esc = mysqli_real_escape_string($db, $token);
             mysqli_query($db, "INSERT INTO tb_buat_token (token, kelas_id, created_by) VALUES ('$token_esc', $kelas_id, '$admin')");
             $message = "✅ Token dibuat untuk <b>$kelas_nama</b>: <b>$token</b>";
-            header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
+            header("Location: token-siswa.php?kelas_id=$kelas_id");
             exit;
         }
     } else {
@@ -241,7 +242,61 @@ if (isset($_POST['generate'])) {
     }
 }
 
+// Generate token otomatis sekaligus (sesuai jumlah input admin, pola mengikuti nama kelas)
+if (isset($_POST['generate_bulk'])) {
+    $kelas_id = (int)$_POST['kelas_id'];
+    $jumlah = (int)($_POST['jumlah'] ?? 0);
+
+    if ($jumlah < 1 || $jumlah > 100) {
+        $message = "⚠️ Jumlah token harus antara 1 sampai 100!";
+        $kelasTerpilih = $kelas_id;
+    } else {
+        $q = mysqli_query($db, "SELECT nama_kelas, jumlah_siswa FROM tb_kelas WHERE id = $kelas_id LIMIT 1");
+        $r = mysqli_fetch_assoc($q);
+
+        if ($r) {
+            $kelas_nama = $r['nama_kelas'];
+            $jumlah_siswa = (int)$r['jumlah_siswa'];
+            $countRes = mysqli_query($db, "SELECT COUNT(*) as total FROM tb_buat_token WHERE kelas_id = $kelas_id");
+            $currentTokenCount = (int)mysqli_fetch_assoc($countRes)['total'];
+            $remaining = $jumlah_siswa - $currentTokenCount;
+
+            if ($remaining <= 0) {
+                $showExceedModal = true;
+                $kelasTerpilih = $kelas_id;
+                $message = "⚠️ Jumlah token untuk kelas <b>$kelas_nama</b> sudah mencapai batas jumlah siswa ($jumlah_siswa). Token baru tidak dibuat.";
+            } else {
+                $toCreate = min($jumlah, $remaining);
+                $prefix = kelasToPrefix($kelas_nama);
+                $classNum = $classNumberMap[$kelas_id] ?? 0;
+                $berhasil = 0;
+
+                for ($i = 0; $i < $toCreate; $i++) {
+                    $token = generateTokenByPrefixAndNumber($prefix, $classNum, $db);
+                    $token_esc = mysqli_real_escape_string($db, $token);
+                    if (mysqli_query($db, "INSERT INTO tb_buat_token (token, kelas_id, created_by) VALUES ('$token_esc', $kelas_id, '$admin')")) {
+                        $berhasil++;
+                    }
+                }
+
+                if ($toCreate < $jumlah) {
+                    $message = "⚠️ Hanya <b>$berhasil</b> token dibuat untuk <b>$kelas_nama</b> (batas siswa: $jumlah_siswa, sisa slot: $remaining).";
+                } else {
+                    $message = "✅ Berhasil membuat <b>$berhasil</b> token otomatis untuk kelas <b>$kelas_nama</b>.";
+                }
+                header("Location: token-siswa.php?kelas_id=$kelas_id");
+                exit;
+            }
+        } else {
+            $message = "⚠️ Kelas tidak ditemukan.";
+        }
+    }
+}
+
 $kelasTerpilih = isset($_GET['kelas_id']) ? (int)$_GET['kelas_id'] : 0;
+if ($kelasTerpilih === 0 && isset($_POST['kelas_id'])) {
+    $kelasTerpilih = (int)$_POST['kelas_id'];
+}
 if ($kelasTerpilih === 0 && !empty($kelasList)) {
     $kelasTerpilih = (int)$kelasList[0]['id'];
 }
@@ -427,7 +482,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-outfit font-semibold text-xs text-slate-400 tracking-wider" for="kelas">Nama Kelas</label>
-                        <input type="text" id="kelas" name="kelas" placeholder="Misal: X RPL 1" class="py-3 px-4 rounded-xl bg-slate-950/65 border border-white/10 font-sans text-sm text-white w-full focus:outline-none focus:border-indigo-500 focus:bg-slate-950/85" required autocomplete="off">
+                        <input type="text" id="kelas" name="kelas" placeholder="Misal: X-1 TKJ" class="py-3 px-4 rounded-xl bg-slate-950/65 border border-white/10 font-sans text-sm text-white w-full focus:outline-none focus:border-indigo-500 focus:bg-slate-950/85" required autocomplete="off">
                     </div>
                     <div class="flex flex-col gap-1.5">
                         <label class="font-outfit font-semibold text-xs text-slate-400 tracking-wider" for="jumlah_siswa">Jumlah Siswa</label>
@@ -452,9 +507,9 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                             <tr class="border-b border-white/5 text-xs text-slate-400 font-bold uppercase tracking-wider">
                                 <th class="py-4 px-4 text-left">No</th>
                                 <th class="py-4 px-4 text-left">Nama Kelas</th>
-                                <th class="py-4 px-4 text-center">Jml Siswa</th>
-                                <th class="py-4 px-4 text-center">Jml Token</th>
-                                <th class="py-4 px-4 text-center">Digunakan</th>
+                                <th class="py-4 px-4 text-center">Jumlah Siswa</th>
+                                <th class="py-4 px-4 text-center">Jumlah Token</th>
+                                <th class="py-4 px-4 text-center">Token Digunakan</th>
                                 <th class="py-4 px-4 text-center">Aksi Operasi</th>
                             </tr>
                         </thead>
@@ -469,10 +524,6 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                                         <td class="py-4 px-4 text-center text-emerald-300 font-bold"><?= $usedTokenMap[$k['id']] ?? 0; ?></td>
                                         <td class="py-4 px-4">
                                             <div class="flex flex-wrap gap-2 justify-center">
-                                                <form method="POST" class="inline">
-                                                    <input type="hidden" name="kelas_id" value="<?= $k['id']; ?>">
-                                                    <button type="submit" name="generate" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-colors">Buat Token</button>
-                                                </form>
                                                 <a href="?edit=<?= $k['id']; ?>" class="px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 font-bold text-xs hover:bg-amber-500/20 transition-colors">Edit</a>
                                                 <a href="?hapus=<?= $k['id']; ?>" class="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-xs hover:bg-red-500/20 transition-colors" onclick="return confirm('Yakin ingin menghapus kelas ini?')">Hapus</a>
                                             </div>
@@ -526,6 +577,32 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                     </select>
                 </form>
             </div>
+
+            <?php if ($kelasRow): ?>
+                <?php
+                    $prefixFilter = kelasToPrefix($kelasRow['nama_kelas']);
+                    $classNumFilter = $classNumberMap[$kelasTerpilih] ?? 0;
+                    $contohFilter = $prefixFilter . $classNumFilter . '001';
+                    $sisaSlotFilter = max(0, (int)$kelasRow['jumlah_siswa'] - (int)$totalToken);
+                ?>
+                <div class="p-4 rounded-2xl border border-indigo-500/20 bg-indigo-500/5 flex flex-col sm:flex-row sm:items-end gap-4 justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-indigo-300 uppercase tracking-wide">Generate Token Otomatis</p>
+                        <p class="text-sm text-slate-300 mt-1">Kelas <strong><?= htmlspecialchars($kelasRow['nama_kelas']); ?></strong> — pola <span class="font-mono text-indigo-300"><?= htmlspecialchars($contohFilter); ?></span> dst.</p>
+                        <p class="text-[11px] text-slate-500 mt-1">Sisa slot token: <strong><?= $sisaSlotFilter ?></strong> / <?= (int)$kelasRow['jumlah_siswa']; ?> siswa</p>
+                    </div>
+                    <form method="POST" class="flex items-center gap-2 shrink-0">
+                        <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">
+                        <div class="flex flex-col gap-1">
+                            <label for="jumlah_bulk" class="text-[10px] font-bold text-slate-400 uppercase">Jumlah</label>
+                            <input type="number" id="jumlah_bulk" name="jumlah" min="1" max="100" value="1" class="w-20 py-2 px-3 rounded-xl bg-slate-950/65 border border-white/10 text-sm text-white text-center focus:outline-none focus:border-indigo-500" required>
+                        </div>
+                        <button type="submit" name="generate_bulk" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-colors mt-auto">
+                            Generate Otomatis
+                        </button>
+                    </form>
+                </div>
+            <?php endif; ?>
 
             <!-- Token Records Table -->
             <div class="overflow-x-auto w-full">
@@ -613,6 +690,14 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                         <button type="submit" name="reset_all_used" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-600 border border-amber-500 hover:bg-amber-500 hover:border-amber-400 hover:shadow-[0_8px_20px_rgba(245,158,11,0.25)] text-white font-bold text-xs transition-all duration-300">
                             <i class="bi bi-arrow-counterclockwise"></i>
                             <span>Reset Semua Token Terpakai</span>
+                        </button>
+                    </form>
+
+                    <form method="POST" action="" onsubmit="return confirm('⚠️ PERHATIAN! Ini akan menghapus SEMUA token kelas ini (termasuk yang belum dipakai). Data voter dan log vote juga akan ikut dihapus. Lanjutkan?')">
+                        <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">
+                        <button type="submit" name="clear_tokens" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-red-700 border border-red-600 hover:bg-red-600 hover:border-red-500 hover:shadow-[0_8px_20px_rgba(220,38,38,0.25)] text-white font-bold text-xs transition-all duration-300">
+                            <i class="bi bi-trash3"></i>
+                            <span>Kosongkan Token</span>
                         </button>
                     </form>
                 </div>

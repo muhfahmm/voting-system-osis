@@ -12,7 +12,7 @@ $admin = $_SESSION['username'];
 // Fungsi untuk men-generate kode guru unik
 function generateUniqueKodeGuru($db)
 {
-    $chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    $chars = 'abcdefghijklmnopqrstuvwxyz';
     do {
         $kode = 'gr';
         for ($i = 0; $i < 5; $i++) {
@@ -28,24 +28,52 @@ function generateUniqueKodeGuru($db)
 
 $message = '';
 
-// Aksi Generate Token
+// Aksi Buat Token Manual (admin mengetik sendiri)
+if (isset($_POST['add_manual'])) {
+    $kode = strtolower(trim($_POST['kode_manual'] ?? ''));
+
+    if ($kode === '') {
+        $message = "⚠️ Token tidak boleh kosong!";
+    } elseif (!preg_match('/^[a-z]+$/', $kode)) {
+        $message = "⚠️ Token hanya boleh berisi huruf (a-z)!";
+    } elseif (strlen($kode) < 3 || strlen($kode) > 100) {
+        $message = "⚠️ Token harus antara 3 sampai 100 karakter!";
+    } else {
+        $kode_esc = mysqli_real_escape_string($db, $kode);
+        $check = mysqli_query($db, "SELECT id FROM tb_kode_guru WHERE kode = '$kode_esc'");
+        if (mysqli_num_rows($check) > 0) {
+            $message = "⚠️ Token <b>$kode</b> sudah terdaftar!";
+        } else {
+            $query = mysqli_query($db, "INSERT INTO tb_kode_guru (kode) VALUES ('$kode_esc')");
+            if ($query) {
+                $message = "✅ Token Guru manual berhasil ditambahkan: <b>$kode</b>";
+                header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
+                exit;
+            } else {
+                $message = "❌ Gagal menambahkan token guru.";
+            }
+        }
+    }
+}
+
+// Aksi Generate Token Otomatis (sesuai jumlah guru yang diinput)
 if (isset($_POST['generate'])) {
-    $jumlah = (int)$_POST['jumlah'];
+    $jumlah = (int)($_POST['jumlah'] ?? 0);
 
     if ($jumlah > 0 && $jumlah <= 100) {
         $berhasil = 0;
         for ($i = 0; $i < $jumlah; $i++) {
             $kode = generateUniqueKodeGuru($db);
-            $query = mysqli_query($db, "INSERT INTO tb_kode_guru (kode, created_by) VALUES ('$kode', '$admin')");
-            if ($query) {
+            $kode_esc = mysqli_real_escape_string($db, $kode);
+            if (mysqli_query($db, "INSERT INTO tb_kode_guru (kode) VALUES ('$kode_esc')")) {
                 $berhasil++;
             }
         }
-        $message = "✅ Berhasil men-generate $berhasil Token Guru baru.";
-        header("Location: " . $_SERVER['REQUEST_URI']);
+        $message = "✅ Berhasil membuat $berhasil token guru otomatis.";
+        header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
         exit;
     } else {
-        $message = "⚠️ Jumlah token yang digenerate harus antara 1 sampai 100!";
+        $message = "⚠️ Jumlah guru/token harus antara 1 sampai 100!";
     }
 }
 
@@ -166,6 +194,24 @@ if (isset($_POST['reset_all_used'])) {
         $message = "❌ Gagal me-reset token guru: " . $e->getMessage();
     }
 }
+
+// Aksi Kosongkan Semua Token Guru
+if (isset($_POST['clear_all_tokens'])) {
+    mysqli_begin_transaction($db);
+    try {
+        mysqli_query($db, "DELETE FROM tb_vote_log");
+        mysqli_query($db, "DELETE FROM tb_voter");
+        mysqli_query($db, "DELETE FROM tb_kode_guru");
+        mysqli_commit($db);
+        $message = "🗑️ Semua token guru berhasil dihapus.";
+        header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
+        exit;
+    } catch (Exception $e) {
+        mysqli_rollback($db);
+        $message = "❌ Gagal menghapus semua token guru: " . $e->getMessage();
+    }
+}
+
 
 // Paginasi & Pencarian
 $limit = 10;
@@ -383,18 +429,41 @@ $statUnused = $statTotal - $statUsed;
                 <div>
                     <h3 class="font-outfit text-lg font-bold text-slate-200 flex items-center gap-2">
                         <i class="bi bi-plus-circle text-indigo-400"></i>
-                        <span>Generate Token Baru</span>
+                        <span>Buat Token Baru</span>
                     </h3>
-                    <p class="text-xs text-slate-400 mt-1">Generate beberapa token acak unik khusus guru sekaligus</p>
+                    <p class="text-xs text-slate-400 mt-1">Tambah token guru secara manual atau generate otomatis</p>
                 </div>
 
+                <!-- Manual -->
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
-                        <label class="font-outfit font-semibold text-xs text-slate-400 tracking-wider" for="jumlah">Jumlah Token</label>
-                        <input type="number" id="jumlah" name="jumlah" min="1" max="100" placeholder="Contoh: 15..." class="py-3 px-4 rounded-xl bg-slate-950/65 border border-white/10 font-sans text-sm text-white w-full focus:outline-none focus:border-indigo-500 focus:bg-slate-950/85" required autocomplete="off">
+                        <label class="font-outfit font-semibold text-xs text-slate-400 tracking-wider" for="kode_manual">Token Manual</label>
+                        <input type="text" id="kode_manual" name="kode_manual" placeholder="Masukkan token guru manual" pattern="[a-zA-Z]+" minlength="3" maxlength="100" class="py-3 px-4 rounded-xl bg-slate-950/65 border border-white/10 font-mono text-sm text-white w-full focus:outline-none focus:border-indigo-500 focus:bg-slate-950/85 lowercase" required autocomplete="off">
+                        <p class="text-[11px] text-slate-500">Huruf saja (a-z), 3–100 karakter. Disimpan otomatis huruf kecil.</p>
                     </div>
+                    <button type="submit" name="add_manual" class="w-full py-3 rounded-xl bg-purple-600 border border-purple-500 hover:bg-purple-500 hover:border-purple-400 font-bold text-sm tracking-wide text-white transition-all duration-300">
+                        Tambah Token Manual
+                    </button>
+                </form>
+
+                <div class="flex items-center gap-3 text-xs text-slate-500">
+                    <span class="flex-1 h-px bg-white/10"></span>
+                    <span>atau</span>
+                    <span class="flex-1 h-px bg-white/10"></span>
+                </div>
+
+                <!-- Otomatis -->
+                <form method="POST" class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="font-outfit font-semibold text-xs text-slate-400 tracking-wider" for="jumlah">Jumlah Guru</label>
+                        <input type="number" id="jumlah" name="jumlah" min="1" max="100" value="1" placeholder="Contoh: 10" class="py-3 px-4 rounded-xl bg-slate-950/65 border border-white/10 font-sans text-sm text-white w-full focus:outline-none focus:border-indigo-500 focus:bg-slate-950/85" required autocomplete="off">
+                        <p class="text-[11px] text-slate-500">Masukkan berapa token guru yang ingin dibuat sekaligus (maks. 100).</p>
+                    </div>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Format otomatis: prefix <span class="font-mono text-purple-300">gr</span> + 5 huruf acak (contoh: grabcde).
+                    </p>
                     <button type="submit" name="generate" class="w-full py-3 rounded-xl bg-indigo-600 border border-indigo-500 hover:bg-indigo-500 hover:border-indigo-400 font-bold text-sm tracking-wide text-white transition-all duration-300">
-                        Generate Token
+                        Generate Token Otomatis
                     </button>
                 </form>
 
@@ -410,6 +479,11 @@ $statUnused = $statTotal - $statUsed;
                     <form method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus SELURUH token guru yang BELUM digunakan?')">
                         <button type="submit" name="reset_unused" class="w-full py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 font-bold text-xs transition-colors">
                             Hapus Semua Token Unused
+                        </button>
+                    </form>
+                    <form method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus SELURUH token guru? Tindakan ini akan menghapus semua token, data voter, dan log vote.')">
+                        <button type="submit" name="clear_all_tokens" class="w-full py-3 rounded-xl bg-red-600 border border-red-500 hover:bg-red-500 hover:border-red-400 text-white font-bold text-xs transition-colors">
+                            Hapus Semua Token
                         </button>
                     </form>
                 </div>
@@ -436,7 +510,7 @@ $statUnused = $statTotal - $statUsed;
                         <thead>
                             <tr class="border-b border-white/5 text-xs text-slate-400 font-bold uppercase tracking-wider">
                                 <th class="py-4 px-4 text-left">No</th>
-                                <th class="py-4 px-4 text-center">Token Voting</th>
+                                <th class="py-4 px-4 text-center">Token Guru</th>
                                 <th class="py-4 px-4 text-center">Status Token</th>
                                 <th class="py-4 px-4 text-center">Dibuat Pada</th>
                                 <th class="py-4 px-4 text-center">Aksi / Tindakan</th>
