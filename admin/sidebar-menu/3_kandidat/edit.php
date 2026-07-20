@@ -49,9 +49,10 @@ if (!$data) {
     <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-200/70 rounded-full blur-[140px] pointer-events-none z-0"></div>
     <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-200/70 rounded-full blur-[140px] pointer-events-none z-0"></div>
 
-    <!-- Sidebar Navigation -->
-    <aside class="w-72 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col justify-between shrink-0 min-h-screen z-10">
-        <div class="flex flex-col gap-8 p-6">
+    <!-- Sidebar Navigation (FIXED) -->
+    <aside class="w-72 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        <div class="flex flex-col gap-8 p-6 flex-1 overflow-y-auto">
             <!-- Brand / Header -->
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <div class="w-10 h-10 bg-indigo-100 border border-indigo-200 rounded-xl flex items-center justify-center">
@@ -98,8 +99,8 @@ if (!$data) {
             </nav>
         </div>
 
-        <!-- User / Logout -->
-        <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-4">
+        <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
+        <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-outfit font-bold text-sm">
                     <?= strtoupper(substr($admin, 0, 2)) ?>
@@ -116,8 +117,8 @@ if (!$data) {
         </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 p-8 lg:p-12 z-10 flex flex-col gap-8 w-full">
+    <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
+    <main class="flex-1 p-8 lg:p-12 z-10 flex flex-col gap-8 w-full ml-72">
         <!-- Top bar -->
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>

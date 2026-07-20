@@ -437,8 +437,8 @@ $statUnused = $statTotal - $statUsed;
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-outfit font-semibold text-xs text-slate-600 tracking-wider" for="kode_manual">Token Manual</label>
-                        <input type="text" id="kode_manual" name="kode_manual" placeholder="Masukkan token guru manual" pattern="[a-zA-Z]+" minlength="3" maxlength="100" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-700 w-full focus:outline-none focus:border-indigo-500 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.15)] lowercase" required autocomplete="off">
-                        <p class="text-[11px] text-slate-500">Huruf saja (a-z), 3–100 karakter. Disimpan otomatis huruf kecil.</p>
+                        <input type="text" id="kode_manual" name="kode_manual" placeholder="Masukkan token guru manual" pattern="[a-zA-Z]+" minlength="2" maxlength="100" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-700 w-full focus:outline-none focus:border-indigo-500 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.15)] lowercase" required autocomplete="off">
+                        <p class="text-[11px] text-slate-500">Huruf saja (a-z), 2–100 karakter. Disimpan otomatis huruf kecil.</p>
                     </div>
                     <button type="submit" name="add_manual" class="w-full py-3 rounded-xl bg-purple-600 border border-purple-500 hover:bg-purple-700 hover:border-purple-600 font-bold text-sm tracking-wide text-white transition-all duration-300">
                         Tambah Token Manual
