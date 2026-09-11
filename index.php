@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require 'db/db.php';
 
@@ -157,7 +157,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <link rel="icon" href="admin/assets/img/logo osis.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -166,10 +166,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     colors: {
                         darkbg: '#0b0f19',
                     },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        outfit: ['Outfit', 'sans-serif']
-                    }
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
                 }
             }
         }
@@ -177,8 +174,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <style type="text/tailwindcss">
         @layer base {
             body {
-                background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.12), transparent 700px),
-                            radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.1), transparent 700px),
+                background: #f8fafc, transparent 700px),
+                            #f8fafc, transparent 700px),
                             #f8fafc;
             }
         }
@@ -199,8 +196,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         }
 
         /* Ambient glowing circles */
-        .ambient-glow {
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 100%);
+        . {
+            background: #f8fafc 0%, rgba(5, 150, 105, 0.05) 50%, transparent 100%);
             filter: blur(80px);
         }
 
@@ -230,17 +227,17 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <div class="container max-w-[1200px] mx-auto relative z-10 w-full flex flex-col gap-6">
         <!-- Header -->
         <div class="flex justify-between items-center bg-white/90 backdrop-blur-md border border-slate-200 py-4 px-7 rounded-[20px] shadow-[0_10px_30px_-12px_rgba(15,23,42,0.12)]">
-            <h1 class="font-outfit text-xl lg:text-2xl font-extrabold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
+            <h1 class="font-sans text-xl lg:text-2xl font-extrabold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
             <div>
-                <button class="bg-white border border-slate-200 h-10 px-5 rounded-xl font-sans text-xs lg:text-sm font-semibold cursor-pointer text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 hover:shadow-[0_8px_20px_rgba(99,102,241,0.15)] hover:-translate-y-0.5 active:translate-y-0 backdrop-blur-sm" name="login" onclick="window.open('admin/auth/logout.php', '_blank', 'noopener,noreferrer')">Dashboard</button>
+                <button class="bg-white border border-slate-200 h-10 px-5 rounded-xl font-sans text-xs lg:text-sm font-semibold cursor-pointer text-slate-700 backdrop-blur-sm" name="login" onclick="window.open('admin/auth/logout.php', '_blank', 'noopener,noreferrer')">Dashboard</button>
             </div>
         </div>
         
         <!-- Logo Section -->
         <div class="flex justify-center">
             <div class="flex justify-center items-center gap-10 bg-white/90 backdrop-blur-md py-5 px-10 rounded-[28px] border border-slate-200 shadow-[0_10px_30px_-12px_rgba(15,23,42,0.12)]">
-                <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[110px] lg:h-[135px] object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.15)] transition-transform duration-300 hover:scale-110 hover:rotate-2">
-                <img src="admin/assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-[110px] lg:h-[135px] object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.15)] transition-transform duration-300 hover:scale-110 hover:rotate-2">
+                <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[110px] lg:h-[135px] object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.15)]">
+                <img src="admin/assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-[110px] lg:h-[135px] object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.15)]">
             </div>
         </div>
         
@@ -250,29 +247,29 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             mysqli_data_seek($query, 0);
             while ($row = mysqli_fetch_assoc($query)) : 
             ?>
-                <div class="kandidat-card bg-white/90 backdrop-blur-[20px] border border-slate-200 rounded-[24px] p-6 shadow-[0_10px_30px_-12px_rgba(15,23,42,0.12)] transition-all duration-500 relative overflow-hidden group select-none lg:p-5 lg:h-fit self-center" data-id="<?= $row['nomor_kandidat']; ?>">
+                <div class="kandidat-card bg-white/90 backdrop-blur-[20px] border border-slate-200 rounded-[24px] p-6 shadow-[0_10px_30px_-12px_rgba(15,23,42,0.12)] relative overflow-hidden select-none lg:p-5 lg:h-fit self-center" data-id="<?= $row['nomor_kandidat']; ?>">
                     <!-- Large Number Background -->
-                    <div class="absolute -top-5 -right-2 text-[130px] font-outfit font-black text-slate-900/10 pointer-events-none select-none z-0 leading-none">0<?= $row['nomor_kandidat']; ?></div>
+                    <div class="absolute -top-5 -right-2 text-[130px] font-sans font-black text-slate-900/10 pointer-events-none select-none z-0 leading-none">0<?= $row['nomor_kandidat']; ?></div>
                     
-                    <h3 class="font-outfit text-lg font-bold text-slate-900 mb-[18px] text-center relative z-10 tracking-wide">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
+                    <h3 class="font-sans text-lg font-bold text-slate-900 mb-[18px] text-center relative z-10 tracking-wide">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
                     
                     <div class="flex gap-4 mb-[18px] relative z-10">
                         <!-- Ketua -->
-                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center transition-all duration-300 group-hover:border-slate-300 group-hover:bg-white">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.1)] transition-transform duration-500 group-hover:scale-105">
-                            <h3 class="nama-ketua font-outfit my-1 font-semibold text-sm lg:text-base text-slate-900 truncate"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
+                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.1)]">
+                            <h3 class="nama-ketua font-sans my-1 font-semibold text-sm lg:text-base text-slate-900 truncate"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
                             <small class="text-slate-500 text-[10px] lg:text-[11px] font-semibold uppercase tracking-wider">Calon Ketua OSIS</small>
                         </div>
                         <!-- Wakil -->
-                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center transition-all duration-300 group-hover:border-slate-300 group-hover:bg-white">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.1)] transition-transform duration-500 group-hover:scale-105">
-                            <h3 class="nama-wakil font-outfit my-1 font-semibold text-sm lg:text-base text-slate-900 truncate"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
+                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.1)]">
+                            <h3 class="nama-wakil font-sans my-1 font-semibold text-sm lg:text-base text-slate-900 truncate"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
                             <small class="text-slate-500 text-[10px] lg:text-[11px] font-semibold uppercase tracking-wider">Calon Wakil OSIS</small>
                         </div>
                     </div>
                     
                     <div class="btn-vote mt-[10px] relative z-10 text-center">
-                        <button type="button" class="vote-btn bg-indigo-50 text-indigo-700 border border-indigo-200 py-3 px-5 rounded-2xl cursor-pointer w-full font-sans text-sm font-bold transition-all duration-300 tracking-wide hover:bg-indigo-600 hover:text-white hover:border-indigo-600 hover:shadow-[0_8px_20px_rgba(99,102,241,0.2)]" data-id="<?= $row['nomor_kandidat']; ?>">
+                        <button type="button" class="vote-btn bg-emerald-600 text-white border border-emerald-600 py-3 px-5 rounded-2xl cursor-pointer w-full font-sans text-sm font-bold tracking-wide" data-id="<?= $row['nomor_kandidat']; ?>">
                             Pilih Kandidat <?= $row['nomor_kandidat']; ?>
                         </button>
                     </div>
@@ -284,8 +281,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <!-- Modal Voting Form -->
     <div id="modalVoteForm" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
         <div class="modal-content bg-white/95 backdrop-blur-[32px] border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[680px] text-left relative">
-            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-red-500 transition-colors duration-200" id="closeVoteForm">&times;</span>
-            <h2 id="modalVoteTitle" class="font-outfit text-xl lg:text-2xl font-bold text-slate-900 mb-2">Konfirmasi Pilihan</h2>
+            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400" id="closeVoteForm">&times;</span>
+            <h2 id="modalVoteTitle" class="font-sans text-xl lg:text-2xl font-bold text-slate-900 mb-2">Konfirmasi Pilihan</h2>
             <p id="modalVoteSubtitle" class="text-slate-600 text-sm">Silakan masukkan data Anda untuk melanjutkan pemilihan.</p>
             
             <!-- Selected Candidate Preview -->
@@ -294,7 +291,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 <div class="flex flex-1 items-center gap-4 bg-white p-3.5 rounded-2xl border border-slate-200 overflow-hidden">
                     <img id="modalKetuaFoto" src="" alt="Ketua" class="w-[84px] h-[100px] object-cover object-top rounded-xl border border-slate-200 shadow-sm">
                     <div class="overflow-hidden flex-1">
-                        <span class="text-xs font-semibold text-indigo-600 uppercase tracking-wider block">Calon Ketua</span>
+                        <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider block">Calon Ketua</span>
                         <p id="modalKetuaNama" class="text-base font-extrabold text-slate-900 truncate mt-1"></p>
                     </div>
                 </div>
@@ -302,7 +299,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 <div class="flex flex-1 items-center gap-4 bg-white p-3.5 rounded-2xl border border-slate-200 overflow-hidden">
                     <img id="modalWakilFoto" src="" alt="Wakil" class="w-[84px] h-[100px] object-cover object-top rounded-xl border border-slate-200 shadow-sm">
                     <div class="overflow-hidden flex-1">
-                        <span class="text-xs font-semibold text-indigo-600 uppercase tracking-wider block">Calon Wakil</span>
+                        <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider block">Calon Wakil</span>
                         <p id="modalWakilNama" class="text-base font-extrabold text-slate-900 truncate mt-1"></p>
                     </div>
                 </div>
@@ -311,25 +308,25 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             <form action="" method="post" id="formVote" novalidate class="mt-6 flex flex-col gap-5">
                 <div class="form-user-group-wrap flex flex-col gap-5">
                     <div class="form-group flex flex-col gap-2">
-                        <label for="pemilih" class="font-outfit font-semibold text-xs text-slate-600 tracking-wider uppercase">Token Pemilih</label>
+                        <label for="pemilih" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Token Pemilih</label>
                         <input type="text" id="pemilih" name="token_pemilih" 
                                placeholder="Masukkan Token Anda" autocomplete="off" 
-                               class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.15)]"
+                               class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500"
                                value="<?= htmlspecialchars($_POST['token_pemilih'] ?? '') ?>"
                                required>
                     </div>
                     
                     <div class="form-group flex flex-col gap-2">
-                        <label for="role" class="font-outfit font-semibold text-xs text-slate-600 tracking-wider uppercase">Role / Status</label>
-                        <select id="role" name="role" class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 focus:outline-none focus:border-indigo-500 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.15)] appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
+                        <label for="role" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Role / Status</label>
+                        <select id="role" name="role" class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
                             <option value="siswa" <?= (!isset($_POST['role']) || $_POST['role'] === 'siswa') ? 'selected' : '' ?>>Siswa</option>
                             <option value="guru" <?= (isset($_POST['role']) && $_POST['role'] === 'guru') ? 'selected' : '' ?>>Guru</option>
                         </select>
                     </div>
                     
                     <div id="kelasWrap" class="form-group flex flex-col gap-2">
-                        <label for="kelas" class="font-outfit font-semibold text-xs text-slate-600 tracking-wider uppercase">Kelas Pemilih</label>
-                        <select id="kelas" name="kelas" class="pilih-kelas py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 focus:outline-none focus:border-indigo-500 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.15)] appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
+                        <label for="kelas" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Kelas Pemilih</label>
+                        <select id="kelas" name="kelas" class="pilih-kelas py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
                             <option value="">Pilih Kelas</option>
                             <?php foreach ($kelas_list as $kelas): ?>
                                 <option value="<?= htmlspecialchars($kelas['nama_kelas']) ?>"
@@ -344,8 +341,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 <input type="hidden" name="kandidat_terpilih" id="kandidat_terpilih" value="<?= $_POST['kandidat_terpilih'] ?? '' ?>">
                 
                 <div class="flex gap-4 mt-6">
-                    <button type="button" id="btnBatalVote" class="button-ok bg-slate-100 border border-slate-200 text-slate-700 w-full h-[52px] rounded-xl font-outfit font-bold cursor-pointer transition-all duration-300 hover:bg-red-50 hover:border-red-200 hover:text-red-600 flex-1">Batal</button>
-                    <button type="submit" name="kirim" class="submit-btn bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-none w-full h-[52px] rounded-xl font-outfit font-bold cursor-pointer transition-all duration-300 tracking-wide hover:shadow-[0_12px_25px_-5px_rgba(16,185,129,0.55)] active:translate-y-[1px] flex-[2]">Kirim Vote Sekarang</button>
+                    <button type="button" id="btnBatalVote" class="button-ok bg-slate-100 border border-slate-200 text-slate-700 w-full h-[52px] rounded-xl font-sans font-bold cursor-pointer flex-1">Batal</button>
+                    <button type="submit" name="kirim" class="submit-btn bg-emerald-600 text-white border-none w-full h-[52px] rounded-xl font-sans font-bold cursor-pointer tracking-wide flex-[2]">Kirim Vote Sekarang</button>
                 </div>
             </form>
         </div>
@@ -354,45 +351,45 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <!-- Modal Success -->
     <div id="modalSuccess" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
         <div class="modal-content bg-white/95 backdrop-blur-2xl border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[460px] text-center relative">
-            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-red-500 transition-colors duration-200">&times;</span>
+            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400">&times;</span>
             <div class="icon-wrap w-20 h-20 rounded-full flex justify-center items-center mx-auto mb-5 text-4xl bg-emerald-100 text-emerald-600 border border-emerald-200">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="44" height="44">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h2 class="font-outfit text-2xl font-bold text-slate-900 mb-3">Vote Berhasil!</h2>
+            <h2 class="font-sans text-2xl font-bold text-slate-900 mb-3">Vote Berhasil!</h2>
             <p class="text-slate-600 text-sm mb-6 leading-relaxed">Terima kasih sudah memilih. Semoga pilihanmu membawa kebaikan bagi sekolah.</p>
-            <button id="okBtn" class="button-ok bg-emerald-500 w-full h-[52px] border-none rounded-xl font-outfit text-base font-bold text-white cursor-pointer transition-all duration-300 hover:bg-emerald-600 hover:shadow-[0_8px_20px_rgba(16,185,129,0.35)] hover:-translate-y-[1px] active:translate-y-0">OK</button>
+            <button id="okBtn" class="button-ok bg-emerald-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer">OK</button>
         </div>
     </div>
 
     <!-- Modal Error -->
     <div id="modalError" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
         <div class="modal-content bg-white/95 backdrop-blur-2xl border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[460px] text-center relative">
-            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-red-500 transition-colors duration-200">&times;</span>
+            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400">&times;</span>
             <div class="icon-wrap w-20 h-20 rounded-full flex justify-center items-center mx-auto mb-5 text-4xl bg-red-100 text-red-600 border border-red-200">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="44" height="44">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </div>
-            <h2 class="font-outfit text-2xl font-bold text-slate-900 mb-3">Terjadi Kesalahan</h2>
+            <h2 class="font-sans text-2xl font-bold text-slate-900 mb-3">Terjadi Kesalahan</h2>
             <p id="errorText" class="text-slate-600 text-sm mb-6 leading-relaxed"></p>
-            <button id="errorBtn" class="button-ok bg-red-500 w-full h-[52px] border-none rounded-xl font-outfit text-base font-bold text-white cursor-pointer transition-all duration-300 hover:bg-red-600 hover:shadow-[0_8px_20px_rgba(239,68,68,0.35)] hover:-translate-y-[1px] active:translate-y-0">OK</button>
+            <button id="errorBtn" class="button-ok bg-red-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer">OK</button>
         </div>
     </div>
 
     <!-- Modal Token Used -->
     <div id="modalTokenUsed" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
         <div class="modal-content bg-white/95 backdrop-blur-2xl border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[460px] text-center relative">
-            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-red-500 transition-colors duration-200">&times;</span>
+            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400">&times;</span>
             <div class="icon-wrap w-20 h-20 rounded-full flex justify-center items-center mx-auto mb-5 text-4xl bg-amber-100 text-amber-600 border border-amber-200">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="44" height="44">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
             </div>
-            <h2 class="font-outfit text-2xl font-bold text-slate-900 mb-3">Token Sudah Digunakan</h2>
+            <h2 class="font-sans text-2xl font-bold text-slate-900 mb-3">Token Sudah Digunakan</h2>
             <p class="text-slate-600 text-sm mb-6 leading-relaxed">Token ini sudah dipakai untuk memilih sebelumnya. Satu token hanya berlaku untuk satu kali pemungutan suara.</p>
-            <button id="tokenUsedBtn" class="button-ok bg-amber-500 w-full h-[52px] border-none rounded-xl font-outfit text-base font-bold text-white cursor-pointer transition-all duration-300 hover:bg-amber-600 hover:shadow-[0_8px_20px_rgba(245,158,11,0.35)] hover:-translate-y-[1px] active:translate-y-0">OK</button>
+            <button id="tokenUsedBtn" class="button-ok bg-amber-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer">OK</button>
         </div>
     </div>
 

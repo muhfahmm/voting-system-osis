@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require '../../../db/db.php';
 
@@ -275,22 +275,19 @@ $statUnused = $statTotal - $statUsed;
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
-                        outfit: ['Outfit', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
-    <!-- Ambient Glow Backdrops -->
-    <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-200/70 rounded-full blur-[140px] pointer-events-none z-0"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-200/70 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    
+    
+    
 
     <!-- Sidebar Navigation (FIXED) -->
     <aside class="w-72 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
@@ -298,45 +295,41 @@ $statUnused = $statTotal - $statUsed;
         <div class="flex flex-col gap-8 p-6 flex-1 overflow-y-auto">
             <!-- Brand / Header -->
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
-                <div class="w-10 h-10 bg-indigo-100 border border-indigo-200 rounded-xl flex items-center justify-center">
-                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                    </svg>
-                </div>
+                <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
-                    <h2 class="font-outfit font-extrabold text-lg text-slate-900">Admin Panel</h2>
+                    <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
                     <p class="text-xs text-slate-500 font-semibold tracking-wide">E-VOTING SKALSA</p>
                 </div>
             </div>
 
             <!-- Navigation Links -->
             <nav class="flex flex-col gap-1.5">
-                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 group">
-                    <i class="bi bi-speedometer2 text-lg group-hover:text-indigo-500 transition-colors"></i>
+                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                    <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 group">
-                    <i class="bi bi-bar-chart-line text-lg group-hover:text-indigo-500 transition-colors"></i>
+                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                    <i class="bi bi-bar-chart-line text-lg group-transition-colors"></i>
                     <span>Hasil Vote</span>
                 </a>
-                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 group">
-                    <i class="bi bi-people text-lg group-hover:text-indigo-500 transition-colors"></i>
+                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                    <i class="bi bi-people text-lg group-transition-colors"></i>
                     <span>Daftar Kandidat</span>
                 </a>
-                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 group">
-                    <i class="bi bi-card-checklist text-lg group-hover:text-indigo-500 transition-colors"></i>
+                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                    <i class="bi bi-card-checklist text-lg group-transition-colors"></i>
                     <span>Daftar Voter</span>
                 </a>
-                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 group">
-                    <i class="bi bi-key text-lg group-hover:text-indigo-500 transition-colors"></i>
+                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                    <i class="bi bi-key text-lg group-transition-colors"></i>
                     <span>Token Siswa</span>
                 </a>
-                <a href="token-guru.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-700 border-l-4 border-indigo-500 font-semibold group">
-                    <i class="bi bi-shield-lock text-lg text-indigo-500"></i>
+                <a href="token-guru.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
+                    <i class="bi bi-shield-lock text-lg text-emerald-500"></i>
                     <span>Token Guru</span>
                 </a>
-                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 group">
-                    <i class="bi bi-person-workspace text-lg group-hover:text-indigo-500 transition-colors"></i>
+                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                    <i class="bi bi-person-workspace text-lg group-transition-colors"></i>
                     <span>Daftar Admin</span>
                 </a>
             </nav>
@@ -345,7 +338,7 @@ $statUnused = $statTotal - $statUsed;
         <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
         <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-outfit font-bold text-sm">
+                <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
                     <?= strtoupper(substr($admin, 0, 2)) ?>
                 </div>
                 <div class="overflow-hidden">
@@ -353,7 +346,7 @@ $statUnused = $statTotal - $statUsed;
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
-            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
+            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
             </a>
@@ -365,14 +358,14 @@ $statUnused = $statTotal - $statUsed;
         <!-- Top bar / Welcome -->
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
-                <h1 class="font-outfit text-3xl font-extrabold text-slate-900">Token Guru & Karyawan</h1>
+                <h1 class="font-sans text-3xl font-extrabold text-slate-900">Token Guru & Karyawan</h1>
             </div>
         </header>
 
         <!-- Message Alert -->
         <?php if (!empty($message)): ?>
-            <div class="bg-indigo-50 border border-indigo-200 text-indigo-700 p-4 rounded-2xl text-sm flex items-center gap-3">
-                <i class="bi bi-info-circle text-indigo-500 flex-shrink-0 text-lg"></i>
+            <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-2xl text-sm flex items-center gap-3">
+                <i class="bi bi-info-circle text-emerald-500 flex-shrink-0 text-lg"></i>
                 <span><?= $message; ?></span>
             </div>
         <?php endif; ?>
@@ -381,42 +374,42 @@ $statUnused = $statTotal - $statUsed;
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Total Token -->
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-6 shadow-sm relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 w-28 h-28 bg-indigo-100 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-indigo-100 border border-indigo-200 rounded-2xl flex items-center justify-center text-indigo-600 text-xl">
+                    <div class="w-12 h-12 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
                         <i class="bi bi-shield-check"></i>
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Total Token Guru</p>
-                        <p class="text-3xl font-outfit font-extrabold mt-1 text-slate-900"><?= $statTotal ?></p>
+                        <p class="text-3xl font-sans font-extrabold mt-1 text-slate-900"><?= $statTotal ?></p>
                     </div>
                 </div>
             </div>
 
             <!-- Sudah Digunakan -->
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-6 shadow-sm relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 w-28 h-28 bg-emerald-100 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
                         <i class="bi bi-check2-circle"></i>
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Sudah Digunakan</p>
-                        <p class="text-3xl font-outfit font-extrabold mt-1 text-emerald-600"><?= $statUsed ?></p>
+                        <p class="text-3xl font-sans font-extrabold mt-1 text-emerald-600"><?= $statUsed ?></p>
                     </div>
                 </div>
             </div>
 
             <!-- Belum Digunakan -->
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-6 shadow-sm relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 w-28 h-28 bg-red-100 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 bg-red-100 border border-red-200 rounded-2xl flex items-center justify-center text-red-600 text-xl">
                         <i class="bi bi-x-circle"></i>
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Belum Digunakan</p>
-                        <p class="text-3xl font-outfit font-extrabold mt-1 text-red-600"><?= $statUnused ?></p>
+                        <p class="text-3xl font-sans font-extrabold mt-1 text-red-600"><?= $statUnused ?></p>
                     </div>
                 </div>
             </div>
@@ -427,8 +420,8 @@ $statUnused = $statTotal - $statUsed;
             <!-- Generate Token Card -->
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-7 flex flex-col gap-5 h-fit lg:col-span-1">
                 <div>
-                    <h3 class="font-outfit text-lg font-bold text-slate-800 flex items-center gap-2">
-                        <i class="bi bi-plus-circle text-indigo-500"></i>
+                    <h3 class="font-sans text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="bi bi-plus-circle text-emerald-500"></i>
                         <span>Buat Token Baru</span>
                     </h3>
                     <p class="text-xs text-slate-500 mt-1">Tambah token guru secara manual atau generate otomatis</p>
@@ -437,11 +430,11 @@ $statUnused = $statTotal - $statUsed;
                 <!-- Manual -->
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
-                        <label class="font-outfit font-semibold text-xs text-slate-600 tracking-wider" for="kode_manual">Token Manual</label>
-                        <input type="text" id="kode_manual" name="kode_manual" placeholder="Masukkan token guru manual" pattern="[a-zA-Z]+" minlength="2" maxlength="100" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-700 w-full focus:outline-none focus:border-indigo-500 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.15)] lowercase" required autocomplete="off">
+                        <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="kode_manual">Token Manual</label>
+                        <input type="text" id="kode_manual" name="kode_manual" placeholder="Masukkan token guru manual" pattern="[a-zA-Z]+" minlength="2" maxlength="100" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)] lowercase" required autocomplete="off">
                         <p class="text-[11px] text-slate-500">Huruf saja (a-z), 2–100 karakter. Disimpan otomatis huruf kecil.</p>
                     </div>
-                    <button type="submit" name="add_manual" class="w-full py-3 rounded-xl bg-purple-600 border border-purple-500 hover:bg-purple-700 hover:border-purple-600 font-bold text-sm tracking-wide text-white transition-all duration-300">
+                    <button type="submit" name="add_manual" class="w-full py-3 rounded-xl bg-emerald-600 border border-emerald-500 font-bold text-sm tracking-wide text-white transition-all duration-300">
                         Tambah Token Manual
                     </button>
                 </form>
@@ -455,14 +448,14 @@ $statUnused = $statTotal - $statUsed;
                 <!-- Otomatis -->
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
-                        <label class="font-outfit font-semibold text-xs text-slate-600 tracking-wider" for="jumlah">Jumlah Guru</label>
-                        <input type="number" id="jumlah" name="jumlah" min="1" max="100" value="1" placeholder="Contoh: 10" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-indigo-500 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.15)]" required autocomplete="off">
+                        <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="jumlah">Jumlah Guru</label>
+                        <input type="number" id="jumlah" name="jumlah" min="1" max="100" value="1" placeholder="Contoh: 10" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" required autocomplete="off">
                         <p class="text-[11px] text-slate-500">Masukkan berapa token guru yang ingin dibuat sekaligus (maks. 100).</p>
                     </div>
                     <p class="text-xs text-slate-500 leading-relaxed">
-                        Format otomatis: prefix <span class="font-mono text-purple-600">gr</span> + 5 huruf acak (contoh: grabcde).
+                        Format otomatis: prefix <span class="font-mono text-emerald-600">gr</span> + 5 huruf acak (contoh: grabcde).
                     </p>
-                    <button type="submit" name="generate" class="w-full py-3 rounded-xl bg-indigo-600 border border-indigo-500 hover:bg-indigo-700 hover:border-indigo-600 font-bold text-sm tracking-wide text-white transition-all duration-300">
+                    <button type="submit" name="generate" class="w-full py-3 rounded-xl bg-emerald-600 border border-emerald-500 font-bold text-sm tracking-wide text-white transition-all duration-300">
                         Generate Token Otomatis
                     </button>
                 </form>
@@ -477,12 +470,12 @@ $statUnused = $statTotal - $statUsed;
                         <p class="text-[11px] text-slate-500 mt-1">Menghapus/me-reset SELURUH token yang BELUM digunakan dari database.</p>
                     </div>
                     <form method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus SELURUH token guru yang BELUM digunakan?')">
-                        <button type="submit" name="reset_unused" class="w-full py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 hover:bg-red-100 font-bold text-xs transition-colors">
+                        <button type="submit" name="reset_unused" class="w-full py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 font-bold text-xs transition-colors">
                             Hapus Semua Token Unused
                         </button>
                     </form>
                     <form method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus SELURUH token guru? Tindakan ini akan menghapus semua token, data voter, dan log vote.')">
-                        <button type="submit" name="clear_all_tokens" class="w-full py-3 rounded-xl bg-red-600 border border-red-500 hover:bg-red-700 hover:border-red-600 text-white font-bold text-xs transition-colors">
+                        <button type="submit" name="clear_all_tokens" class="w-full py-3 rounded-xl bg-red-600 border border-red-500 text-white font-bold text-xs transition-colors">
                             Hapus Semua Token
                         </button>
                     </form>
@@ -492,14 +485,14 @@ $statUnused = $statTotal - $statUsed;
             <!-- Token List Table Card -->
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-7 flex flex-col gap-6 lg:col-span-2">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                    <h3 class="font-outfit text-lg font-bold text-slate-800 flex items-center gap-2">
-                        <i class="bi bi-list-task text-indigo-500"></i>
+                    <h3 class="font-sans text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="bi bi-list-task text-emerald-500"></i>
                         <span>Token Guru Terdaftar</span>
                     </h3>
 
                     <!-- Search Form -->
                     <form method="GET" class="relative">
-                        <input type="text" name="search" value="<?= htmlspecialchars($search); ?>" placeholder="Cari token..." class="py-2 px-3 pl-8 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none focus:border-indigo-500 w-44 sm:w-56 font-medium">
+                        <input type="text" name="search" value="<?= htmlspecialchars($search); ?>" placeholder="Cari token..." class="py-2 px-3 pl-8 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none focus:border-emerald-500 w-44 sm:w-56 font-medium">
                         <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                     </form>
                 </div>
@@ -519,10 +512,10 @@ $statUnused = $statTotal - $statUsed;
                         <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
                             <?php if ($totalData > 0): $no = $offset + 1;
                                 while ($row = mysqli_fetch_assoc($queryTokens)): ?>
-                                    <tr class="hover:bg-slate-50 transition-colors duration-200">
+                                    <tr class="transition-colors duration-200">
                                         <td class="py-4 px-4 font-semibold text-slate-500"><?= $no++; ?></td>
                                         <td class="py-4 px-4 text-center">
-                                            <span class="font-mono text-purple-600 bg-purple-50 border border-purple-200 py-1 px-3.5 rounded-lg text-xs font-bold">
+                                            <span class="font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 py-1 px-3.5 rounded-lg text-xs font-bold">
                                                 <?= htmlspecialchars($row['kode']); ?>
                                             </span>
                                         </td>
@@ -543,12 +536,12 @@ $statUnused = $statTotal - $statUsed;
                                         <td class="py-4 px-4 text-center">
                                             <div class="flex items-center justify-center gap-2">
                                                 <?php if ($row['status_penggunaan'] === 'sudah'): ?>
-                                                    <a href="?reset_token=<?= $row['id']; ?>" class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-xs hover:bg-amber-100 transition-all duration-300 flex items-center gap-1" onclick="return confirm('Apakah Anda yakin ingin me-reset status penggunaan token guru ini agar dapat digunakan kembali?')">
+                                                    <a href="?reset_token=<?= $row['id']; ?>" class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-xs transition-all duration-300 flex items-center gap-1" onclick="return confirm('Apakah Anda yakin ingin me-reset status penggunaan token guru ini agar dapat digunakan kembali?')">
                                                         <i class="bi bi-arrow-counterclockwise"></i>
                                                         <span>Reset</span>
                                                     </a>
                                                 <?php endif; ?>
-                                                <a href="?hapus=<?= $row['id']; ?>" class="px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-600 font-bold text-xs hover:bg-red-100 transition-all duration-300 flex items-center gap-1" onclick="return confirm('Hapus token ini?')">
+                                                <a href="?hapus=<?= $row['id']; ?>" class="px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-600 font-bold text-xs transition-all duration-300 flex items-center gap-1" onclick="return confirm('Hapus token ini?')">
                                                     <i class="bi bi-trash"></i>
                                                     <span>Hapus</span>
                                                 </a>
@@ -569,7 +562,7 @@ $statUnused = $statTotal - $statUsed;
                 <?php if ($totalPages > 1): ?>
                     <div class="flex justify-center gap-1.5 mt-2">
                         <?php for ($p = 1; $p <= $totalPages; $p++): ?>
-                            <a href="?page=<?= $p ?>&search=<?= urlencode($search) ?>" class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs transition-all duration-300 <?= $p == $page ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 hover:text-slate-700' ?>"><?= $p ?></a>
+                            <a href="?page=<?= $p ?>&search=<?= urlencode($search) ?>" class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs transition-all duration-300 <?= $p == $page ? 'bg-emerald-600 text-white shadow-md' : 'bg-slate-100 text-slate-600 border border-slate-200 ' ?>"><?= $p ?></a>
                         <?php endfor; ?>
                     </div>
                 <?php endif; ?>
@@ -578,21 +571,21 @@ $statUnused = $statTotal - $statUsed;
                 <div class="flex flex-wrap gap-4 border-t border-slate-200 pt-5 justify-between items-center mt-2">
                     <div class="flex flex-wrap gap-3">
                         <form method="POST" action="../token/export_token_guru.php">
-                            <button type="submit" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 border border-emerald-500 hover:bg-emerald-700 hover:border-emerald-600 hover:shadow-[0_8px_20px_rgba(16,185,129,0.25)] text-white font-bold text-xs transition-all duration-300">
+                            <button type="submit" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 border border-emerald-500 (16,185,129,0.25)] text-white font-bold text-xs transition-all duration-300">
                                 <i class="bi bi-file-earmark-excel"></i>
                                 <span>Ekspor Token ke Excel</span>
                             </button>
                         </form>
 
                         <form method="POST" action="" onsubmit="return confirm('Apakah Anda yakin ingin me-reset SEMUA token guru yang telah digunakan? Tindakan ini akan menghapus data voter dan log vote dari token guru terkait.')">
-                            <button type="submit" name="reset_all_used" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-600 border border-amber-500 hover:bg-amber-700 hover:border-amber-600 hover:shadow-[0_8px_20px_rgba(245,158,11,0.25)] text-white font-bold text-xs transition-all duration-300">
+                            <button type="submit" name="reset_all_used" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-600 border border-amber-500 (245,158,11,0.25)] text-white font-bold text-xs transition-all duration-300">
                                 <i class="bi bi-arrow-counterclockwise"></i>
                                 <span>Reset Semua Token Terpakai</span>
                             </button>
                         </form>
                     </div>
 
-                    <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_kode_guru" target="_blank" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs border border-slate-200 transition-all duration-300">
+                    <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_kode_guru" target="_blank" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-600 text-xs border border-slate-200 transition-all duration-300">
                         <i class="bi bi-database"></i>
                         <span>Buka Database tb_kode_guru</span>
                     </a>
@@ -603,3 +596,7 @@ $statUnused = $statTotal - $statUsed;
 </body>
 
 </html>
+
+
+
+
