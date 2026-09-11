@@ -108,6 +108,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
@@ -184,13 +185,6 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
         <!-- Top bar / Welcome -->
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
-                <div class="flex items-center gap-2.5">
-                    <span class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                    </span>
-                    <span class="text-xs font-bold text-emerald-600 tracking-widest uppercase">LIVE ELECTION RESULTS</span>
-                </div>
                 <h1 class="font-sans text-4xl lg:text-5xl font-extrabold text-slate-900 mt-2">Hasil Pemilihan</h1>
             </div>
         </header>
@@ -252,7 +246,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                         <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Suara Masuk</p>
                         <p class="text-3xl font-sans font-extrabold mt-1 text-slate-900">
                             <?= $totalVotes ?> 
-                            <span class="text-xs text-slate-500 font-sans font-medium">Suara Sah</span>
+                            <span class="text-xs text-slate-500 font-sans font-medium">Suara</span>
                         </p>
                         <p class="text-xs text-slate-500 mt-1 font-medium">
                             dari <?= $totalPartisipasi ?> partisipasi terdaftar
@@ -474,6 +468,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
 </body>
 
 </html>
+
 
 
 

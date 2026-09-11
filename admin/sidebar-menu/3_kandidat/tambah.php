@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require '../../../db/db.php';
 
@@ -117,6 +117,7 @@ if (!isset($_SESSION['login'])) {
             background: #34495e;
         }
     </style>
+<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body>
@@ -167,3 +168,4 @@ if (!isset($_SESSION['login'])) {
 </body>
 
 </html>
+

@@ -361,6 +361,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
@@ -464,11 +465,11 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="kelas">Nama Kelas</label>
-                        <input type="text" id="kelas" name="kelas" placeholder="Misal: X-1 TKJ" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" required autocomplete="off">
+                        <input type="text" id="kelas" name="kelas" placeholder="Misal: X-1 TKJ" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
                     </div>
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="jumlah_siswa">Jumlah Siswa</label>
-                        <input type="number" id="jumlah_siswa" name="jumlah_siswa" placeholder="Jumlah siswa..." min="1" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" required>
+                        <input type="number" id="jumlah_siswa" name="jumlah_siswa" placeholder="Jumlah siswa..." min="1" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none (16, 185, 129,0.15)]" required>
                     </div>
                     <button type="submit" name="add_class" class="w-full mt-2 py-3 rounded-xl bg-emerald-600 border border-emerald-500 font-bold text-sm tracking-wide text-white transition-all duration-300">
                         Tambah Kelas
@@ -492,7 +493,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                                 <th class="py-4 px-4 text-center">Jumlah Siswa</th>
                                 <th class="py-4 px-4 text-center">Jumlah Token</th>
                                 <th class="py-4 px-4 text-center">Token Digunakan</th>
-                                <th class="py-4 px-4 text-center">Aksi Operasi</th>
+                                <th class="py-4 px-4 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
@@ -548,7 +549,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
 
                 <form method="GET" class="flex items-center gap-3">
                     <label for="kelas_id" class="text-xs font-bold text-slate-600 uppercase tracking-wide">Filter Kelas:</label>
-                    <select name="kelas_id" id="kelas_id" onchange="this.form.submit()" class="py-2 px-3 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 focus:outline-none focus:border-emerald-500 cursor-pointer">
+                    <select name="kelas_id" id="kelas_id" onchange="this.form.submit()" class="py-2 px-3 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 focus:outline-none cursor-pointer">
                         <?php foreach ($kelasList as $k): ?>
                             <option value="<?= $k['id']; ?>" <?= $k['id'] == $kelasTerpilih ? 'selected' : ''; ?>>
                                 <?= htmlspecialchars($k['nama_kelas']); ?>
@@ -575,7 +576,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                         <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">
                         <div class="flex flex-col gap-1">
                             <label for="jumlah_bulk" class="text-[10px] font-bold text-slate-500 uppercase">Jumlah</label>
-                            <input type="number" id="jumlah_bulk" name="jumlah" min="1" max="100" value="1" class="w-20 py-2 px-3 rounded-xl bg-white border border-slate-200 text-sm text-slate-700 text-center focus:outline-none focus:border-emerald-500" required>
+                            <input type="number" id="jumlah_bulk" name="jumlah" min="1" max="100" value="1" class="w-20 py-2 px-3 rounded-xl bg-white border border-slate-200 text-sm text-slate-700 text-center focus:outline-none " required>
                         </div>
                         <button type="submit" name="generate_bulk" class="px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs transition-colors mt-auto">
                             Generate Otomatis
@@ -593,7 +594,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                             <th class="py-4 px-4 text-left">Target Kelas</th>
                             <th class="py-4 px-4 text-center">Token Voting</th>
                             <th class="py-4 px-4 text-center">Status Token</th>
-                            <th class="py-4 px-4 text-center">Aksi / Tindakan</th>
+                            <th class="py-4 px-4 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
@@ -709,6 +710,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
 </body>
 
 </html>
+
 
 
 

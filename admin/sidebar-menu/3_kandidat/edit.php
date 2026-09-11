@@ -39,6 +39,7 @@ if (!$data) {
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
@@ -155,7 +156,7 @@ if (!$data) {
                         </svg>
                         Nomor Urut Kandidat
                     </label>
-                    <input type="text" id="nomor_kandidat" name="nomor_kandidat" value="<?= $data['nomor_kandidat']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" required autocomplete="off">
+                    <input type="text" id="nomor_kandidat" name="nomor_kandidat" value="<?= $data['nomor_kandidat']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-slate-200 pt-6">
@@ -170,7 +171,7 @@ if (!$data) {
                         
                         <div class="flex flex-col gap-2">
                             <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="nama_ketua">Nama Ketua</label>
-                            <input type="text" id="nama_ketua" name="nama_ketua" value="<?= $data['nama_ketua']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" required autocomplete="off">
+                            <input type="text" id="nama_ketua" name="nama_ketua" value="<?= $data['nama_ketua']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -183,7 +184,7 @@ if (!$data) {
                             <div class="preview mb-2">
                                 <img id="preview_ketua" src="../../uploads/<?= $data['foto_ketua']; ?>" alt="Foto Ketua" class="w-full aspect-[3/4] object-cover rounded-2xl border border-slate-200 shadow-sm transition-transform duration-300 ">
                             </div>
-                            <input type="file" name="foto_ketua" accept="image/*" onchange="previewImage(this, 'preview_ketua')" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none focus:border-emerald-500 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-600 :bg-emerald-100 transition-all">
+                            <input type="file" name="foto_ketua" accept="image/*" onchange="previewImage(this, 'preview_ketua')" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-600 :bg-emerald-100 transition-all">
                             <p class="text-[11px] text-slate-400">Biarkan kosong jika tidak ingin mengubah foto.</p>
                         </div>
                     </div>
@@ -199,7 +200,7 @@ if (!$data) {
                         
                         <div class="flex flex-col gap-2">
                             <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="nama_wakil">Nama Wakil</label>
-                            <input type="text" id="nama_wakil" name="nama_wakil" value="<?= $data['nama_wakil']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" required autocomplete="off">
+                            <input type="text" id="nama_wakil" name="nama_wakil" value="<?= $data['nama_wakil']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -212,7 +213,7 @@ if (!$data) {
                             <div class="preview mb-2">
                                 <img id="preview_wakil" src="../../uploads/<?= $data['foto_wakil']; ?>" alt="Foto Wakil" class="w-full aspect-[3/4] object-cover rounded-2xl border border-slate-200 shadow-sm transition-transform duration-300 ">
                             </div>
-                            <input type="file" name="foto_wakil" accept="image/*" onchange="previewImage(this, 'preview_wakil')" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none focus:border-emerald-500 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-600 :bg-emerald-100 transition-all">
+                            <input type="file" name="foto_wakil" accept="image/*" onchange="previewImage(this, 'preview_wakil')" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-600 :bg-emerald-100 transition-all">
                             <p class="text-[11px] text-slate-400">Biarkan kosong jika tidak ingin mengubah foto.</p>
                         </div>
                     </div>
@@ -253,6 +254,7 @@ if (!$data) {
 </body>
 
 </html>
+
 
 
 

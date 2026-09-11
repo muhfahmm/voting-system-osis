@@ -282,6 +282,7 @@ $statUnused = $statTotal - $statUsed;
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
@@ -431,7 +432,7 @@ $statUnused = $statTotal - $statUsed;
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="kode_manual">Token Manual</label>
-                        <input type="text" id="kode_manual" name="kode_manual" placeholder="Masukkan token guru manual" pattern="[a-zA-Z]+" minlength="2" maxlength="100" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)] lowercase" required autocomplete="off">
+                        <input type="text" id="kode_manual" name="kode_manual" placeholder="Masukkan token guru manual" pattern="[a-zA-Z]+" minlength="2" maxlength="100" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-700 w-full focus:outline-none (16, 185, 129,0.15)] lowercase" required autocomplete="off">
                         <p class="text-[11px] text-slate-500">Huruf saja (a-z), 2–100 karakter. Disimpan otomatis huruf kecil.</p>
                     </div>
                     <button type="submit" name="add_manual" class="w-full py-3 rounded-xl bg-emerald-600 border border-emerald-500 font-bold text-sm tracking-wide text-white transition-all duration-300">
@@ -449,8 +450,7 @@ $statUnused = $statTotal - $statUsed;
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="jumlah">Jumlah Guru</label>
-                        <input type="number" id="jumlah" name="jumlah" min="1" max="100" value="1" placeholder="Contoh: 10" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" required autocomplete="off">
-                        <p class="text-[11px] text-slate-500">Masukkan berapa token guru yang ingin dibuat sekaligus (maks. 100).</p>
+                        <input type="number" id="jumlah" name="jumlah" min="1" max="100" value="1" placeholder="Contoh: 10" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
                     </div>
                     <p class="text-xs text-slate-500 leading-relaxed">
                         Format otomatis: prefix <span class="font-mono text-emerald-600">gr</span> + 5 huruf acak (contoh: grabcde).
@@ -465,9 +465,8 @@ $statUnused = $statTotal - $statUsed;
                     <div>
                         <h4 class="text-xs font-bold text-red-600 uppercase tracking-wider flex items-center gap-1.5">
                             <i class="bi bi-exclamation-triangle"></i>
-                            <span>Danger Zone (Reset)</span>
+                            <span>Reset</span>
                         </h4>
-                        <p class="text-[11px] text-slate-500 mt-1">Menghapus/me-reset SELURUH token yang BELUM digunakan dari database.</p>
                     </div>
                     <form method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus SELURUH token guru yang BELUM digunakan?')">
                         <button type="submit" name="reset_unused" class="w-full py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 font-bold text-xs transition-colors">
@@ -492,7 +491,7 @@ $statUnused = $statTotal - $statUsed;
 
                     <!-- Search Form -->
                     <form method="GET" class="relative">
-                        <input type="text" name="search" value="<?= htmlspecialchars($search); ?>" placeholder="Cari token..." class="py-2 px-3 pl-8 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none focus:border-emerald-500 w-44 sm:w-56 font-medium">
+                        <input type="text" name="search" value="<?= htmlspecialchars($search); ?>" placeholder="Cari token..." class="py-2 px-3 pl-8 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none w-44 sm:w-56 font-medium">
                         <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                     </form>
                 </div>
@@ -505,8 +504,7 @@ $statUnused = $statTotal - $statUsed;
                                 <th class="py-4 px-4 text-left">No</th>
                                 <th class="py-4 px-4 text-center">Token Guru</th>
                                 <th class="py-4 px-4 text-center">Status Token</th>
-                                <th class="py-4 px-4 text-center">Dibuat Pada</th>
-                                <th class="py-4 px-4 text-center">Aksi / Tindakan</th>
+                                <th class="py-4 px-4 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
@@ -532,7 +530,6 @@ $statUnused = $statTotal - $statUsed;
                                                 </span>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="py-4 px-4 text-center text-slate-500 font-semibold text-xs"><?= htmlspecialchars($row['created_at']); ?></td>
                                         <td class="py-4 px-4 text-center">
                                             <div class="flex items-center justify-center gap-2">
                                                 <?php if ($row['status_penggunaan'] === 'sudah'): ?>
@@ -551,7 +548,7 @@ $statUnused = $statTotal - $statUsed;
                                 <?php endwhile;
                             else: ?>
                                 <tr>
-                                    <td colspan="5" class="py-8 text-center text-slate-500">Tidak ada token guru terdaftar.</td>
+                                    <td colspan="4" class="py-8 text-center text-slate-500">Tidak ada token guru terdaftar.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -596,6 +593,7 @@ $statUnused = $statTotal - $statUsed;
 </body>
 
 </html>
+
 
 
 

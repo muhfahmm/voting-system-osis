@@ -32,6 +32,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
@@ -170,7 +171,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
             <form action="api/proses-tambah.php" method="post" enctype="multipart/form-data" class="flex flex-col gap-5">
                 <div class="flex flex-col gap-2">
                     <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase" for="nomor_kandidat">Nomor Urut Kandidat</label>
-                    <input type="number" id="nomor_kandidat" name="nomor_kandidat" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" placeholder="Masukkan nomor urut..." required autocomplete="off">
+                    <input type="number" id="nomor_kandidat" name="nomor_kandidat" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" placeholder="Masukkan nomor urut..." required autocomplete="off">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 border-t border-slate-200 pt-4">
@@ -179,17 +180,17 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                         
                         <div class="flex flex-col gap-2">
                             <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="nama_ketua">Nama Ketua</label>
-                            <input type="text" id="nama_ketua" name="nama_ketua" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" placeholder="Nama lengkap ketua..." required autocomplete="off">
+                            <input type="text" id="nama_ketua" name="nama_ketua" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" placeholder="Nama lengkap ketua..." required autocomplete="off">
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="kelas_ketua">Kelas Ketua</label>
-                            <input type="text" id="kelas_ketua" name="kelas_ketua" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" placeholder="Kelas ketua (misal: XII RPL 1)..." required autocomplete="off">
+                            <input type="text" id="kelas_ketua" name="kelas_ketua" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" placeholder="Kelas ketua (misal: XII RPL 1)..." required autocomplete="off">
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="foto_ketua">Foto Ketua</label>
-                            <input type="file" id="foto_ketua" name="foto_ketua" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none focus:border-emerald-500" required>
+                            <input type="file" id="foto_ketua" name="foto_ketua" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none " required>
                         </div>
                     </div>
 
@@ -198,17 +199,17 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                         
                         <div class="flex flex-col gap-2">
                             <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="nama_wakil">Nama Wakil</label>
-                            <input type="text" id="nama_wakil" name="nama_wakil" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" placeholder="Nama lengkap wakil..." required autocomplete="off">
+                            <input type="text" id="nama_wakil" name="nama_wakil" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" placeholder="Nama lengkap wakil..." required autocomplete="off">
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="kelas_wakil">Kelas Wakil</label>
-                            <input type="text" id="kelas_wakil" name="kelas_wakil" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16, 185, 129,0.15)]" placeholder="Kelas wakil..." required autocomplete="off">
+                            <input type="text" id="kelas_wakil" name="kelas_wakil" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" placeholder="Kelas wakil..." required autocomplete="off">
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="foto_wakil">Foto Wakil</label>
-                            <input type="file" id="foto_wakil" name="foto_wakil" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none focus:border-emerald-500" required>
+                            <input type="file" id="foto_wakil" name="foto_wakil" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none " required>
                         </div>
                     </div>
                 </div>
@@ -228,6 +229,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
 </body>
 
 </html>
+
 
 
 

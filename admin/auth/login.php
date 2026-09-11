@@ -52,6 +52,7 @@ if (isset($_POST['login'])) {
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col items-center justify-center font-sans p-4">
@@ -92,7 +93,7 @@ if (isset($_POST['login'])) {
                         </svg>
                     </div>
                     <input type="text" id="username" name="username" 
-                           class="py-2.5 px-3.5 pl-10 rounded-lg bg-slate-50 border border-slate-300 font-sans text-sm text-slate-800 w-full focus:bg-white focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 transition-colors placeholder-slate-400" 
+                           class="py-2.5 px-3.5 pl-10 rounded-lg bg-slate-50 border border-slate-300 font-sans text-sm text-slate-800 w-full focus:outline-none transition-colors placeholder-slate-400" 
                            placeholder="Masukkan username" required autocomplete="username" autofocus>
                 </div>
             </div>
@@ -107,7 +108,7 @@ if (isset($_POST['login'])) {
                         </svg>
                     </div>
                     <input type="password" id="password" name="password" 
-                           class="py-2.5 px-3.5 pl-10 pr-10 rounded-lg bg-slate-50 border border-slate-300 font-sans text-sm text-slate-800 w-full focus:bg-white focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 transition-colors placeholder-slate-400" 
+                           class="py-2.5 px-3.5 pl-10 pr-10 rounded-lg bg-slate-50 border border-slate-300 font-sans text-sm text-slate-800 w-full focus:outline-none transition-colors placeholder-slate-400" 
                            placeholder="Masukkan password" required autocomplete="current-password">
                     
                     <!-- Toggle Password Button -->
@@ -169,4 +170,5 @@ if (isset($_POST['login'])) {
 </body>
 
 </html>
+
 

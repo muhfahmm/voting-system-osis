@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require '../../../db/db.php';
 
@@ -50,6 +50,7 @@ header("Expires: 0");
         .sudah { color: green; font-weight: bold; }
         .belum { color: red; font-weight: bold; }
     </style>
+<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 <body>
     <h2 style="text-align:center;">Daftar Token Guru & Karyawan</h2>

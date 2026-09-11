@@ -221,6 +221,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             transform: scale(1);
         }
     </style>
+<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body class="text-slate-800 min-h-screen p-5 leading-relaxed overflow-x-hidden relative flex flex-col items-center justify-start lg:py-8">
@@ -311,14 +312,14 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                         <label for="pemilih" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Token Pemilih</label>
                         <input type="text" id="pemilih" name="token_pemilih" 
                                placeholder="Masukkan Token Anda" autocomplete="off" 
-                               class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500"
+                               class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none "
                                value="<?= htmlspecialchars($_POST['token_pemilih'] ?? '') ?>"
                                required>
                     </div>
                     
                     <div class="form-group flex flex-col gap-2">
                         <label for="role" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Role / Status</label>
-                        <select id="role" name="role" class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
+                        <select id="role" name="role" class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
                             <option value="siswa" <?= (!isset($_POST['role']) || $_POST['role'] === 'siswa') ? 'selected' : '' ?>>Siswa</option>
                             <option value="guru" <?= (isset($_POST['role']) && $_POST['role'] === 'guru') ? 'selected' : '' ?>>Guru</option>
                         </select>
@@ -326,7 +327,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     
                     <div id="kelasWrap" class="form-group flex flex-col gap-2">
                         <label for="kelas" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Kelas Pemilih</label>
-                        <select id="kelas" name="kelas" class="pilih-kelas py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none focus:border-emerald-500 appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
+                        <select id="kelas" name="kelas" class="pilih-kelas py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
                             <option value="">Pilih Kelas</option>
                             <?php foreach ($kelas_list as $kelas): ?>
                                 <option value="<?= htmlspecialchars($kelas['nama_kelas']) ?>"
@@ -589,3 +590,4 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
 </html>
 <?php mysqli_close($db); ?>
+
