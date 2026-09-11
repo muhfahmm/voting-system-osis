@@ -48,9 +48,9 @@ if (!$data) {
     
 
     <!-- Sidebar Navigation (FIXED) -->
-    <aside class="w-72 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
         <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
-        <div class="flex flex-col gap-8 p-6 flex-1 overflow-y-auto">
+        <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <!-- Brand / Header -->
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
@@ -62,31 +62,31 @@ if (!$data) {
 
             <!-- Navigation Links -->
             <nav class="flex flex-col gap-1.5">
-                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-bar-chart-line text-lg group-transition-colors"></i>
                     <span>Hasil Vote</span>
                 </a>
-                <a href="daftar-kandidat.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
+                <a href="daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
                     <i class="bi bi-people text-lg text-emerald-500"></i>
                     <span>Daftar Kandidat</span>
                 </a>
-                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-card-checklist text-lg group-transition-colors"></i>
                     <span>Daftar Voter</span>
                 </a>
-                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-key text-lg group-transition-colors"></i>
                     <span>Token Siswa</span>
                 </a>
-                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-shield-lock text-lg group-transition-colors"></i>
                     <span>Token Guru</span>
                 </a>
-                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-person-workspace text-lg group-transition-colors"></i>
                     <span>Daftar Admin</span>
                 </a>
@@ -94,7 +94,7 @@ if (!$data) {
         </div>
 
         <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
-        <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
                     <?= strtoupper(substr($admin, 0, 2)) ?>
@@ -104,7 +104,7 @@ if (!$data) {
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
-            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
+            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
             </a>
@@ -112,11 +112,11 @@ if (!$data) {
     </aside>
 
     <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
-    <main class="flex-1 p-8 lg:p-12 z-10 flex flex-col gap-8 w-full ml-72">
+    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <!-- Top bar -->
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
-                <h1 class="font-sans text-3xl font-extrabold text-slate-900 flex items-center gap-3">
+                <h1 class="font-sans text-2xl font-bold text-slate-900 flex items-center gap-3">
                     <!-- Ikon Pensil dari Heroicons -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
@@ -134,9 +134,9 @@ if (!$data) {
         </header>
 
         <!-- Edit Candidate Form Card -->
-        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[32px] shadow-sm p-8 flex flex-col gap-6 max-w-4xl w-full mx-auto transition-all duration-300 ">
+        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4 max-w-4xl w-full mx-auto transition-all duration-300 ">
             <div>
-                <h2 class="font-sans text-2xl font-extrabold text-slate-800 flex items-center gap-2.5">
+                <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
@@ -145,7 +145,7 @@ if (!$data) {
                 <p class="text-xs text-slate-500 mt-1">Perbarui informasi pasangan calon nomor urut <span class="font-bold text-emerald-600"><?= $data['nomor_kandidat']; ?></span></p>
             </div>
 
-            <form action="api/proses-edit.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-6">
+            <form action="api/proses-edit.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
                 <input type="hidden" name="id" value="<?= $data['id']; ?>">
 
                 <!-- Nomor Urut -->
@@ -159,7 +159,7 @@ if (!$data) {
                     <input type="text" id="nomor_kandidat" name="nomor_kandidat" value="<?= $data['nomor_kandidat']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-slate-200 pt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-200 pt-6">
                     <!-- Ketua Form -->
                     <div class="flex flex-col gap-4">
                         <span class="font-sans font-bold text-sm text-emerald-600 uppercase tracking-wider flex items-center gap-2">
@@ -254,6 +254,9 @@ if (!$data) {
 </body>
 
 </html>
+
+
+
 
 
 

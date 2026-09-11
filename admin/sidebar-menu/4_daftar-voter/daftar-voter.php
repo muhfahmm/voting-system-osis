@@ -160,9 +160,9 @@ while ($row = mysqli_fetch_assoc($q)) {
     
 
     <!-- Sidebar Navigation (FIXED) -->
-    <aside class="w-72 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
         <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
-        <div class="flex flex-col gap-8 p-6 flex-1 overflow-y-auto">
+        <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
@@ -172,31 +172,31 @@ while ($row = mysqli_fetch_assoc($q)) {
             </div>
 
             <nav class="flex flex-col gap-1.5">
-                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-bar-chart-line text-lg group-transition-colors"></i>
                     <span>Hasil Vote</span>
                 </a>
-                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-people text-lg group-transition-colors"></i>
                     <span>Daftar Kandidat</span>
                 </a>
-                <a href="daftar-voter.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
+                <a href="daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
                     <i class="bi bi-card-checklist text-lg text-emerald-500"></i>
                     <span>Daftar Voter</span>
                 </a>
-                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-key text-lg group-transition-colors"></i>
                     <span>Token Siswa</span>
                 </a>
-                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-shield-lock text-lg group-transition-colors"></i>
                     <span>Token Guru</span>
                 </a>
-                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-person-workspace text-lg group-transition-colors"></i>
                     <span>Daftar Admin</span>
                 </a>
@@ -204,7 +204,7 @@ while ($row = mysqli_fetch_assoc($q)) {
         </div>
 
         <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
-        <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
                     <?= strtoupper(substr($admin, 0, 2)) ?>
@@ -214,7 +214,7 @@ while ($row = mysqli_fetch_assoc($q)) {
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
-            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
+            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
             </a>
@@ -222,17 +222,17 @@ while ($row = mysqli_fetch_assoc($q)) {
     </aside>
 
     <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
-    <main class="flex-1 p-8 lg:p-12 z-10 flex flex-col gap-8 w-full ml-72">
+    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
-                <h1 class="font-sans text-3xl font-extrabold text-slate-900">Daftar Voter Terdaftar</h1>
+                <h1 class="font-sans text-2xl font-bold text-slate-900">Daftar Voter Terdaftar</h1>
             </div>
         </header>
 
         <!-- voter Siswa Section -->
-        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-7 flex flex-col gap-6">
+        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4">
             <div class="flex justify-between items-center">
-                <h2 class="font-sans text-xl font-bold text-slate-800 flex items-center gap-2">
+                <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
                     <i class="bi bi-mortarboard text-emerald-500"></i>
                     <span>Daftar Voter Khusus Siswa</span>
                 </h2>
@@ -245,26 +245,26 @@ while ($row = mysqli_fetch_assoc($q)) {
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="border-b border-slate-200 text-xs text-slate-500 font-bold uppercase tracking-wider">
-                            <th class="py-4 px-4">No</th>
-                            <th class="py-4 px-4">Nama Siswa</th>
-                            <th class="py-4 px-4">Kelas</th>
-                            <th class="py-4 px-4 text-center">Pilihan Kandidat</th>
-                            <th class="py-4 px-4">Peran (Role)</th>
+                            <th class="py-2.5 px-3">No</th>
+                            <th class="py-2.5 px-3">Nama Siswa</th>
+                            <th class="py-2.5 px-3">Kelas</th>
+                            <th class="py-2.5 px-3 text-center">Pilihan Kandidat</th>
+                            <th class="py-2.5 px-3">Peran (Role)</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
                         <?php if (count($votersSiswa) > 0): ?>
                             <?php foreach ($votersSiswa as $i => $v): ?>
                                 <tr class="transition-colors duration-200">
-                                    <td class="py-4 px-4 font-semibold text-slate-500"><?= $offsetSiswa + $i + 1 ?></td>
-                                    <td class="py-4 px-4 font-bold text-slate-900"><?= htmlspecialchars($v['nama_voter']) ?></td>
-                                    <td class="py-4 px-4"><?= htmlspecialchars($v['kelas']) ?></td>
-                                    <td class="py-4 px-4 text-center">
+                                    <td class="py-2.5 px-3 font-semibold text-slate-500"><?= $offsetSiswa + $i + 1 ?></td>
+                                    <td class="py-2.5 px-3 font-bold text-slate-900"><?= htmlspecialchars($v['nama_voter']) ?></td>
+                                    <td class="py-2.5 px-3"><?= htmlspecialchars($v['kelas']) ?></td>
+                                    <td class="py-2.5 px-3 text-center">
                                         <span class="inline-block py-1 px-3 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-700 font-sans font-extrabold text-xs">
                                             Kandidat <?= htmlspecialchars($v['nomor_kandidat']) ?>
                                         </span>
                                     </td>
-                                    <td class="py-4 px-4 text-xs font-semibold uppercase text-slate-500"><?= htmlspecialchars($v['role']) ?></td>
+                                    <td class="py-2.5 px-3 text-xs font-semibold uppercase text-slate-500"><?= htmlspecialchars($v['role']) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -288,14 +288,13 @@ while ($row = mysqli_fetch_assoc($q)) {
         <!-- Ringkasan Voting Kelas Grid -->
         <div class="flex flex-col gap-4 mt-4">
             <div>
-                <h3 class="font-sans text-xl font-bold text-slate-800 flex items-center gap-2">
+                <h3 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
                     <i class="bi bi-grid-3x3-gap text-emerald-500"></i>
                     <span>Ringkasan Partisipasi per Kelas</span>
                 </h3>
-                <p class="text-xs text-slate-500 mt-1">Klik pada kartu kelas untuk melihat rincian pemilih per kelas</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <?php foreach ($dataKelas as $kelas => $info): ?>
                     <?php
                     $idKelas = $info['id_kelas'];
@@ -304,7 +303,7 @@ while ($row = mysqli_fetch_assoc($q)) {
                     $voted = $kelasSummary[$kelas]['voted'];
                     $percent = $target > 0 ? round(($voted / $target) * 100, 2) : 0;
                     ?>
-                    <a href="../daftar voter/per-kelas.php?kelas_id=<?= $kelasIDToken ?>" class="block bg-white/90 backdrop-blur-md border border-slate-200 rounded-[24px] p-6 shadow-sm transition-all duration-300 ">
+                    <a href="../daftar voter/per-kelas.php?kelas_id=<?= $kelasIDToken ?>" class="block bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-sm transition-all duration-300 ">
                         <div class="flex justify-between items-start gap-4">
                             <h4 class="font-sans text-base font-extrabold text-slate-900"><?= $kelas ?></h4>
                             <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded border border-emerald-200"><?= $percent ?>%</span>
@@ -343,9 +342,9 @@ while ($row = mysqli_fetch_assoc($q)) {
         </div>
 
         <!-- Voter Guru Section -->
-        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-7 flex flex-col gap-6 mt-4">
+        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4 mt-4">
             <div class="flex justify-between items-center">
-                <h2 class="font-sans text-xl font-bold text-slate-800 flex items-center gap-2">
+                <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
                     <i class="bi bi-mortarboard text-emerald-500"></i>
                     <span>Daftar Voter Khusus Guru / Staff</span>
                 </h2>
@@ -358,24 +357,24 @@ while ($row = mysqli_fetch_assoc($q)) {
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="border-b border-slate-200 text-xs text-slate-500 font-bold uppercase tracking-wider">
-                            <th class="py-4 px-4">No</th>
-                            <th class="py-4 px-4">Nama Guru / Staff</th>
-                            <th class="py-4 px-4 text-center">Pilihan Kandidat</th>
-                            <th class="py-4 px-4">Peran (Role)</th>
+                            <th class="py-2.5 px-3">No</th>
+                            <th class="py-2.5 px-3">Nama Guru / Staff</th>
+                            <th class="py-2.5 px-3 text-center">Pilihan Kandidat</th>
+                            <th class="py-2.5 px-3">Peran (Role)</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
                         <?php if (count($votersGuru) > 0): ?>
                             <?php foreach ($votersGuru as $i => $v): ?>
                                 <tr class="transition-colors duration-200">
-                                    <td class="py-4 px-4 font-semibold text-slate-500"><?= $offsetGuru + $i + 1 ?></td>
-                                    <td class="py-4 px-4 font-bold text-slate-900"><?= htmlspecialchars($v['nama_voter']) ?></td>
-                                    <td class="py-4 px-4 text-center">
+                                    <td class="py-2.5 px-3 font-semibold text-slate-500"><?= $offsetGuru + $i + 1 ?></td>
+                                    <td class="py-2.5 px-3 font-bold text-slate-900"><?= htmlspecialchars($v['nama_voter']) ?></td>
+                                    <td class="py-2.5 px-3 text-center">
                                         <span class="inline-block py-1 px-3 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-700 font-sans font-extrabold text-xs">
                                             Kandidat <?= htmlspecialchars($v['nomor_kandidat']) ?>
                                         </span>
                                     </td>
-                                    <td class="py-4 px-4 text-xs font-semibold uppercase text-slate-500"><?= htmlspecialchars($v['role']) ?></td>
+                                    <td class="py-2.5 px-3 text-xs font-semibold uppercase text-slate-500"><?= htmlspecialchars($v['role']) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -422,8 +421,8 @@ while ($row = mysqli_fetch_assoc($q)) {
 
         $percentGuru = $totalGuruTarget > 0 ? round(($votedGuru / $totalGuruTarget) * 100, 2) : 0;
         ?>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[24px] p-6 shadow-sm flex flex-col gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col gap-4">
                 <div class="flex justify-between items-start gap-4">
                     <h4 class="font-sans text-base font-extrabold text-slate-900">Ringkasan Voting Guru</h4>
                     <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded border border-emerald-200"><?= $percentGuru ?>%</span>
@@ -469,6 +468,9 @@ while ($row = mysqli_fetch_assoc($q)) {
 </body>
 
 </html>
+
+
+
 
 
 

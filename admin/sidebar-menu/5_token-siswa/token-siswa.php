@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require '../../../db/db.php';
 
@@ -370,9 +370,9 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
     
 
     <!-- Sidebar Navigation (FIXED) -->
-    <aside class="w-72 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
         <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
-        <div class="flex flex-col gap-8 p-6 flex-1 overflow-y-auto">
+        <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
@@ -382,31 +382,31 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             </div>
 
             <nav class="flex flex-col gap-1.5">
-                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-bar-chart-line text-lg group-transition-colors"></i>
                     <span>Hasil Vote</span>
                 </a>
-                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-people text-lg group-transition-colors"></i>
                     <span>Daftar Kandidat</span>
                 </a>
-                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-card-checklist text-lg group-transition-colors"></i>
                     <span>Daftar Voter</span>
                 </a>
-                <a href="token-siswa.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
+                <a href="token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
                     <i class="bi bi-key text-lg text-emerald-500"></i>
                     <span>Token Siswa</span>
                 </a>
-                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-shield-lock text-lg group-transition-colors"></i>
                     <span>Token Guru</span>
                 </a>
-                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-person-workspace text-lg group-transition-colors"></i>
                     <span>Daftar Admin</span>
                 </a>
@@ -414,7 +414,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
         </div>
 
         <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
-        <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
                     <?= strtoupper(substr($admin, 0, 2)) ?>
@@ -424,7 +424,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
-            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
+            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
             </a>
@@ -432,10 +432,10 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
     </aside>
 
     <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
-    <main class="flex-1 p-8 lg:p-12 z-10 flex flex-col gap-8 w-full ml-72">
+    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
-                <h1 class="font-sans text-3xl font-extrabold text-slate-900">Manajemen Kelas & Token Siswa</h1>
+                <h1 class="font-sans text-2xl font-bold text-slate-900">Manajemen Kelas & Token Siswa</h1>
             </div>
         </header>
 
@@ -451,15 +451,14 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
 <?php endif; ?>
 
         <!-- Two Columns: Add Class Form & Kelas List -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <!-- Add Class Form -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-7 flex flex-col gap-5 lg:col-span-1 h-fit">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-5 lg:col-span-1 h-fit">
                 <div>
-                    <h3 class="font-sans text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <h3 class="font-sans text-sm font-bold text-slate-800 flex items-center gap-2">
                         <i class="bi bi-folder-plus text-emerald-500"></i>
                         <span>Tambah Kelas Baru</span>
                     </h3>
-                    <p class="text-xs text-slate-500 mt-1">Buat data target kelas untuk voter siswa</p>
                 </div>
 
                 <form method="POST" class="flex flex-col gap-4">
@@ -478,8 +477,8 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             </div>
 
             <!-- Kelas List Table -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-7 flex flex-col gap-6 lg:col-span-2">
-                <h3 class="font-sans text-lg font-bold text-slate-800 flex items-center gap-2">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4 lg:col-span-2">
+                <h3 class="font-sans text-sm font-bold text-slate-800 flex items-center gap-2">
                     <i class="bi bi-list-stars text-emerald-500"></i>
                     <span>Daftar Kelas Terdaftar</span>
                 </h3>
@@ -488,24 +487,24 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="border-b border-slate-200 text-xs text-slate-500 font-bold uppercase tracking-wider">
-                                <th class="py-4 px-4 text-left">No</th>
-                                <th class="py-4 px-4 text-left">Nama Kelas</th>
-                                <th class="py-4 px-4 text-center">Jumlah Siswa</th>
-                                <th class="py-4 px-4 text-center">Jumlah Token</th>
-                                <th class="py-4 px-4 text-center">Token Digunakan</th>
-                                <th class="py-4 px-4 text-center">Aksi</th>
+                                <th class="py-2.5 px-3 text-left">No</th>
+                                <th class="py-2.5 px-3 text-left">Nama Kelas</th>
+                                <th class="py-2.5 px-3 text-center">Jumlah Siswa</th>
+                                <th class="py-2.5 px-3 text-center">Jumlah Token</th>
+                                <th class="py-2.5 px-3 text-center">Token Digunakan</th>
+                                <th class="py-2.5 px-3 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
                             <?php if ($totalKelas > 0): $no = 1;
                                 foreach ($kelasList as $k): ?>
                                     <tr class="transition-colors duration-200">
-                                        <td class="py-4 px-4 font-semibold text-slate-500"><?= $no++; ?></td>
-                                        <td class="py-4 px-4 font-bold text-slate-900"><?= htmlspecialchars($k['nama_kelas']); ?></td>
-                                        <td class="py-4 px-4 text-center"><?= htmlspecialchars($k['jumlah_siswa']); ?></td>
-                                        <td class="py-4 px-4 text-center text-emerald-600 font-bold"><?= $tokenCountMap[$k['id']] ?? 0; ?></td>
-                                        <td class="py-4 px-4 text-center text-emerald-600 font-bold"><?= $usedTokenMap[$k['id']] ?? 0; ?></td>
-                                        <td class="py-4 px-4">
+                                        <td class="py-2.5 px-3 font-semibold text-slate-500"><?= $no++; ?></td>
+                                        <td class="py-2.5 px-3 font-bold text-slate-900"><?= htmlspecialchars($k['nama_kelas']); ?></td>
+                                        <td class="py-2.5 px-3 text-center"><?= htmlspecialchars($k['jumlah_siswa']); ?></td>
+                                        <td class="py-2.5 px-3 text-center text-emerald-600 font-bold"><?= $tokenCountMap[$k['id']] ?? 0; ?></td>
+                                        <td class="py-2.5 px-3 text-center text-emerald-600 font-bold"><?= $usedTokenMap[$k['id']] ?? 0; ?></td>
+                                        <td class="py-2.5 px-3">
                                             <div class="flex flex-wrap gap-2 justify-center">
                                                 <a href="?edit=<?= $k['id']; ?>" class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-xs transition-colors">Edit</a>
                                                 <a href="?hapus=<?= $k['id']; ?>" class="px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-600 font-bold text-xs transition-colors" onclick="return confirm('Yakin ingin menghapus kelas ini?')">Hapus</a>
@@ -540,9 +539,9 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
         </div>
 
         <!-- Token Management Section -->
-        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-7 flex flex-col gap-6 mt-4">
+        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4 mt-4">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                <h3 class="font-sans text-xl font-bold text-slate-800 flex items-center gap-2">
+                <h3 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
                     <i class="bi bi-key text-emerald-500"></i>
                     <span>Daftar Token Terbuat</span>
                 </h3>
@@ -566,19 +565,18 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                     $contohFilter = $prefixFilter . $classNumFilter . '001';
                     $sisaSlotFilter = max(0, (int)$kelasRow['jumlah_siswa'] - (int)$totalToken);
                 ?>
-                <div class="p-4 rounded-2xl border border-emerald-200 bg-emerald-50 flex flex-col sm:flex-row sm:items-end gap-4 justify-between">
+                <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
                     <div>
-                        <p class="text-xs font-bold text-emerald-700 uppercase tracking-wide">Generate Token Otomatis</p>
-                        <p class="text-sm text-slate-700 mt-1">Kelas <strong><?= htmlspecialchars($kelasRow['nama_kelas']); ?></strong> — pola <span class="font-mono text-emerald-600"><?= htmlspecialchars($contohFilter); ?></span> dst.</p>
-                        <p class="text-[11px] text-slate-500 mt-1">Sisa slot token: <strong><?= $sisaSlotFilter ?></strong> / <?= (int)$kelasRow['jumlah_siswa']; ?> siswa</p>
+                        <p class="text-sm font-semibold text-slate-800">Kelas <strong class="text-emerald-700"><?= htmlspecialchars($kelasRow['nama_kelas']); ?></strong></p>
+                        <p class="text-xs text-slate-500 mt-0.5">Sisa slot: <span class="font-bold text-slate-700"><?= $sisaSlotFilter ?></span> dari <?= (int)$kelasRow['jumlah_siswa']; ?> siswa</p>
                     </div>
                     <form method="POST" class="flex items-center gap-2 shrink-0">
                         <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">
-                        <div class="flex flex-col gap-1">
-                            <label for="jumlah_bulk" class="text-[10px] font-bold text-slate-500 uppercase">Jumlah</label>
-                            <input type="number" id="jumlah_bulk" name="jumlah" min="1" max="100" value="1" class="w-20 py-2 px-3 rounded-xl bg-white border border-slate-200 text-sm text-slate-700 text-center focus:outline-none " required>
+                        <div class="flex items-center gap-2">
+                            <label for="jumlah_bulk" class="text-xs text-slate-600 font-medium">Jumlah:</label>
+                            <input type="number" id="jumlah_bulk" name="jumlah" min="1" max="100" value="1" class="w-16 py-1.5 px-2.5 rounded-lg bg-white border border-slate-300 text-xs font-semibold text-slate-800 text-center focus:outline-none" required>
                         </div>
-                        <button type="submit" name="generate_bulk" class="px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs transition-colors mt-auto">
+                        <button type="submit" name="generate_bulk" class="px-4 py-2 rounded-lg bg-emerald-600 border border-emerald-600 font-semibold text-xs text-white">
                             Generate Otomatis
                         </button>
                     </form>
@@ -590,38 +588,36 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="border-b border-slate-200 text-xs text-slate-500 font-bold uppercase tracking-wider">
-                            <th class="py-4 px-4 text-left">No</th>
-                            <th class="py-4 px-4 text-left">Target Kelas</th>
-                            <th class="py-4 px-4 text-center">Token Voting</th>
-                            <th class="py-4 px-4 text-center">Status Token</th>
-                            <th class="py-4 px-4 text-center">Aksi</th>
+                            <th class="py-2.5 px-3 text-left">No</th>
+                            <th class="py-2.5 px-3 text-left">Kelas</th>
+                            <th class="py-2.5 px-3 text-center">Token</th>
+                            <th class="py-2.5 px-3 text-center">Status Token</th>
+                            <th class="py-2.5 px-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
                         <?php if ($totalToken > 0): $no = $offsetToken + 1;
                             while ($row = mysqli_fetch_assoc($tokens)): ?>
                                 <tr class="transition-colors duration-200">
-                                    <td class="py-4 px-4 font-semibold text-slate-500"><?= $no++; ?></td>
-                                    <td class="py-4 px-4 font-bold text-slate-900"><?= htmlspecialchars($row['nama_kelas'] ?? '-'); ?></td>
-                                    <td class="py-4 px-4 text-center">
+                                    <td class="py-2.5 px-3 font-semibold text-slate-500"><?= $no++; ?></td>
+                                    <td class="py-2.5 px-3 font-bold text-slate-900"><?= htmlspecialchars($row['nama_kelas'] ?? '-'); ?></td>
+                                    <td class="py-2.5 px-3 text-center">
                                         <span class="font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 py-1 px-3.5 rounded-lg text-xs font-bold">
                                             <?= htmlspecialchars($row['token']); ?>
                                         </span>
                                     </td>
-                                    <td class="py-4 px-4 text-center">
+                                    <td class="py-2.5 px-3 text-center">
                                         <?php if ($row['status_token'] === 'sudah'): ?>
-                                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold py-1 px-3 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                            <span class="inline-flex items-center text-xs font-semibold py-1 px-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700">
                                                 Sudah Dipakai
                                             </span>
                                         <?php else: ?>
-                                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold py-1 px-3 rounded-full bg-red-50 border border-red-200 text-red-600">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                                            <span class="inline-flex items-center text-xs font-semibold py-1 px-3 rounded-lg bg-red-50 border border-red-200 text-red-600">
                                                 Belum Dipakai
                                             </span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="py-4 px-4 text-center">
+                                    <td class="py-2.5 px-3 text-center">
                                         <div class="flex items-center justify-center gap-2">
                                             <?php if ($row['status_token'] === 'sudah'): ?>
                                                 <a href="?reset_token=<?= $row['id']; ?>&kelas_id=<?= $kelasTerpilih ?>" class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-xs transition-all duration-300 flex items-center gap-1" onclick="return confirm('Apakah Anda yakin ingin me-reset status penggunaan token ini agar dapat digunakan kembali?')">
@@ -710,6 +706,9 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
 </body>
 
 </html>
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require 'db/db.php';
 
@@ -225,52 +225,52 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 </head>
 
 <body class="text-slate-800 min-h-screen p-5 leading-relaxed overflow-x-hidden relative flex flex-col items-center justify-start lg:py-8">
-    <div class="container max-w-[1200px] mx-auto relative z-10 w-full flex flex-col gap-6">
+    <div class="container max-w-[1000px] mx-auto relative z-10 w-full flex flex-col gap-4">
         <!-- Header -->
-        <div class="flex justify-between items-center bg-white/90 backdrop-blur-md border border-slate-200 py-4 px-7 rounded-[20px] shadow-[0_10px_30px_-12px_rgba(15,23,42,0.12)]">
-            <h1 class="font-sans text-xl lg:text-2xl font-extrabold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
+        <div class="flex justify-between items-center bg-white/90 backdrop-blur-md border border-slate-200 py-3 px-5 rounded-xl shadow-sm">
+            <h1 class="font-sans text-base lg:text-lg font-bold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
             <div>
-                <button class="bg-white border border-slate-200 h-10 px-5 rounded-xl font-sans text-xs lg:text-sm font-semibold cursor-pointer text-slate-700 backdrop-blur-sm" name="login" onclick="window.open('admin/auth/logout.php', '_blank', 'noopener,noreferrer')">Dashboard</button>
+                <button class="bg-white border border-slate-200 h-9 px-4 rounded-lg font-sans text-xs font-semibold cursor-pointer text-slate-700 backdrop-blur-sm" name="login" onclick="window.open('admin/auth/logout.php', '_blank', 'noopener,noreferrer')">Dashboard</button>
             </div>
         </div>
         
         <!-- Logo Section -->
         <div class="flex justify-center">
-            <div class="flex justify-center items-center gap-10 bg-white/90 backdrop-blur-md py-5 px-10 rounded-[28px] border border-slate-200 shadow-[0_10px_30px_-12px_rgba(15,23,42,0.12)]">
-                <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[110px] lg:h-[135px] object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.15)]">
-                <img src="admin/assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-[110px] lg:h-[135px] object-contain drop-shadow-[0_6px_12px_rgba(0,0,0,0.15)]">
+            <div class="flex justify-center items-center gap-6 bg-white/90 backdrop-blur-md py-3 px-6 rounded-2xl border border-slate-200 shadow-sm">
+                <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[70px] lg:h-[85px] object-contain">
+                <img src="admin/assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-[70px] lg:h-[85px] object-contain">
             </div>
         </div>
         
         <!-- Candidate List -->
-        <div class="kandidat-list grid grid-cols-1 gap-6 mb-5 perspective-[1000px] lg:grid-cols-3 lg:gap-6 lg:mb-0" id="kandidatList">
+        <div class="kandidat-list grid grid-cols-1 gap-4 mb-4 lg:grid-cols-3 lg:gap-4 lg:mb-0" id="kandidatList">
             <?php 
             mysqli_data_seek($query, 0);
             while ($row = mysqli_fetch_assoc($query)) : 
             ?>
-                <div class="kandidat-card bg-white/90 backdrop-blur-[20px] border border-slate-200 rounded-[24px] p-6 shadow-[0_10px_30px_-12px_rgba(15,23,42,0.12)] relative overflow-hidden select-none lg:p-5 lg:h-fit self-center" data-id="<?= $row['nomor_kandidat']; ?>">
+                <div class="kandidat-card bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden select-none lg:p-3.5 lg:h-fit self-center" data-id="<?= $row['nomor_kandidat']; ?>">
                     <!-- Large Number Background -->
-                    <div class="absolute -top-5 -right-2 text-[130px] font-sans font-black text-slate-900/10 pointer-events-none select-none z-0 leading-none">0<?= $row['nomor_kandidat']; ?></div>
+                    <div class="absolute -top-3 -right-1 text-[80px] font-sans font-black text-slate-900/10 pointer-events-none select-none z-0 leading-none">0<?= $row['nomor_kandidat']; ?></div>
                     
-                    <h3 class="font-sans text-lg font-bold text-slate-900 mb-[18px] text-center relative z-10 tracking-wide">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
+                    <h3 class="font-sans text-base font-bold text-slate-900 mb-3 text-center relative z-10">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
                     
-                    <div class="flex gap-4 mb-[18px] relative z-10">
+                    <div class="flex gap-2.5 mb-3 relative z-10">
                         <!-- Ketua -->
-                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.1)]">
-                            <h3 class="nama-ketua font-sans my-1 font-semibold text-sm lg:text-base text-slate-900 truncate"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
-                            <small class="text-slate-500 text-[10px] lg:text-[11px] font-semibold uppercase tracking-wider">Calon Ketua OSIS</small>
+                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2 text-center">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full h-[130px] lg:h-[140px] object-cover object-top rounded-lg mb-2 shadow-sm">
+                            <h3 class="nama-ketua font-sans my-0.5 font-bold text-xs lg:text-sm text-slate-900 truncate"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
+                            <small class="text-slate-500 text-[10px] font-semibold uppercase tracking-wider">Calon Ketua</small>
                         </div>
                         <!-- Wakil -->
-                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full h-[190px] object-cover object-top rounded-xl mb-[10px] shadow-[0_8px_16px_rgba(0,0,0,0.1)]">
-                            <h3 class="nama-wakil font-sans my-1 font-semibold text-sm lg:text-base text-slate-900 truncate"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
-                            <small class="text-slate-500 text-[10px] lg:text-[11px] font-semibold uppercase tracking-wider">Calon Wakil OSIS</small>
+                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2 text-center">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full h-[130px] lg:h-[140px] object-cover object-top rounded-lg mb-2 shadow-sm">
+                            <h3 class="nama-wakil font-sans my-0.5 font-bold text-xs lg:text-sm text-slate-900 truncate"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
+                            <small class="text-slate-500 text-[10px] font-semibold uppercase tracking-wider">Calon Wakil</small>
                         </div>
                     </div>
                     
-                    <div class="btn-vote mt-[10px] relative z-10 text-center">
-                        <button type="button" class="vote-btn bg-emerald-600 text-white border border-emerald-600 py-3 px-5 rounded-2xl cursor-pointer w-full font-sans text-sm font-bold tracking-wide" data-id="<?= $row['nomor_kandidat']; ?>">
+                    <div class="btn-vote relative z-10 text-center">
+                        <button type="button" class="vote-btn bg-emerald-600 text-white border border-emerald-600 py-2.5 px-4 rounded-xl cursor-pointer w-full font-sans text-xs lg:text-sm font-bold tracking-wide" data-id="<?= $row['nomor_kandidat']; ?>">
                             Pilih Kandidat <?= $row['nomor_kandidat']; ?>
                         </button>
                     </div>
@@ -280,28 +280,28 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     </div>
 
     <!-- Modal Voting Form -->
-    <div id="modalVoteForm" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
-        <div class="modal-content bg-white/95 backdrop-blur-[32px] border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[680px] text-left relative">
-            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400" id="closeVoteForm">&times;</span>
-            <h2 id="modalVoteTitle" class="font-sans text-xl lg:text-2xl font-bold text-slate-900 mb-2">Konfirmasi Pilihan</h2>
-            <p id="modalVoteSubtitle" class="text-slate-600 text-sm">Silakan masukkan data Anda untuk melanjutkan pemilihan.</p>
+    <div id="modalVoteForm" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-4">
+        <div class="modal-content bg-white border border-slate-200 p-6 rounded-2xl shadow-xl w-full max-w-[560px] text-left relative">
+            <span class="close absolute top-4 right-5 cursor-pointer text-xl text-slate-400" id="closeVoteForm">&times;</span>
+            <h2 id="modalVoteTitle" class="font-sans text-lg lg:text-xl font-bold text-slate-900 mb-1">Konfirmasi Pilihan</h2>
+            <p id="modalVoteSubtitle" class="text-slate-600 text-xs">Silakan masukkan data Anda untuk melanjutkan pemilihan.</p>
             
             <!-- Selected Candidate Preview -->
-            <div id="modalKandidatPreview" class="flex gap-5 mt-5 mb-2 bg-slate-50 p-4 rounded-[22px] border border-slate-200 shadow-inner">
+            <div id="modalKandidatPreview" class="flex gap-3 mt-4 mb-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
                 <!-- Ketua Preview -->
-                <div class="flex flex-1 items-center gap-4 bg-white p-3.5 rounded-2xl border border-slate-200 overflow-hidden">
-                    <img id="modalKetuaFoto" src="" alt="Ketua" class="w-[84px] h-[100px] object-cover object-top rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex flex-1 items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200 overflow-hidden">
+                    <img id="modalKetuaFoto" src="" alt="Ketua" class="w-[60px] h-[72px] object-cover object-top rounded-md border border-slate-200 shadow-sm">
                     <div class="overflow-hidden flex-1">
-                        <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider block">Calon Ketua</span>
-                        <p id="modalKetuaNama" class="text-base font-extrabold text-slate-900 truncate mt-1"></p>
+                        <span class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wider block">Calon Ketua</span>
+                        <p id="modalKetuaNama" class="text-xs lg:text-sm font-bold text-slate-900 truncate mt-0.5"></p>
                     </div>
                 </div>
                 <!-- Wakil Preview -->
-                <div class="flex flex-1 items-center gap-4 bg-white p-3.5 rounded-2xl border border-slate-200 overflow-hidden">
-                    <img id="modalWakilFoto" src="" alt="Wakil" class="w-[84px] h-[100px] object-cover object-top rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex flex-1 items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200 overflow-hidden">
+                    <img id="modalWakilFoto" src="" alt="Wakil" class="w-[60px] h-[72px] object-cover object-top rounded-md border border-slate-200 shadow-sm">
                     <div class="overflow-hidden flex-1">
-                        <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider block">Calon Wakil</span>
-                        <p id="modalWakilNama" class="text-base font-extrabold text-slate-900 truncate mt-1"></p>
+                        <span class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wider block">Calon Wakil</span>
+                        <p id="modalWakilNama" class="text-xs lg:text-sm font-bold text-slate-900 truncate mt-0.5"></p>
                     </div>
                 </div>
             </div>

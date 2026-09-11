@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require '../../../db/db.php';
 
@@ -291,9 +291,9 @@ $statUnused = $statTotal - $statUsed;
     
 
     <!-- Sidebar Navigation (FIXED) -->
-    <aside class="w-72 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
         <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
-        <div class="flex flex-col gap-8 p-6 flex-1 overflow-y-auto">
+        <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <!-- Brand / Header -->
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
@@ -305,31 +305,31 @@ $statUnused = $statTotal - $statUsed;
 
             <!-- Navigation Links -->
             <nav class="flex flex-col gap-1.5">
-                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-bar-chart-line text-lg group-transition-colors"></i>
                     <span>Hasil Vote</span>
                 </a>
-                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-people text-lg group-transition-colors"></i>
                     <span>Daftar Kandidat</span>
                 </a>
-                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-card-checklist text-lg group-transition-colors"></i>
                     <span>Daftar Voter</span>
                 </a>
-                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-key text-lg group-transition-colors"></i>
                     <span>Token Siswa</span>
                 </a>
-                <a href="token-guru.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
+                <a href="token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
                     <i class="bi bi-shield-lock text-lg text-emerald-500"></i>
                     <span>Token Guru</span>
                 </a>
-                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-person-workspace text-lg group-transition-colors"></i>
                     <span>Daftar Admin</span>
                 </a>
@@ -337,7 +337,7 @@ $statUnused = $statTotal - $statUsed;
         </div>
 
         <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
-        <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
                     <?= strtoupper(substr($admin, 0, 2)) ?>
@@ -347,7 +347,7 @@ $statUnused = $statTotal - $statUsed;
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
-            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
+            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
             </a>
@@ -355,11 +355,11 @@ $statUnused = $statTotal - $statUsed;
     </aside>
 
     <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
-    <main class="flex-1 p-8 lg:p-12 z-10 flex flex-col gap-8 w-full ml-72">
+    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <!-- Top bar / Welcome -->
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
-                <h1 class="font-sans text-3xl font-extrabold text-slate-900">Token Guru & Karyawan</h1>
+                <h1 class="font-sans text-2xl font-bold text-slate-900">Token Guru & Karyawan</h1>
             </div>
         </header>
 
@@ -372,68 +372,66 @@ $statUnused = $statTotal - $statUsed;
         <?php endif; ?>
 
         <!-- Stats Widgets -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- Total Token -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-6 shadow-sm relative overflow-hidden group">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
+                    <div class="w-9 h-9 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
                         <i class="bi bi-shield-check"></i>
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Total Token Guru</p>
-                        <p class="text-3xl font-sans font-extrabold mt-1 text-slate-900"><?= $statTotal ?></p>
+                        <p class="text-xl font-bold mt-1 text-slate-900"><?= $statTotal ?></p>
                     </div>
                 </div>
             </div>
 
             <!-- Sudah Digunakan -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-6 shadow-sm relative overflow-hidden group">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
+                    <div class="w-9 h-9 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
                         <i class="bi bi-check2-circle"></i>
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Sudah Digunakan</p>
-                        <p class="text-3xl font-sans font-extrabold mt-1 text-emerald-600"><?= $statUsed ?></p>
+                        <p class="text-xl font-bold mt-1 text-emerald-600"><?= $statUsed ?></p>
                     </div>
                 </div>
             </div>
 
             <!-- Belum Digunakan -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-6 shadow-sm relative overflow-hidden group">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-red-100 border border-red-200 rounded-2xl flex items-center justify-center text-red-600 text-xl">
+                    <div class="w-9 h-9 bg-red-100 border border-red-200 rounded-2xl flex items-center justify-center text-red-600 text-xl">
                         <i class="bi bi-x-circle"></i>
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Belum Digunakan</p>
-                        <p class="text-3xl font-sans font-extrabold mt-1 text-red-600"><?= $statUnused ?></p>
+                        <p class="text-xl font-bold mt-1 text-red-600"><?= $statUnused ?></p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Forms Grid Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <!-- Generate Token Card -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-7 flex flex-col gap-5 h-fit lg:col-span-1">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-5 h-fit lg:col-span-1">
                 <div>
-                    <h3 class="font-sans text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <h3 class="font-sans text-sm font-bold text-slate-800 flex items-center gap-2">
                         <i class="bi bi-plus-circle text-emerald-500"></i>
                         <span>Buat Token Baru</span>
                     </h3>
-                    <p class="text-xs text-slate-500 mt-1">Tambah token guru secara manual atau generate otomatis</p>
                 </div>
 
                 <!-- Manual -->
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
-                        <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="kode_manual">Token Manual</label>
+                        <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="kode_manual">Buat Token Manual</label>
                         <input type="text" id="kode_manual" name="kode_manual" placeholder="Masukkan token guru manual" pattern="[a-zA-Z]+" minlength="2" maxlength="100" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-700 w-full focus:outline-none (16, 185, 129,0.15)] lowercase" required autocomplete="off">
-                        <p class="text-[11px] text-slate-500">Huruf saja (a-z), 2–100 karakter. Disimpan otomatis huruf kecil.</p>
                     </div>
                     <button type="submit" name="add_manual" class="w-full py-3 rounded-xl bg-emerald-600 border border-emerald-500 font-bold text-sm tracking-wide text-white transition-all duration-300">
                         Tambah Token Manual
@@ -452,9 +450,6 @@ $statUnused = $statTotal - $statUsed;
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="jumlah">Jumlah Guru</label>
                         <input type="number" id="jumlah" name="jumlah" min="1" max="100" value="1" placeholder="Contoh: 10" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
                     </div>
-                    <p class="text-xs text-slate-500 leading-relaxed">
-                        Format otomatis: prefix <span class="font-mono text-emerald-600">gr</span> + 5 huruf acak (contoh: grabcde).
-                    </p>
                     <button type="submit" name="generate" class="w-full py-3 rounded-xl bg-emerald-600 border border-emerald-500 font-bold text-sm tracking-wide text-white transition-all duration-300">
                         Generate Token Otomatis
                     </button>
@@ -468,11 +463,6 @@ $statUnused = $statTotal - $statUsed;
                             <span>Reset</span>
                         </h4>
                     </div>
-                    <form method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus SELURUH token guru yang BELUM digunakan?')">
-                        <button type="submit" name="reset_unused" class="w-full py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 font-bold text-xs transition-colors">
-                            Hapus Semua Token Unused
-                        </button>
-                    </form>
                     <form method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus SELURUH token guru? Tindakan ini akan menghapus semua token, data voter, dan log vote.')">
                         <button type="submit" name="clear_all_tokens" class="w-full py-3 rounded-xl bg-red-600 border border-red-500 text-white font-bold text-xs transition-colors">
                             Hapus Semua Token
@@ -482,9 +472,9 @@ $statUnused = $statTotal - $statUsed;
             </div>
 
             <!-- Token List Table Card -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-7 flex flex-col gap-6 lg:col-span-2">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4 lg:col-span-2">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                    <h3 class="font-sans text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <h3 class="font-sans text-sm font-bold text-slate-800 flex items-center gap-2">
                         <i class="bi bi-list-task text-emerald-500"></i>
                         <span>Token Guru Terdaftar</span>
                     </h3>
@@ -501,36 +491,34 @@ $statUnused = $statTotal - $statUsed;
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="border-b border-slate-200 text-xs text-slate-500 font-bold uppercase tracking-wider">
-                                <th class="py-4 px-4 text-left">No</th>
-                                <th class="py-4 px-4 text-center">Token Guru</th>
-                                <th class="py-4 px-4 text-center">Status Token</th>
-                                <th class="py-4 px-4 text-center">Aksi</th>
+                                <th class="py-2.5 px-3 text-left">No</th>
+                                <th class="py-2.5 px-3 text-center">Token</th>
+                                <th class="py-2.5 px-3 text-center">Status Token</th>
+                                <th class="py-2.5 px-3 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
                             <?php if ($totalData > 0): $no = $offset + 1;
                                 while ($row = mysqli_fetch_assoc($queryTokens)): ?>
                                     <tr class="transition-colors duration-200">
-                                        <td class="py-4 px-4 font-semibold text-slate-500"><?= $no++; ?></td>
-                                        <td class="py-4 px-4 text-center">
+                                        <td class="py-2.5 px-3 font-semibold text-slate-500"><?= $no++; ?></td>
+                                        <td class="py-2.5 px-3 text-center">
                                             <span class="font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 py-1 px-3.5 rounded-lg text-xs font-bold">
                                                 <?= htmlspecialchars($row['kode']); ?>
                                             </span>
                                         </td>
-                                        <td class="py-4 px-4 text-center">
+                                        <td class="py-2.5 px-3 text-center">
                                             <?php if ($row['status_penggunaan'] === 'sudah'): ?>
-                                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold py-1 px-3 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700">
-                                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                                <span class="inline-flex items-center text-xs font-semibold py-1 px-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700">
                                                     Sudah Dipakai
                                                 </span>
                                             <?php else: ?>
-                                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold py-1 px-3 rounded-full bg-red-50 border border-red-200 text-red-600">
-                                                    <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                                                <span class="inline-flex items-center text-xs font-semibold py-1 px-3 rounded-lg bg-red-50 border border-red-200 text-red-600">
                                                     Belum Dipakai
                                                 </span>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="py-4 px-4 text-center">
+                                        <td class="py-2.5 px-3 text-center">
                                             <div class="flex items-center justify-center gap-2">
                                                 <?php if ($row['status_penggunaan'] === 'sudah'): ?>
                                                     <a href="?reset_token=<?= $row['id']; ?>" class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-xs transition-all duration-300 flex items-center gap-1" onclick="return confirm('Apakah Anda yakin ingin me-reset status penggunaan token guru ini agar dapat digunakan kembali?')">
@@ -593,6 +581,9 @@ $statUnused = $statTotal - $statUsed;
 </body>
 
 </html>
+
+
+
 
 
 

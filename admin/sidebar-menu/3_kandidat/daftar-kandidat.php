@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require '../../../db/db.php';
 
@@ -117,10 +117,10 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
         </header>
 
         <!-- Candidate Cards Container -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <?php if (mysqli_num_rows($query) > 0): ?>
                 <?php while ($row = mysqli_fetch_assoc($query)): ?>
-                    <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] p-6 shadow-sm flex flex-col gap-5 transition-all duration-300 ">
+                    <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl p-3.5 shadow-sm flex flex-col gap-3">
                         <div class="grid grid-cols-2 gap-3">
                             <div class="flex flex-col items-center gap-1.5">
                                 <img src="../../uploads/<?= $row['foto_ketua']; ?>" alt="Foto Ketua" class="w-full aspect-[3/4] object-cover rounded-2xl border border-slate-200 shadow-sm">
@@ -132,21 +132,21 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                             </div>
                         </div>
 
-                        <div class="text-center flex flex-col gap-2">
-                            <span class="inline-block mx-auto px-3.5 py-1 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-700 font-sans font-extrabold text-xs">
+                        <div class="text-center flex flex-col gap-1">
+                            <span class="inline-block mx-auto px-2.5 py-0.5 rounded-md bg-emerald-100 border border-emerald-200 text-emerald-700 font-sans font-bold text-xs">
                                 Pasangan Nomor <?= $row['nomor_kandidat']; ?>
                             </span>
-                            <h3 class="font-sans text-base font-extrabold text-slate-900 mt-1 leading-snug truncate">
+                            <h3 class="font-sans text-xs lg:text-sm font-bold text-slate-900 mt-0.5 truncate">
                                 <?= htmlspecialchars($row['nama_ketua']); ?> & <?= htmlspecialchars($row['nama_wakil']); ?>
                             </h3>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-3 border-t border-slate-200 pt-4">
-                            <a href="edit.php?id=<?= $row['id']; ?>" class="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs transition-colors duration-200">
+                        <div class="grid grid-cols-2 gap-2 border-t border-slate-200 pt-3">
+                            <a href="edit.php?id=<?= $row['id']; ?>" class="flex items-center justify-center gap-1.5 py-2 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs">
                                 <i class="bi bi-pencil-square"></i>
                                 <span>Edit</span>
                             </a>
-                            <a href="hapus.php?id=<?= $row['id']; ?>" class="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-red-50 border border-red-200 text-red-600 font-bold text-xs transition-colors duration-200" onclick="return confirm('Yakin ingin menghapus kandidat ini?')">
+                            <a href="hapus.php?id=<?= $row['id']; ?>" class="flex items-center justify-center gap-1.5 py-2 rounded-lg bg-red-50 border border-red-200 text-red-600 font-bold text-xs" onclick="return confirm('Yakin ingin menghapus kandidat ini?')">
                                 <i class="bi bi-trash"></i>
                                 <span>Hapus</span>
                             </a>
@@ -154,18 +154,17 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <div class="col-span-full py-12 text-center text-slate-500">Belum ada kandidat ditambahkan.</div>
+                <div class="col-span-full py-8 text-center text-slate-500 text-sm">Belum ada kandidat ditambahkan.</div>
             <?php endif; ?>
         </div>
 
         <!-- Add Candidate Section -->
-        <div id="tambahKandidatSec" class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] shadow-sm p-8 flex flex-col gap-6 max-w-2xl mt-4">
+        <div id="tambahKandidatSec" class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col gap-4 max-w-2xl mt-4">
             <div>
-                <h2 class="font-sans text-2xl font-extrabold text-slate-800 flex items-center gap-2.5">
+                <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
                     <i class="bi bi-person-plus text-emerald-500"></i>
                     <span>Tambah Kandidat Baru</span>
                 </h2>
-                <p class="text-xs text-slate-500 mt-1">Lengkapi formulir di bawah untuk menambahkan pasangan calon kandidat</p>
             </div>
 
             <form action="api/proses-tambah.php" method="post" enctype="multipart/form-data" class="flex flex-col gap-5">
@@ -229,8 +228,3 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
 </body>
 
 </html>
-
-
-
-
-

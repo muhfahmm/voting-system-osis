@@ -117,9 +117,9 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
     
 
     <!-- Sidebar Navigation (FIXED - sama seperti dashboard.php) -->
-    <aside class="w-72 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
         <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
-        <div class="flex flex-col gap-8 p-6 flex-1 overflow-y-auto">
+        <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <!-- Brand / Header -->
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
@@ -131,31 +131,31 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
 
             <!-- Navigation Links -->
             <nav class="flex flex-col gap-1.5">
-                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="result.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
+                <a href="result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
                     <i class="bi bi-bar-chart-line text-lg text-emerald-500"></i>
                     <span>Hasil Vote</span>
                 </a>
-                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-people text-lg group-transition-colors"></i>
                     <span>Daftar Kandidat</span>
                 </a>
-                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-card-checklist text-lg group-transition-colors"></i>
                     <span>Daftar Voter</span>
                 </a>
-                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-key text-lg group-transition-colors"></i>
                     <span>Token Siswa</span>
                 </a>
-                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-shield-lock text-lg group-transition-colors"></i>
                     <span>Token Guru</span>
                 </a>
-                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 font-medium transition-all duration-300 group">
+                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-person-workspace text-lg group-transition-colors"></i>
                     <span>Daftar Admin</span>
                 </a>
@@ -163,7 +163,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
         </div>
 
         <!-- Bagian Bawah: User / Logout (Aman, tidak akan kemana-mana) -->
-        <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
                     <?= strtoupper(substr($admin, 0, 2)) ?>
@@ -173,7 +173,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
-            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
+            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
             </a>
@@ -181,11 +181,11 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
     </aside>
 
     <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
-    <main class="flex-1 p-8 lg:p-12 z-10 flex flex-col gap-10 w-full ml-72">
+    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <!-- Top bar / Welcome -->
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
-                <h1 class="font-sans text-4xl lg:text-5xl font-extrabold text-slate-900 mt-2">Hasil Pemilihan</h1>
+                <h1 class="font-sans text-2xl md:text-3xl font-bold text-slate-900 mt-2">Hasil Pemilihan</h1>
             </div>
         </header>
 
@@ -194,12 +194,12 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             <?php 
             $leaderPercent = $totalVotes > 0 ? round(($leader['total_suara'] / $totalVotes) * 100, 1) : 0;
             ?>
-            <section class="bg-white/90 backdrop-blur-md border border-emerald-100 rounded-[32px] p-8 lg:p-10 shadow-sm relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8 group">
+            <section class="bg-white/90 backdrop-blur-md border border-emerald-100 rounded-2xl p-4 md:p-5 shadow-sm relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-4 group">
                 
                 
 
                 <!-- Left side: Visual -->
-                <div class="flex flex-col sm:flex-row items-center gap-6 z-10">
+                <div class="flex flex-col sm:flex-row items-center gap-4 z-10">
                     <div class="flex gap-3 relative shrink-0">
                         <img src="../../uploads/<?= $leader['foto_ketua']; ?>" alt="Foto Ketua Terunggul" class="w-24 h-32 sm:w-28 sm:h-38 object-cover rounded-2xl border-2 border-emerald-200 shadow-md group-transition-transform duration-500">
                         <img src="../../uploads/<?= $leader['foto_wakil']; ?>" alt="Foto Wakil Terunggul" class="w-24 h-32 sm:w-28 sm:h-38 object-cover rounded-2xl border-2 border-emerald-200 shadow-md group-transition-transform duration-500">
@@ -220,31 +220,31 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                 </div>
 
                 <!-- Right side: Big Numbers -->
-                <div class="flex items-center gap-8 shrink-0 z-10">
+                <div class="flex items-center gap-4 shrink-0 z-10">
                     <div class="text-center bg-white border border-slate-200 py-4 px-6 rounded-2xl min-w-[120px] shadow-sm">
                         <p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">JUMLAH SUARA</p>
-                        <p class="text-3xl sm:text-4xl font-sans font-black text-slate-900 mt-1"><?= $leader['total_suara'] ?></p>
+                        <p class="text-2xl font-bold text-slate-900 mt-1"><?= $leader['total_suara'] ?></p>
                     </div>
                     <div class="text-center bg-emerald-50 border border-emerald-200 py-4 px-6 rounded-2xl min-w-[120px]">
                         <p class="text-[10px] text-emerald-600 font-bold tracking-widest uppercase">PERSENTASE</p>
-                        <p class="text-3xl sm:text-4xl font-sans font-black text-emerald-600 mt-1"><?= $leaderPercent ?>%</p>
+                        <p class="text-2xl font-bold text-emerald-600 mt-1"><?= $leaderPercent ?>%</p>
                     </div>
                 </div>
             </section>
         <?php endif; ?>
 
         <!-- Massive Vote Logs Summary Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- Total Masuk -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] p-6 shadow-sm flex flex-col gap-4 relative overflow-hidden group">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-4 relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
+                    <div class="w-9 h-9 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
                         <i class="bi bi-box2-heart"></i>
                     </div>
                     <div>
                         <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Suara Masuk</p>
-                        <p class="text-3xl font-sans font-extrabold mt-1 text-slate-900">
+                        <p class="text-xl font-bold mt-1 text-slate-900">
                             <?= $totalVotes ?> 
                             <span class="text-xs text-slate-500 font-sans font-medium">Suara</span>
                         </p>
@@ -256,15 +256,15 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             </div>
 
             <!-- Siswa Card -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] p-6 shadow-sm flex flex-col gap-4 relative overflow-hidden group">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-4 relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
+                    <div class="w-9 h-9 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
                         <i class="bi bi-people"></i>
                     </div>
                     <div>
                         <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Partisipasi Voting Siswa</p>
-                        <p class="text-3xl font-sans font-extrabold mt-1 text-slate-900"><?= $totalVotesSiswa ?> <span class="text-xs text-slate-500 font-sans font-medium">dari <?= $totalSiswaTarget ?> Siswa</span></p>
+                        <p class="text-xl font-bold mt-1 text-slate-900"><?= $totalVotesSiswa ?> <span class="text-xs text-slate-500 font-sans font-medium">dari <?= $totalSiswaTarget ?> Siswa</span></p>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2">
@@ -279,15 +279,15 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             </div>
 
             <!-- Guru Card -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[28px] p-6 shadow-sm flex flex-col gap-4 relative overflow-hidden group">
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-4 relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
+                    <div class="w-9 h-9 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
                         <i class="bi bi-mortarboard"></i>
                     </div>
                     <div>
                         <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Partisipasi Voting Guru / Staff</p>
-                        <p class="text-3xl font-sans font-extrabold mt-1 text-slate-900"><?= $totalVotesGuru ?> <span class="text-xs text-slate-500 font-sans font-medium">dari <?= $totalGuruTarget ?> Guru</span></p>
+                        <p class="text-xl font-bold mt-1 text-slate-900"><?= $totalVotesGuru ?> <span class="text-xs text-slate-500 font-sans font-medium">dari <?= $totalGuruTarget ?> Guru</span></p>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2">
@@ -303,18 +303,18 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
         </div>
 
         <!-- Huge Charts Area -->
-        <div class="grid grid-cols-1 xl:grid-cols-5 gap-8">
+        <div class="grid grid-cols-1 xl:grid-cols-5 gap-4">
             <!-- Pie Chart Card -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[32px] shadow-sm p-8 flex flex-col gap-6 items-center xl:col-span-2">
-                <h3 class="font-sans text-xl font-bold text-slate-800 self-start">Proporsi Persentase Suara</h3>
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4 items-center xl:col-span-2">
+                <h3 class="font-sans text-base font-bold text-slate-800 self-start">Proporsi Persentase Suara</h3>
                 <div class="w-full max-w-[380px] aspect-square flex items-center justify-center mt-4">
                     <canvas id="pieChart"></canvas>
                 </div>
             </div>
 
             <!-- Bar Chart Card -->
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[32px] shadow-sm p-8 flex flex-col gap-6 xl:col-span-3">
-                <h3 class="font-sans text-xl font-bold text-slate-800">Perolehan Suara Paslon</h3>
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4 xl:col-span-3">
+                <h3 class="font-sans text-base font-bold text-slate-800">Perolehan Suara Paslon</h3>
                 <div class="w-full h-full min-h-[380px] flex items-center justify-center mt-4">
                     <canvas id="barChart"></canvas>
                 </div>
@@ -322,16 +322,16 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
         </div>
 
         <!-- Standings Grafik Batang Rinci -->
-        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-[32px] shadow-sm p-8 flex flex-col gap-8">
+        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4">
             <div>
-                <h2 class="font-sans text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-3">
                     <i class="bi bi-bar-chart-steps text-emerald-500"></i>
                     <span>Tabel Perolehan Rinci & Grafik Batang</span>
                 </h2>
                 <p class="text-xs text-slate-500 mt-1">Perolehan suara riil beserta status persentase akurat untuk setiap pasangan calon</p>
             </div>
 
-            <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
                 <?php
                 if (mysqli_num_rows($query) > 0):
                     mysqli_data_seek($query, 0);
@@ -468,6 +468,9 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
 </body>
 
 </html>
+
+
+
 
 
 
