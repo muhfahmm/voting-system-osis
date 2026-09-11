@@ -242,7 +242,7 @@ $queryTokens = mysqli_query($db, "
     FROM tb_kode_guru g
     LEFT JOIN tb_voter v ON g.kode = v.nama_voter
     $whereClause
-    ORDER BY g.created_at DESC
+    ORDER BY g.id DESC
     LIMIT $limit OFFSET $offset
 ");
 

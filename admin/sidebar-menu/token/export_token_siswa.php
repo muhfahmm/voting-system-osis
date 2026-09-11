@@ -8,11 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kelas_id'])) {
     $kelas = mysqli_fetch_assoc($qKelas)['nama_kelas'] ?? 'Tidak Diketahui';
 
     $query = mysqli_query($db, "
-        SELECT t.token, t.status_token, k.nama_kelas, t.created_at
+        SELECT t.token, t.status_token, k.nama_kelas
         FROM tb_buat_token t
         LEFT JOIN tb_kelas k ON t.kelas_id = k.id
         WHERE t.kelas_id = $kelas_id
-        ORDER BY t.created_at ASC
+        ORDER BY t.id ASC
     ");
 
     header("Content-Type: application/vnd.ms-excel");

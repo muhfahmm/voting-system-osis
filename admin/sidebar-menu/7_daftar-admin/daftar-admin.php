@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require '../../../db/db.php';
 
@@ -35,17 +35,15 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
+    <style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
     
-    
-    
-
-    <!-- Sidebar Navigation -->
-    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col justify-between shrink-0 min-h-screen z-10">
-        <div class="flex flex-col gap-4 p-4">
+    <!-- Sidebar Navigation (FIXED) -->
+    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <!-- Brand / Header -->
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
@@ -57,28 +55,28 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
 
             <!-- Navigation Links -->
             <nav class="flex flex-col gap-1.5">
-                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
-                    <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
+                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-speedometer2 text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
-                    <i class="bi bi-bar-chart-line text-lg group-transition-colors"></i>
+                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-bar-chart-line text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Hasil Vote</span>
                 </a>
-                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
-                    <i class="bi bi-people text-lg group-transition-colors"></i>
+                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-people text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Daftar Kandidat</span>
                 </a>
-                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
-                    <i class="bi bi-card-checklist text-lg group-transition-colors"></i>
+                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-card-checklist text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Daftar Voter</span>
                 </a>
-                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
-                    <i class="bi bi-key text-lg group-transition-colors"></i>
+                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-key text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Token Siswa</span>
                 </a>
-                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
-                    <i class="bi bi-shield-lock text-lg group-transition-colors"></i>
+                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-shield-lock text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Token Guru</span>
                 </a>
                 <a href="daftar-admin.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
@@ -89,7 +87,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
         </div>
 
         <!-- User / Logout -->
-        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
                     <?= strtoupper(substr($admin, 0, 2)) ?>
@@ -99,7 +97,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
-            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
+            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300 hover:bg-red-100">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
             </a>
@@ -107,14 +105,14 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
     </aside>
 
     <!-- Main Content Area -->
-    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full">
+    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <!-- Top bar / Welcome -->
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
                 <h1 class="font-sans text-2xl font-bold text-slate-900">Daftar Administrator</h1>
             </div>
             <div class="flex gap-3">
-                <a href="../../auth/register.php" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 border border-emerald-500 (16, 185, 129,0.25)] text-white font-bold text-sm tracking-wide transition-all duration-300">
+                <a href="../../auth/register.php" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 border border-emerald-500 text-white font-bold text-sm tracking-wide transition-all duration-300 shadow-sm hover:bg-emerald-700">
                     <i class="bi bi-person-plus"></i>
                     <span>Tambah Admin Baru</span>
                 </a>
@@ -124,7 +122,6 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
         <!-- Stats Widgets -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
-                
                 <div class="flex items-center gap-4">
                     <div class="w-9 h-9 bg-emerald-100 border border-emerald-200 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
                         <i class="bi bi-shield-check"></i>
@@ -161,7 +158,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
                             mysqli_data_seek($adminsQuery, 0);
                             while ($row = mysqli_fetch_assoc($adminsQuery)):
                         ?>
-                            <tr class="transition-colors duration-200">
+                            <tr class="transition-colors duration-200 hover:bg-slate-50">
                                 <td class="py-2.5 px-3 font-semibold text-slate-500"><?= $no++ ?></td>
                                 <td class="py-2.5 px-3">
                                     <span class="font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 py-1 px-2.5 rounded-lg text-xs">
@@ -198,11 +195,3 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
 </body>
 
 </html>
-
-
-
-
-
-
-
-

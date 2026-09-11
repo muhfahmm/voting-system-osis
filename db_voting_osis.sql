@@ -51,9 +51,7 @@ CREATE TABLE `tb_buat_token` (
   `id` int(11) NOT NULL,
   `token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `kelas_id` int(11) DEFAULT NULL,
-  `status_token` enum('belum','sudah') DEFAULT 'belum',
-  `created_by` varchar(50) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `status_token` enum('belum','sudah') DEFAULT 'belum'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -70,18 +68,17 @@ CREATE TABLE `tb_kandidat` (
   `foto_ketua` varchar(255) NOT NULL,
   `nama_wakil` varchar(100) NOT NULL,
   `kelas_wakil` varchar(50) NOT NULL,
-  `foto_wakil` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `foto_wakil` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_kandidat`
 --
 
-INSERT INTO `tb_kandidat` (`id`, `nomor_kandidat`, `nama_ketua`, `kelas_ketua`, `foto_ketua`, `nama_wakil`, `kelas_wakil`, `foto_wakil`, `created_at`) VALUES
-(18, 1, 'ketua 1', 'XI-1', '1762027902_ketua_nopal.jpg', 'Wakil ketua 1', 'X-1', '1762027902_wakil_jayu.jpg', '2025-10-25 14:59:04'),
-(19, 3, 'Ketua 3', 'XI-2', '1762027943_ketua_saed.jpg', 'Wakil ketua 3', 'X-1', '1762027943_wakil_erol.jpg', '2025-10-25 15:00:26'),
-(20, 2, 'Ketua 2', 'XI-2', '1762027925_ketua_hakim.jpg', 'Wakil ketua 2', 'X-1', '1762027925_wakil_zikri.jpg', '2025-10-25 15:01:44');
+INSERT INTO `tb_kandidat` (`id`, `nomor_kandidat`, `nama_ketua`, `kelas_ketua`, `foto_ketua`, `nama_wakil`, `kelas_wakil`, `foto_wakil`) VALUES
+(18, 1, 'ketua 1', 'XI-1', '1762027902_ketua_nopal.jpg', 'Wakil ketua 1', 'X-1', '1762027902_wakil_jayu.jpg'),
+(19, 3, 'Ketua 3', 'XI-2', '1762027943_ketua_saed.jpg', 'Wakil ketua 3', 'X-1', '1762027943_wakil_erol.jpg'),
+(20, 2, 'Ketua 2', 'XI-2', '1762027925_ketua_hakim.jpg', 'Wakil ketua 2', 'X-1', '1762027925_wakil_zikri.jpg');
 
 -- --------------------------------------------------------
 
@@ -92,16 +89,15 @@ INSERT INTO `tb_kandidat` (`id`, `nomor_kandidat`, `nama_ketua`, `kelas_ketua`, 
 CREATE TABLE `tb_kelas` (
   `id` int(11) NOT NULL,
   `nama_kelas` varchar(50) NOT NULL,
-  `jumlah_siswa` int(11) NOT NULL DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `jumlah_siswa` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_kelas`
 --
 
-INSERT INTO `tb_kelas` (`id`, `nama_kelas`, `jumlah_siswa`, `created_at`) VALUES
-(56, 'x1-tkj', 21, '2026-05-22 10:57:13');
+INSERT INTO `tb_kelas` (`id`, `nama_kelas`, `jumlah_siswa`) VALUES
+(56, 'x1-tkj', 21);
 
 -- --------------------------------------------------------
 
@@ -112,8 +108,7 @@ INSERT INTO `tb_kelas` (`id`, `nama_kelas`, `jumlah_siswa`, `created_at`) VALUES
 CREATE TABLE `tb_kode_guru` (
   `id` int(10) UNSIGNED NOT NULL,
   `kode` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `status_kode` enum('belum','sudah') NOT NULL DEFAULT 'belum',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `status_kode` enum('belum','sudah') NOT NULL DEFAULT 'belum'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -128,8 +123,7 @@ CREATE TABLE `tb_voter` (
   `nama_voter` varchar(100) NOT NULL,
   `kelas` varchar(50) NOT NULL,
   `kode_guru_id` int(10) UNSIGNED DEFAULT NULL,
-  `role` enum('siswa','guru') NOT NULL DEFAULT 'siswa',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `role` enum('siswa','guru') NOT NULL DEFAULT 'siswa'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -161,8 +155,7 @@ DELIMITER ;
 CREATE TABLE `tb_vote_log` (
   `id` int(11) NOT NULL,
   `voter_id` int(11) NOT NULL,
-  `nomor_kandidat` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `nomor_kandidat` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

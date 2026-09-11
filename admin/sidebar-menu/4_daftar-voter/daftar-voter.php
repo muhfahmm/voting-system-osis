@@ -379,7 +379,7 @@ while ($row = mysqli_fetch_assoc($q)) {
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="4" class="py-8 text-center text-slate-500">Belum ada guru yang memilih, atau data guru sudah dihapus dari manajemen.</td>
+                                <td colspan="4" class="py-8 text-center text-slate-500">Belum ada guru yang memilih.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

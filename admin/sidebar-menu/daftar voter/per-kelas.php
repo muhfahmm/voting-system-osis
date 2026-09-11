@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require '../../../db/db.php';
 
@@ -65,72 +65,66 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
 <style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
-<body class="bg-[#0b0f19] text-[#f1f5f9] min-h-screen flex font-sans relative overflow-x-hidden">
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
     
-    
-    
-
-    <!-- Sidebar Navigation -->
-    <aside class="w-64 bg-slate-900/60 backdrop-blur-xl border-r border-white/5 flex flex-col justify-between shrink-0 min-h-screen z-10">
-        <div class="flex flex-col gap-4 p-4">
+    <!-- Sidebar Navigation (FIXED) -->
+    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <!-- Brand / Header -->
-            <div class="flex items-center gap-3 border-b border-white/5 pb-6">
-                <div class="w-10 h-10 bg-emerald-600/20 border border-emerald-500/35 rounded-xl flex items-center justify-center">
-                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                    </svg>
-                </div>
+            <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
+                <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
-                    <h2 class="font-sans font-extrabold text-lg bg-emerald-600 bg-clip-text text-transparent">Admin Panel</h2>
-                    <p class="text-xs text-slate-400 font-semibold tracking-wide">E-VOTING SKALSA</p>
+                    <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
+                    <p class="text-xs text-slate-500 font-semibold tracking-wide">E-VOTING SKALSA</p>
                 </div>
             </div>
 
             <!-- Navigation Links -->
             <nav class="flex flex-col gap-1.5">
-                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-400 font-medium transition-all duration-300 group">
-                    <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
+                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-speedometer2 text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-400 font-medium transition-all duration-300 group">
-                    <i class="bi bi-bar-chart-line text-lg group-transition-colors"></i>
+                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-bar-chart-line text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Hasil Vote</span>
                 </a>
-                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-400 font-medium transition-all duration-300 group">
-                    <i class="bi bi-people text-lg group-transition-colors"></i>
+                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-people text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Daftar Kandidat</span>
                 </a>
-                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg bg-emerald-600/10 text-emerald-300 border-l-4 border-emerald-500 font-semibold group">
-                    <i class="bi bi-card-checklist text-lg text-emerald-400"></i>
+                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
+                    <i class="bi bi-card-checklist text-lg text-emerald-500"></i>
                     <span>Daftar Voter</span>
                 </a>
-                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-400 font-medium transition-all duration-300 group">
-                    <i class="bi bi-key text-lg group-transition-colors"></i>
+                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-key text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Token Siswa</span>
                 </a>
-                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-400 font-medium transition-all duration-300 group">
-                    <i class="bi bi-shield-lock text-lg group-transition-colors"></i>
+                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-shield-lock text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Token Guru</span>
                 </a>
-                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-400 font-medium transition-all duration-300 group">
-                    <i class="bi bi-person-workspace text-lg group-transition-colors"></i>
+                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
+                    <i class="bi bi-person-workspace text-lg group-hover:text-emerald-600 transition-colors"></i>
                     <span>Daftar Admin</span>
                 </a>
             </nav>
         </div>
 
         <!-- User / Logout -->
-        <div class="p-4 border-t border-white/5 bg-slate-950/20 flex flex-col gap-4">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-slate-850 border border-white/10 rounded-lg flex items-center justify-center text-slate-300 font-sans font-bold text-sm">
+                <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
                     <?= strtoupper(substr($admin, 0, 2)) ?>
                 </div>
                 <div class="overflow-hidden">
-                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Logged In As</p>
-                    <p class="text-sm text-slate-200 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
+                    <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Logged In As</p>
+                    <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
-            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-3 rounded-xl bg-red-500/10 text-red-200 border border-red-500/10 font-bold text-sm transition-all duration-300">
+            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300 hover:bg-red-100">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
             </a>
@@ -138,7 +132,7 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
     </aside>
 
     <!-- Main Content Area -->
-    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full">
+    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <!-- Top bar / Welcome -->
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/5 pb-6">
             <div>
@@ -171,7 +165,6 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
                             <th class="py-2.5 px-3">No</th>
                             <th class="py-2.5 px-3 text-center">Token Voting</th>
                             <th class="py-2.5 px-3 text-center">Status Token</th>
-                            <th class="py-2.5 px-3 text-center">Tanggal Pembuatan</th>
                             <th class="py-2.5 px-3 text-center">Aksi Hapus</th>
                         </tr>
                     </thead>
@@ -201,7 +194,6 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
                                         }
                                         ?>
                                     </td>
-                                    <td class="py-2.5 px-3 text-center text-slate-400 font-semibold"><?= htmlspecialchars($row['created_at'] ?? '-'); ?></td>
                                     <td class="py-2.5 px-3 text-center">
                                         <a href="?kelas_id=<?= $kelas_id; ?>&hapus_token=<?= $row['id']; ?>"
                                            class="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-xs transition-colors"
@@ -211,7 +203,7 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="5" class="py-8 text-center text-slate-500">Belum ada token dibuat untuk kelas ini.</td>
+                                <td colspan="4" class="py-8 text-center text-slate-500">Belum ada token dibuat untuk kelas ini.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

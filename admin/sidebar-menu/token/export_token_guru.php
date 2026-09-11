@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require '../../../db/db.php';
 
@@ -15,11 +15,10 @@ $query = mysqli_query($db, "
         CASE 
             WHEN v.id IS NOT NULL THEN 'Sudah Digunakan'
             ELSE 'Belum Digunakan'
-        END AS status_penggunaan,
-        v.created_at AS waktu_digunakan
+        END AS status_penggunaan
     FROM tb_kode_guru g
     LEFT JOIN tb_voter v ON g.id = v.kode_guru_id
-    ORDER BY g.created_at ASC
+    ORDER BY g.id ASC
 ");
 
 // Header untuk file Excel
@@ -63,8 +62,6 @@ header("Expires: 0");
                 <th>No</th>
                 <th>Token</th>
                 <th>Status</th>
-                <th>Waktu Dibuat</th>
-                <th>Waktu Digunakan</th>
                 <th>Keterangan</th>
             </tr>
         </thead>
@@ -90,10 +87,6 @@ header("Expires: 0");
                 <td><strong><?= htmlspecialchars($row['kode']); ?></strong></td>
                 <td class="<?= $status_class; ?>">
                     <?= $row['status_penggunaan']; ?>
-                </td>
-                <td><?= date('d-m-Y H:i:s', strtotime($row['created_at'])); ?></td>
-                <td>
-                    <?= $row['waktu_digunakan'] ? date('d-m-Y H:i:s', strtotime($row['waktu_digunakan'])) : '-'; ?>
                 </td>
                 <td>
                     <?php if ($row['status_penggunaan'] == 'Sudah Digunakan'): ?>

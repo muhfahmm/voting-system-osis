@@ -270,7 +270,7 @@ if (isset($_POST['generate_bulk'])) {
                 for ($i = 0; $i < $toCreate; $i++) {
                     $token = generateTokenByPrefixAndNumber($prefix, $classNum, $db);
                     $token_esc = mysqli_real_escape_string($db, $token);
-                    if (mysqli_query($db, "INSERT INTO tb_buat_token (token, kelas_id, created_by) VALUES ('$token_esc', $kelas_id, '$admin')")) {
+                    if (mysqli_query($db, "INSERT INTO tb_buat_token (token, kelas_id) VALUES ('$token_esc', $kelas_id)")) {
                         $berhasil++;
                     }
                 }
@@ -315,7 +315,7 @@ $tokens = mysqli_query($db, "
     FROM tb_buat_token t
     LEFT JOIN tb_kelas k ON t.kelas_id = k.id
     WHERE t.kelas_id = $kelasTerpilih
-    ORDER BY t.created_at
+    ORDER BY t.id ASC
     LIMIT $limitToken OFFSET $offsetToken
 ");
 

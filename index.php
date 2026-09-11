@@ -94,8 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                     if ($role === 'siswa') {
                         $sql_voter_siswa = "
                             INSERT INTO tb_voter 
-                            (nama_voter, kelas, role, token_id, created_at) 
-                            VALUES (?, ?, ?, ?, NOW())
+                            (nama_voter, kelas, role, token_id) 
+                            VALUES (?, ?, ?, ?)
                         ";
                         $voter_siswa = mysqli_prepare($db, $sql_voter_siswa);
                         mysqli_stmt_bind_param($voter_siswa, "sssi", $token_pemilih, $kelas_voter, $role, $voter_token_id);
@@ -105,8 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                     } elseif ($role === 'guru') {
                         $sql_voter_guru = "
                             INSERT INTO tb_voter 
-                            (nama_voter, kelas, role, kode_guru_id, created_at) 
-                            VALUES (?, ?, ?, ?, NOW())
+                            (nama_voter, kelas, role, kode_guru_id) 
+                            VALUES (?, ?, ?, ?)
                         ";
                         $voter_guru = mysqli_prepare($db, $sql_voter_guru);
                         mysqli_stmt_bind_param($voter_guru, "sssi", $token_pemilih, $kelas_voter, $role, $voter_kode_guru_id);
@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
                         throw new Exception("Role tidak terdefinisi.");
                     }
 
-                    $vote_log = mysqli_prepare($db, "INSERT INTO tb_vote_log (voter_id, nomor_kandidat, created_at) VALUES (?, ?, NOW())");
+                    $vote_log = mysqli_prepare($db, "INSERT INTO tb_vote_log (voter_id, nomor_kandidat) VALUES (?, ?)");
                     mysqli_stmt_bind_param($vote_log, "ii", $voter_id, $kandidat_terpilih);
                     mysqli_stmt_execute($vote_log);
                     mysqli_stmt_close($vote_log);
@@ -284,7 +284,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         <div class="modal-content bg-white border border-slate-200 p-6 rounded-2xl shadow-xl w-full max-w-[560px] text-left relative">
             <span class="close absolute top-4 right-5 cursor-pointer text-xl text-slate-400" id="closeVoteForm">&times;</span>
             <h2 id="modalVoteTitle" class="font-sans text-lg lg:text-xl font-bold text-slate-900 mb-1">Konfirmasi Pilihan</h2>
-            <p id="modalVoteSubtitle" class="text-slate-600 text-xs">Silakan masukkan data Anda untuk melanjutkan pemilihan.</p>
             
             <!-- Selected Candidate Preview -->
             <div id="modalKandidatPreview" class="flex gap-3 mt-4 mb-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
@@ -318,11 +317,16 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     </div>
                     
                     <div class="form-group flex flex-col gap-2">
-                        <label for="role" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Role / Status</label>
-                        <select id="role" name="role" class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
-                            <option value="siswa" <?= (!isset($_POST['role']) || $_POST['role'] === 'siswa') ? 'selected' : '' ?>>Siswa</option>
-                            <option value="guru" <?= (isset($_POST['role']) && $_POST['role'] === 'guru') ? 'selected' : '' ?>>Guru</option>
-                        </select>
+                        <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Role / Status</label>
+                        <input type="hidden" id="role" name="role" value="<?= htmlspecialchars($_POST['role'] ?? 'siswa') ?>">
+                        <div class="flex gap-3 w-full">
+                            <button type="button" data-role="siswa" class="role-btn flex-1 py-3 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
+                                Siswa / Siswi
+                            </button>
+                            <button type="button" data-role="guru" class="role-btn flex-1 py-3 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
+                                Guru / Karyawan
+                            </button>
+                        </div>
                     </div>
                     
                     <div id="kelasWrap" class="form-group flex flex-col gap-2">
@@ -400,7 +404,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             const kandidatList = document.getElementById('kandidatList');
             const voteButtons = document.querySelectorAll('.vote-btn');
             const inputKandidat = document.getElementById('kandidat_terpilih');
-            const roleSelect = document.getElementById('role');
+            const roleInput = document.getElementById('role');
+            const roleButtons = document.querySelectorAll('.role-btn');
             const kelasWrap = document.getElementById('kelasWrap');
             let selectedCard = null;
             
@@ -438,16 +443,33 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
             // Tampilkan atau sembunyikan dropdown kelas berdasarkan role
             const updateKelasVisibility = () => {
-                if (roleSelect.value === 'siswa') {
+                if (roleInput.value === 'siswa') {
                     kelasWrap.style.display = 'flex';
                 } else {
                     kelasWrap.style.display = 'none';
                     document.getElementById('kelas').value = '';
                 }
             };
-            
-            roleSelect.addEventListener('change', updateKelasVisibility);
-            updateKelasVisibility();
+
+            const setRole = (selectedRole) => {
+                roleInput.value = selectedRole;
+                roleButtons.forEach(btn => {
+                    if (btn.getAttribute('data-role') === selectedRole) {
+                        btn.className = 'role-btn flex-1 py-3 px-4 rounded-xl bg-emerald-50/30 border-2 border-emerald-600 text-emerald-700 font-sans text-sm font-bold transition-all duration-200 cursor-pointer shadow-sm';
+                    } else {
+                        btn.className = 'role-btn flex-1 py-3 px-4 rounded-xl bg-white border border-slate-200 text-slate-600 font-sans text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-50';
+                    }
+                });
+                updateKelasVisibility();
+            };
+
+            roleButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    setRole(this.getAttribute('data-role'));
+                });
+            });
+
+            setRole(roleInput.value || 'siswa');
 
             // Klik pada tombol vote kandidat
             voteButtons.forEach(button => {
@@ -486,7 +508,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
                 // Update info di dalam modal vote form
                 document.getElementById('modalVoteTitle').textContent = `Konfirmasi Pilihan: Pasangan Nomor ${cardId}`;
-                document.getElementById('modalVoteSubtitle').textContent = `Anda memilih Pasangan Nomor ${cardId}. Silakan masukkan data Anda untuk melanjutkan pemilihan.`;
                 
                 // Populate preview elements
                 document.getElementById('modalKetuaFoto').src = fotoKetua;
@@ -578,7 +599,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     return false;
                 }
                 
-                if (roleSelect.value === 'siswa' && !document.getElementById('kelas').value) {
+                if (roleInput.value === 'siswa' && !document.getElementById('kelas').value) {
                     e.preventDefault();
                     alert('Silakan pilih kelas Anda!');
                     return false;
