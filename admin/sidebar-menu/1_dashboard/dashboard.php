@@ -112,7 +112,6 @@ $totalKandidat = $kandidatCountRow['total'];
                     <?= strtoupper(substr($admin, 0, 2)) ?>
                 </div>
                 <div class="overflow-hidden">
-                    <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Logged In As</p>
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
@@ -129,7 +128,7 @@ $totalKandidat = $kandidatCountRow['total'];
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
                 <h1 class="font-sans text-2xl font-bold text-slate-900">Dashboard Admin</h1>
-                <p class="text-slate-600 text-sm mt-1">Selamat datang kembali, <b class="text-emerald-600"><?= htmlspecialchars($admin) ?></b> <i class="bi bi-person-fill"></i></p>
+                <p class="text-slate-600 text-sm mt-1">Selamat datang <b class="text-emerald-600"><?= htmlspecialchars($admin) ?></b> <i class="bi bi-person-fill"></i></p>
             </div>
             <div class="flex flex-wrap gap-3">
                 <a href="../../../index.php" target="_blank" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm transition-all duration-300 shadow-sm hover:bg-slate-50">

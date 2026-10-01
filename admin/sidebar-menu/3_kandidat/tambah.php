@@ -89,7 +89,6 @@ $admin = $_SESSION['username'] ?? 'Admin';
                     <?= strtoupper(substr($admin, 0, 2)) ?>
                 </div>
                 <div class="overflow-hidden">
-                    <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Logged In As</p>
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
@@ -155,7 +154,7 @@ $admin = $_SESSION['username'] ?? 'Admin';
                                    class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500">
                         </div>
                         <div class="flex flex-col gap-1.5">
-                            <label for="kelas_wakil" class="text-xs font-semibold text-slate-600">Kelas Wakil</label>
+                            <label for="kelas_wakil" class="text-xs font-semibold text-slate-600">Kelas</label>
                             <input type="text" id="kelas_wakil" name="kelas_wakil" placeholder="Contoh: X PPLG 2" required
                                    class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500">
                         </div>

@@ -2,6 +2,62 @@
 session_start();
 require 'db/db.php';
 
+if (isset($_GET['action']) && $_GET['action'] === 'check_token') {
+    header('Content-Type: application/json');
+    $token = trim($_GET['token'] ?? '');
+    $role = trim($_GET['role'] ?? 'siswa');
+    $kelas = trim($_GET['kelas'] ?? '');
+
+    if ($token === '') {
+        echo json_encode(['status' => 'empty', 'message' => 'Token belum diisi']);
+        exit;
+    }
+
+    if ($role === 'siswa') {
+        $stmt = mysqli_prepare($db, "
+            SELECT t.id, t.status_token, k.nama_kelas 
+            FROM tb_buat_token t
+            LEFT JOIN tb_kelas k ON t.kelas_id = k.id
+            WHERE t.token = ?
+        ");
+        mysqli_stmt_bind_param($stmt, "s", $token);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $tid, $status, $nama_kelas);
+        $found = mysqli_stmt_fetch($stmt);
+        mysqli_stmt_close($stmt);
+
+        if (!$found) {
+            echo json_encode(['status' => 'invalid', 'message' => 'Token tidak terdaftar dalam database.']);
+        } elseif ($status === 'sudah') {
+            echo json_encode(['status' => 'used', 'message' => 'Token ini sudah digunakan untuk memilih sebelumnya.']);
+        } elseif ($kelas !== '' && $nama_kelas !== $kelas) {
+            echo json_encode(['status' => 'mismatch', 'message' => 'Token ini terdaftar untuk kelas ' . $nama_kelas . ', bukan kelas ' . $kelas . '.']);
+        } else {
+            echo json_encode(['status' => 'valid', 'message' => 'Token tersedia dan valid (' . $nama_kelas . ').']);
+        }
+    } else {
+        $stmt = mysqli_prepare($db, "
+            SELECT id, status_kode 
+            FROM tb_kode_guru 
+            WHERE kode = ?
+        ");
+        mysqli_stmt_bind_param($stmt, "s", $token);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $gid, $status_kode);
+        $found = mysqli_stmt_fetch($stmt);
+        mysqli_stmt_close($stmt);
+
+        if (!$found) {
+            echo json_encode(['status' => 'invalid', 'message' => 'Token Guru tidak terdaftar dalam database.']);
+        } elseif ($status_kode === 'sudah') {
+            echo json_encode(['status' => 'used', 'message' => 'Token Guru ini sudah digunakan untuk memilih.']);
+        } else {
+            echo json_encode(['status' => 'valid', 'message' => 'Token Guru tersedia dan valid.']);
+        }
+    }
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
     $token_pemilih      = trim($_POST['token_pemilih'] ?? '');
     $role               = trim($_POST['role'] ?? 'siswa');
@@ -222,47 +278,47 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 <style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
-<body class="text-slate-800 min-h-screen p-5 leading-relaxed overflow-x-hidden relative flex flex-col items-center justify-start lg:py-8">
-    <div class="container max-w-[1000px] mx-auto relative z-10 w-full flex flex-col gap-4">
-        <div class="flex justify-between items-center bg-white/90 backdrop-blur-md border border-slate-200 py-3 px-5 rounded-xl shadow-sm">
-            <h1 class="font-sans text-base lg:text-lg font-bold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
+<body class="text-slate-800 min-h-screen p-4 sm:p-6 leading-relaxed overflow-x-hidden relative flex flex-col items-center justify-start lg:py-8">
+    <div class="container max-w-[1350px] mx-auto relative z-10 w-full flex flex-col gap-6">
+        <div class="flex justify-between items-center bg-white/90 backdrop-blur-md border border-slate-200 py-3.5 px-6 rounded-2xl shadow-sm">
+            <h1 class="font-sans text-base lg:text-xl font-bold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
             <div>
-                <button class="bg-white border border-slate-200 h-9 px-4 rounded-lg font-sans text-xs font-semibold cursor-pointer text-slate-700 backdrop-blur-sm" name="login" onclick="window.open('admin/auth/logout.php', '_blank', 'noopener,noreferrer')">Dashboard</button>
+                <button class="bg-white border border-slate-200 h-10 px-5 rounded-xl font-sans text-xs lg:text-sm font-semibold cursor-pointer text-slate-700 backdrop-blur-sm transition-colors hover:bg-slate-50" name="login" onclick="window.open('admin/auth/logout.php', '_blank', 'noopener,noreferrer')">Dashboard</button>
             </div>
         </div>
         
         <div class="flex justify-center">
-            <div class="flex justify-center items-center gap-6 bg-white/90 backdrop-blur-md py-3 px-6 rounded-2xl border border-slate-200 shadow-sm">
-                <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[70px] lg:h-[85px] object-contain">
-                <img src="admin/assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-[70px] lg:h-[85px] object-contain">
+            <div class="flex justify-center items-center gap-6 bg-white/90 backdrop-blur-md py-4 px-8 rounded-2xl border border-slate-200 shadow-sm">
+                <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[75px] lg:h-[95px] object-contain">
+                <img src="admin/assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-[75px] lg:h-[95px] object-contain">
             </div>
         </div>
         
-        <div class="kandidat-list grid grid-cols-1 gap-4 mb-4 lg:grid-cols-3 lg:gap-4 lg:mb-0" id="kandidatList">
+        <div class="kandidat-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-4 lg:mb-0 w-full" id="kandidatList">
             <?php 
             mysqli_data_seek($query, 0);
             while ($row = mysqli_fetch_assoc($query)) : 
             ?>
-                <div class="kandidat-card bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden select-none lg:p-3.5 lg:h-fit self-center" data-id="<?= $row['nomor_kandidat']; ?>">
-                    <div class="absolute -top-3 -right-1 text-[80px] font-sans font-black text-slate-900/10 pointer-events-none select-none z-0 leading-none">0<?= $row['nomor_kandidat']; ?></div>
+                <div class="kandidat-card bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 lg:p-5 shadow-sm relative overflow-hidden select-none h-full flex flex-col justify-between" data-id="<?= $row['nomor_kandidat']; ?>">
+                    <div class="absolute -top-3 -right-1 text-[90px] lg:text-[110px] font-sans font-black text-slate-900/10 pointer-events-none select-none z-0 leading-none">0<?= $row['nomor_kandidat']; ?></div>
                     
-                    <h3 class="font-sans text-base font-bold text-slate-900 mb-3 text-center relative z-10">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
+                    <h3 class="font-sans text-lg lg:text-xl font-bold text-slate-900 mb-4 text-center relative z-10">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
                     
-                    <div class="flex gap-2.5 mb-3 relative z-10">
-                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2 text-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full h-[130px] lg:h-[140px] object-cover object-top rounded-lg mb-2 shadow-sm">
-                            <h3 class="nama-ketua font-sans my-0.5 font-bold text-xs lg:text-sm text-slate-900 truncate"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
-                            <small class="text-slate-500 text-[10px] font-semibold uppercase tracking-wider">Calon Ketua</small>
+                    <div class="flex gap-2.5 lg:gap-3 mb-4 relative z-10">
+                        <div class="flex-1 min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-2.5 lg:p-3 text-center flex flex-col items-center">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full aspect-[4/5] object-cover object-top rounded-lg mb-2.5 shadow-sm">
+                            <h3 class="nama-ketua font-sans my-0.5 font-bold text-xs lg:text-base text-slate-900 truncate w-full text-center"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
+                            <small class="text-slate-500 text-[10px] lg:text-xs font-semibold uppercase tracking-wider whitespace-nowrap">Calon Ketua</small>
                         </div>
-                        <div class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2 text-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full h-[130px] lg:h-[140px] object-cover object-top rounded-lg mb-2 shadow-sm">
-                            <h3 class="nama-wakil font-sans my-0.5 font-bold text-xs lg:text-sm text-slate-900 truncate"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
-                            <small class="text-slate-500 text-[10px] font-semibold uppercase tracking-wider">Calon Wakil</small>
+                        <div class="flex-1 min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-2.5 lg:p-3 text-center flex flex-col items-center">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full aspect-[4/5] object-cover object-top rounded-lg mb-2.5 shadow-sm">
+                            <h3 class="nama-wakil font-sans my-0.5 font-bold text-xs lg:text-base text-slate-900 truncate w-full text-center"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
+                            <small class="text-slate-500 text-[10px] lg:text-xs font-semibold uppercase tracking-wider whitespace-nowrap">Calon Wakil</small>
                         </div>
                     </div>
                     
-                    <div class="btn-vote relative z-10 text-center">
-                        <button type="button" class="vote-btn bg-emerald-600 text-white border border-emerald-600 py-2.5 px-4 rounded-xl cursor-pointer w-full font-sans text-xs lg:text-sm font-bold tracking-wide" data-id="<?= $row['nomor_kandidat']; ?>">
+                    <div class="btn-vote relative z-10 text-center mt-auto pt-2">
+                        <button type="button" class="vote-btn bg-emerald-600 text-white border border-emerald-600 py-3 px-5 rounded-xl cursor-pointer w-full font-sans text-xs lg:text-base font-bold tracking-wide transition-all hover:bg-emerald-700" data-id="<?= $row['nomor_kandidat']; ?>">
                             Pilih Kandidat <?= $row['nomor_kandidat']; ?>
                         </button>
                     </div>
@@ -271,47 +327,54 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         </div>
     </div>
 
-    <div id="modalVoteForm" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-4">
-        <div class="modal-content bg-white border border-slate-200 p-6 rounded-2xl shadow-xl w-full max-w-[560px] text-left relative">
-            <span class="close absolute top-4 right-5 cursor-pointer text-xl text-slate-400" id="closeVoteForm">&times;</span>
-            <h2 id="modalVoteTitle" class="font-sans text-lg lg:text-xl font-bold text-slate-900 mb-1">Konfirmasi Pilihan</h2>
+    <div id="modalVoteForm" class="modal fixed inset-0 bg-slate-950/60 justify-center items-center z-[1000] p-4 sm:p-6">
+        <div class="modal-content bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-[1100px] text-left relative max-h-[90vh] overflow-y-auto">
+            <button type="button" class="absolute top-5 right-6 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-sans text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 cursor-pointer z-20" id="closeVoteForm">
+                <i class="bi bi-arrow-left-right"></i>
+                <span>Ganti Pilihan</span>
+            </button>
+            <h2 id="modalVoteTitle" class="font-sans text-xl sm:text-2xl font-bold text-slate-900 mb-2 border-b border-slate-100 pb-3 pr-32">Konfirmasi Pilihan</h2>
             
-            <div id="modalKandidatPreview" class="flex gap-3 mt-4 mb-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <div class="flex flex-1 items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200 overflow-hidden">
-                    <img id="modalKetuaFoto" src="" alt="Ketua" class="w-[60px] h-[72px] object-cover object-top rounded-md border border-slate-200 shadow-sm">
-                    <div class="overflow-hidden flex-1">
-                        <span class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wider block">Calon Ketua</span>
-                        <p id="modalKetuaNama" class="text-xs lg:text-sm font-bold text-slate-900 truncate mt-0.5"></p>
+            <div id="modalKandidatPreview" class="flex flex-col sm:flex-row gap-4 mt-4 mb-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                <div class="flex flex-1 items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <img id="modalKetuaFoto" src="" alt="Ketua" class="w-[90px] sm:w-[120px] h-[110px] sm:h-[145px] object-cover object-top rounded-xl border border-slate-200 shadow-sm shrink-0">
+                    <div class="overflow-hidden flex-1 min-w-0">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block mb-1">Calon Ketua</span>
+                        <p id="modalKetuaNama" class="text-base sm:text-lg font-bold text-slate-900 truncate"></p>
                     </div>
                 </div>
-                <div class="flex flex-1 items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200 overflow-hidden">
-                    <img id="modalWakilFoto" src="" alt="Wakil" class="w-[60px] h-[72px] object-cover object-top rounded-md border border-slate-200 shadow-sm">
-                    <div class="overflow-hidden flex-1">
-                        <span class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wider block">Calon Wakil</span>
-                        <p id="modalWakilNama" class="text-xs lg:text-sm font-bold text-slate-900 truncate mt-0.5"></p>
+                <div class="flex flex-1 items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <img id="modalWakilFoto" src="" alt="Wakil" class="w-[90px] sm:w-[120px] h-[110px] sm:h-[145px] object-cover object-top rounded-xl border border-slate-200 shadow-sm shrink-0">
+                    <div class="overflow-hidden flex-1 min-w-0">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block mb-1">Calon Wakil</span>
+                        <p id="modalWakilNama" class="text-base sm:text-lg font-bold text-slate-900 truncate"></p>
                     </div>
                 </div>
             </div>
             
-            <form action="" method="post" id="formVote" novalidate class="mt-6 flex flex-col gap-5">
-                <div class="form-user-group-wrap flex flex-col gap-5">
-                    <div class="form-group flex flex-col gap-2">
-                        <label for="pemilih" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Token Pemilih</label>
-                        <input type="text" id="pemilih" name="token_pemilih" 
-                               placeholder="Masukkan Token" autocomplete="off" 
-                               class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none "
-                               value="<?= htmlspecialchars($_POST['token_pemilih'] ?? '') ?>"
-                               required>
+            <form action="" method="post" id="formVote" novalidate class="mt-4 flex flex-col gap-5">
+                <div class="form-user-group-wrap grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="form-group flex flex-col gap-2 md:col-span-2">
+                        <label for="pemilih" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Token</label>
+                        <div class="relative">
+                            <input type="text" id="pemilih" name="token_pemilih" 
+                                   placeholder="Masukkan Token" autocomplete="off" 
+                                   class="py-3.5 px-5 rounded-xl bg-white border border-slate-200 font-sans text-sm sm:text-base text-slate-700 w-full focus:outline-none focus:border-emerald-500 transition-colors"
+                                   value="<?= htmlspecialchars($_POST['token_pemilih'] ?? '') ?>"
+                                   required>
+                            <span id="tokenSpinner" class="hidden absolute right-4 top-4 text-slate-400 text-xs">Mengecek...</span>
+                        </div>
+                        <div id="tokenFeedback" class="hidden text-xs font-semibold mt-1 px-1"></div>
                     </div>
                     
                     <div class="form-group flex flex-col gap-2">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Status</label>
                         <input type="hidden" id="role" name="role" value="<?= htmlspecialchars($_POST['role'] ?? 'siswa') ?>">
                         <div class="flex gap-3 w-full">
-                            <button type="button" data-role="siswa" class="role-btn flex-1 py-3 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
+                            <button type="button" data-role="siswa" class="role-btn flex-1 py-3.5 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
                                 Siswa / Siswi
                             </button>
-                            <button type="button" data-role="guru" class="role-btn flex-1 py-3 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
+                            <button type="button" data-role="guru" class="role-btn flex-1 py-3.5 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
                                 Guru / Karyawan
                             </button>
                         </div>
@@ -319,7 +382,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     
                     <div id="kelasWrap" class="form-group flex flex-col gap-2">
                         <label for="kelas" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Kelas Pemilih</label>
-                        <select id="kelas" name="kelas" class="pilih-kelas py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
+                        <select id="kelas" name="kelas" class="pilih-kelas py-3.5 px-5 rounded-xl bg-white border border-slate-200 font-sans text-sm sm:text-base text-slate-700 w-full focus:outline-none appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
                             <option value="">Pilih Kelas</option>
                             <?php foreach ($kelas_list as $kelas): ?>
                                 <option value="<?= htmlspecialchars($kelas['nama_kelas']) ?>"
@@ -333,53 +396,52 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 
                 <input type="hidden" name="kandidat_terpilih" id="kandidat_terpilih" value="<?= $_POST['kandidat_terpilih'] ?? '' ?>">
                 
-                <div class="flex gap-4 mt-6">
-                    <button type="button" id="btnBatalVote" class="button-ok bg-slate-100 border border-slate-200 text-slate-700 w-full h-[52px] rounded-xl font-sans font-bold cursor-pointer flex-1">Batal</button>
-                    <button type="submit" name="kirim" class="submit-btn bg-emerald-600 text-white border-none w-full h-[52px] rounded-xl font-sans font-bold cursor-pointer tracking-wide flex-[2]">Konfirmasi</button>
+                <div class="mt-4">
+                    <button type="submit" name="kirim" class="submit-btn bg-emerald-600 text-white border-none w-full h-[54px] rounded-xl font-sans font-bold text-base cursor-pointer tracking-wide hover:bg-emerald-700 transition-colors">Konfirmasi</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="modalSuccess" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
-        <div class="modal-content bg-white/95 backdrop-blur-2xl border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[460px] text-center relative">
-            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400">&times;</span>
-            <div class="icon-wrap w-20 h-20 rounded-full flex justify-center items-center mx-auto mb-5 text-4xl bg-emerald-100 text-emerald-600 border border-emerald-200">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="44" height="44">
+    <div id="modalSuccess" class="modal fixed inset-0 bg-slate-950/60 justify-center items-center z-[1050] p-4">
+        <div class="modal-content bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-[580px] text-center relative flex flex-col items-center">
+            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-slate-600">&times;</span>
+            <div class="icon-wrap w-24 h-24 rounded-full flex justify-center items-center mx-auto mb-6 text-4xl bg-emerald-100 text-emerald-600 border border-emerald-200 shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="52" height="52">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h2 class="font-sans text-2xl font-bold text-slate-900 mb-3">Vote Berhasil!</h2>
-            <p class="text-slate-600 text-sm mb-6 leading-relaxed">Terima kasih sudah memilih. Semoga pilihanmu membawa kebaikan bagi sekolah.</p>
-            <button id="okBtn" class="button-ok bg-emerald-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer">OK</button>
+            <h2 class="font-sans text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Vote Berhasil!</h2>
+            <p class="text-slate-600 text-base mb-8 leading-relaxed max-w-[460px]">Terima kasih sudah memilih. Semoga pilihanmu membawa kebaikan bagi sekolah.</p>
+            <button id="okBtn" class="button-ok bg-emerald-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer hover:bg-emerald-700 transition-colors">OK</button>
         </div>
     </div>
 
-    <div id="modalError" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
-        <div class="modal-content bg-white/95 backdrop-blur-2xl border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[460px] text-center relative">
-            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400">&times;</span>
-            <div class="icon-wrap w-20 h-20 rounded-full flex justify-center items-center mx-auto mb-5 text-4xl bg-red-100 text-red-600 border border-red-200">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="44" height="44">
+    <div id="modalError" class="modal fixed inset-0 bg-slate-950/60 justify-center items-center z-[1050] p-4">
+        <div class="modal-content bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-[580px] text-center relative flex flex-col items-center">
+            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-slate-600">&times;</span>
+            <div class="icon-wrap w-24 h-24 rounded-full flex justify-center items-center mx-auto mb-6 text-4xl bg-red-100 text-red-600 border border-red-200 shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="52" height="52">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </div>
-            <h2 class="font-sans text-2xl font-bold text-slate-900 mb-3">Terjadi Kesalahan</h2>
-            <p id="errorText" class="text-slate-600 text-sm mb-6 leading-relaxed"></p>
-            <button id="errorBtn" class="button-ok bg-red-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer">OK</button>
+            <h2 id="modalErrorTitle" class="font-sans text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Terjadi Kesalahan</h2>
+            <p id="errorText" class="text-slate-600 text-base mb-8 leading-relaxed max-w-[460px]"></p>
+            <button id="errorBtn" class="button-ok bg-red-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer hover:bg-red-700 transition-colors">OK</button>
         </div>
     </div>
 
-    <div id="modalTokenUsed" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
-        <div class="modal-content bg-white/95 backdrop-blur-2xl border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[460px] text-center relative">
-            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400">&times;</span>
-            <div class="icon-wrap w-20 h-20 rounded-full flex justify-center items-center mx-auto mb-5 text-4xl bg-amber-100 text-amber-600 border border-amber-200">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="44" height="44">
+    <div id="modalTokenUsed" class="modal fixed inset-0 bg-slate-950/60 justify-center items-center z-[1050] p-4">
+        <div class="modal-content bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-[580px] text-center relative flex flex-col items-center">
+            <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-slate-600">&times;</span>
+            <div class="icon-wrap w-24 h-24 rounded-full flex justify-center items-center mx-auto mb-6 text-4xl bg-amber-100 text-amber-600 border border-amber-200 shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="52" height="52">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
             </div>
-            <h2 class="font-sans text-2xl font-bold text-slate-900 mb-3">Token Sudah Digunakan</h2>
-            <p class="text-slate-600 text-sm mb-6 leading-relaxed">Token ini sudah dipakai untuk memilih sebelumnya. Satu token hanya berlaku untuk satu kali pemungutan suara.</p>
-            <button id="tokenUsedBtn" class="button-ok bg-amber-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer">OK</button>
+            <h2 class="font-sans text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Token Sudah Digunakan</h2>
+            <p class="text-slate-600 text-base mb-8 leading-relaxed max-w-[460px]">Token ini sudah dipakai untuk memilih sebelumnya. Satu token hanya berlaku untuk satu kali pemungutan suara.</p>
+            <button id="tokenUsedBtn" class="button-ok bg-amber-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer hover:bg-amber-700 transition-colors">OK</button>
         </div>
     </div>
 
@@ -400,7 +462,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             const errorText = document.getElementById('errorText');
             
             const closeVoteForm = document.getElementById('closeVoteForm');
-            const btnBatalVote = document.getElementById('btnBatalVote');
 
             const showModal = (modal) => {
                 modal.style.display = 'flex';
@@ -517,7 +578,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             };
 
             closeVoteForm.addEventListener('click', handleCancelVote);
-            btnBatalVote.addEventListener('click', handleCancelVote);
+
+            let isFormValidationAlert = false;
 
             const closeFeedbackBtns = document.querySelectorAll('#modalSuccess .close, #okBtn, #modalError .close, #errorBtn, #modalTokenUsed .close, #tokenUsedBtn');
             closeFeedbackBtns.forEach(btn => {
@@ -525,9 +587,17 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     hideModal(modalSuccess);
                     hideModal(modalError);
                     hideModal(modalTokenUsed);
-                    setTimeout(() => {
-                        window.location.href = 'index.php';
-                    }, 350);
+
+                    if (isFormValidationAlert) {
+                        isFormValidationAlert = false;
+                        setTimeout(() => {
+                            showModal(modalVoteForm);
+                        }, 350);
+                    } else {
+                        setTimeout(() => {
+                            window.location.href = 'index.php';
+                        }, 350);
+                    }
                 });
             });
 
@@ -538,7 +608,12 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 }
                 if (e.target === modalError) {
                     hideModal(modalError);
-                    setTimeout(() => { window.location.href = 'index.php'; }, 350);
+                    if (isFormValidationAlert) {
+                        isFormValidationAlert = false;
+                        setTimeout(() => { showModal(modalVoteForm); }, 350);
+                    } else {
+                        setTimeout(() => { window.location.href = 'index.php'; }, 350);
+                    }
                 }
                 if (e.target === modalTokenUsed) {
                     hideModal(modalTokenUsed);
@@ -558,22 +633,98 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 showModal(modalTokenUsed);
             <?php endif; ?>
 
+            const tokenInput = document.getElementById('pemilih');
+            const tokenSpinner = document.getElementById('tokenSpinner');
+            const tokenFeedback = document.getElementById('tokenFeedback');
+            const kelasSelect = document.getElementById('kelas');
+            let checkTimer = null;
+            let isTokenValid = false;
+
+            const checkTokenAvailability = () => {
+                const tokenVal = tokenInput.value.trim();
+                const roleVal = roleInput.value;
+                const kelasVal = kelasSelect ? kelasSelect.value : '';
+
+                if (!tokenVal) {
+                    tokenFeedback.classList.add('hidden');
+                    tokenFeedback.textContent = '';
+                    tokenInput.classList.remove('border-emerald-500', 'border-red-500', 'border-amber-500');
+                    tokenInput.classList.add('border-slate-200');
+                    isTokenValid = false;
+                    return;
+                }
+
+                tokenSpinner.classList.remove('hidden');
+
+                fetch(`index.php?action=check_token&token=${encodeURIComponent(tokenVal)}&role=${encodeURIComponent(roleVal)}&kelas=${encodeURIComponent(kelasVal)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        tokenSpinner.classList.add('hidden');
+                        tokenFeedback.classList.remove('hidden', 'text-emerald-600', 'text-red-600', 'text-amber-600');
+                        tokenInput.classList.remove('border-slate-200', 'border-emerald-500', 'border-red-500', 'border-amber-500');
+
+                        if (data.status === 'valid') {
+                            tokenFeedback.classList.add('text-emerald-600');
+                            tokenFeedback.textContent = '✓ ' + data.message;
+                            tokenInput.classList.add('border-emerald-500');
+                            isTokenValid = true;
+                        } else if (data.status === 'used') {
+                            tokenFeedback.classList.add('text-amber-600');
+                            tokenFeedback.textContent = '⚠️ ' + data.message;
+                            tokenInput.classList.add('border-amber-500');
+                            isTokenValid = false;
+                        } else {
+                            tokenFeedback.classList.add('text-red-600');
+                            tokenFeedback.textContent = '✕ ' + data.message;
+                            tokenInput.classList.add('border-red-500');
+                            isTokenValid = false;
+                        }
+                    })
+                    .catch(() => {
+                        tokenSpinner.classList.add('hidden');
+                    });
+            };
+
+            tokenInput.addEventListener('input', () => {
+                clearTimeout(checkTimer);
+                checkTimer = setTimeout(checkTokenAvailability, 300);
+            });
+
+            if (kelasSelect) {
+                kelasSelect.addEventListener('change', () => {
+                    if (tokenInput.value.trim()) {
+                        checkTokenAvailability();
+                    }
+                });
+            }
+
+            const showCustomAlert = (title, message) => {
+                isFormValidationAlert = true;
+                hideModal(modalVoteForm);
+                const modalErrorTitle = document.getElementById('modalErrorTitle');
+                if (modalErrorTitle) modalErrorTitle.textContent = title;
+                errorText.textContent = message;
+                setTimeout(() => {
+                    showModal(modalError);
+                }, 200);
+            };
+
             document.getElementById('formVote').addEventListener('submit', function(e) {
                 if (!inputKandidat.value) {
                     e.preventDefault();
-                    alert('Silakan pilih salah satu pasangan kandidat terlebih dahulu!');
+                    showCustomAlert('Peringatan', 'Silakan pilih salah satu pasangan kandidat terlebih dahulu!');
                     return false;
                 }
                 
                 if (!document.getElementById('pemilih').value.trim()) {
                     e.preventDefault();
-                    alert('Silakan masukkan token pemilih Anda!');
+                    showCustomAlert('Peringatan', 'masukkan token terlebih dahulu!');
                     return false;
                 }
                 
                 if (roleInput.value === 'siswa' && !document.getElementById('kelas').value) {
                     e.preventDefault();
-                    alert('Silakan pilih kelas Anda!');
+                    showCustomAlert('Peringatan', 'Silakan pilih kelas terlebih dahulu!');
                     return false;
                 }
             });

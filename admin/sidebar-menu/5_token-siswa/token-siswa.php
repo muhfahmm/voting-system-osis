@@ -420,7 +420,6 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                     <?= strtoupper(substr($admin, 0, 2)) ?>
                 </div>
                 <div class="overflow-hidden">
-                    <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Logged In As</p>
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
@@ -464,7 +463,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="kelas">Nama Kelas</label>
-                        <input type="text" id="kelas" name="kelas" placeholder="Misal: X-1 TKJ" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
+                        <input type="text" id="kelas" name="kelas" placeholder="Masukkan kelas" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
                     </div>
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="jumlah_siswa">Jumlah Siswa</label>

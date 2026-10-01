@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require '../../../db/db.php';
 
@@ -210,7 +210,6 @@ while ($row = mysqli_fetch_assoc($q)) {
                     <?= strtoupper(substr($admin, 0, 2)) ?>
                 </div>
                 <div class="overflow-hidden">
-                    <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Logged In As</p>
                     <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
                 </div>
             </div>
@@ -234,7 +233,7 @@ while ($row = mysqli_fetch_assoc($q)) {
             <div class="flex justify-between items-center">
                 <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
                     <i class="bi bi-mortarboard text-emerald-500"></i>
-                    <span>Daftar Voter Khusus Siswa</span>
+                    <span>Daftar Voter Siswa</span>
                 </h2>
                 <span class="bg-emerald-100 border border-emerald-200 text-emerald-700 font-bold text-xs px-3.5 py-1.5 rounded-full">
                     Total: <?= $totalSiswa ?> Siswa
@@ -346,7 +345,7 @@ while ($row = mysqli_fetch_assoc($q)) {
             <div class="flex justify-between items-center">
                 <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
                     <i class="bi bi-mortarboard text-emerald-500"></i>
-                    <span>Daftar Voter Khusus Guru / Staff</span>
+                    <span>Daftar Voter Guru / Staff</span>
                 </h2>
                 <span class="bg-emerald-100 border border-emerald-200 text-emerald-700 font-bold text-xs px-3.5 py-1.5 rounded-full">
                     Total: <?= $totalGuru ?> Guru
