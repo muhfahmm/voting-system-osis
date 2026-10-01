@@ -159,9 +159,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
                     <thead>
                         <tr class="border-b border-slate-200 text-xs text-slate-500 font-bold uppercase tracking-wider">
                             <th class="py-2.5 px-3">No</th>
-                            <th class="py-2.5 px-3">ID Admin</th>
                             <th class="py-2.5 px-3">Username</th>
-                            <th class="py-2.5 px-3">Tingkat Akses (Role)</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
@@ -172,12 +170,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
                             while ($row = mysqli_fetch_assoc($adminsQuery)):
                         ?>
                             <tr class="transition-colors duration-200 hover:bg-slate-50">
-                                <td class="py-2.5 px-3 font-semibold text-slate-500"><?= $no++ ?></td>
-                                <td class="py-2.5 px-3">
-                                    <span class="font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 py-1 px-2.5 rounded-lg text-xs">
-                                        ADM-<?= str_pad($row['id'], 3, '0', STR_PAD_LEFT) ?>
-                                    </span>
-                                </td>
+                                <td class="py-2.5 px-3 font-semibold text-slate-500 w-16"><?= $no++ ?></td>
                                 <td class="py-2.5 px-3 font-bold flex items-center gap-2 text-slate-900">
                                     <i class="bi bi-person text-slate-400"></i>
                                     <span><?= htmlspecialchars($row['username']) ?></span>
@@ -185,19 +178,13 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
                                         <span class="bg-emerald-100 border border-emerald-200 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full ml-1">Anda</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="py-2.5 px-3">
-                                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold py-1 px-3 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                        Full Administrator
-                                    </span>
-                                </td>
                             </tr>
                         <?php 
                             endwhile;
                         else: 
                         ?>
                             <tr>
-                                <td colspan="4" class="py-8 px-4 text-center text-slate-500">Belum ada administrator terdaftar.</td>
+                                <td colspan="2" class="py-8 px-4 text-center text-slate-500">Belum ada administrator terdaftar.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

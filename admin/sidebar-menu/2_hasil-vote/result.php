@@ -207,40 +207,35 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             <?php 
             $leaderPercent = $totalVotes > 0 ? round(($leader['total_suara'] / $totalVotes) * 100, 1) : 0;
             ?>
-            <section class="bg-white/90 backdrop-blur-md border border-emerald-100 rounded-2xl p-4 md:p-5 shadow-sm relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-4 group">
-                
-                
-
-                
-                <div class="flex flex-col sm:flex-row items-center gap-4 z-10">
-                    <div class="flex gap-3 relative shrink-0">
-                        <img src="../../uploads/<?= $leader['foto_ketua']; ?>" alt="Foto Ketua Terunggul" class="w-24 h-32 sm:w-28 sm:h-38 object-cover rounded-2xl border-2 border-emerald-200 shadow-md group-transition-transform duration-500">
-                        <img src="../../uploads/<?= $leader['foto_wakil']; ?>" alt="Foto Wakil Terunggul" class="w-24 h-32 sm:w-28 sm:h-38 object-cover rounded-2xl border-2 border-emerald-200 shadow-md group-transition-transform duration-500">
-                        <span class="absolute -top-3 -right-3 w-10 h-10 bg-emerald-500 border border-emerald-400 text-white rounded-full flex items-center justify-center font-sans font-extrabold text-sm shadow-md">
+            <section class="bg-white/90 backdrop-blur-md border border-emerald-100 rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-4 group">
+                <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 z-10 w-full lg:w-auto">
+                    <div class="flex gap-2 sm:gap-3 relative shrink-0">
+                        <img src="../../uploads/<?= $leader['foto_ketua']; ?>" alt="Foto Ketua Terunggul" class="w-20 h-28 sm:w-28 sm:h-38 object-cover rounded-xl sm:rounded-2xl border-2 border-emerald-200 shadow-md">
+                        <img src="../../uploads/<?= $leader['foto_wakil']; ?>" alt="Foto Wakil Terunggul" class="w-20 h-28 sm:w-28 sm:h-38 object-cover rounded-xl sm:rounded-2xl border-2 border-emerald-200 shadow-md">
+                        <span class="absolute -top-2.5 -right-2.5 sm:-top-3 sm:-right-3 w-8 h-8 sm:w-10 sm:h-10 bg-emerald-500 border border-emerald-400 text-white rounded-full flex items-center justify-center font-sans font-extrabold text-xs sm:text-sm shadow-md">
                             #<?= $leader['nomor_kandidat']; ?>
                         </span>
                     </div>
 
-                    <div class="text-center sm:text-left flex flex-col gap-2">
-                        <div class="inline-flex mx-auto sm:mx-0 items-center gap-1.5 py-1 px-3.5 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-700 text-xs font-bold uppercase tracking-wider w-fit">
+                    <div class="text-center sm:text-left flex flex-col gap-1.5 sm:gap-2">
+                        <div class="inline-flex mx-auto sm:mx-0 items-center gap-1.5 py-0.5 px-3 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-700 text-[10px] sm:text-xs font-bold uppercase tracking-wider w-fit">
                             <i class="bi bi-award-fill text-emerald-500"></i> Unggul Sementara
                         </div>
-                        <h2 class="font-sans text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
+                        <h2 class="font-sans text-xl sm:text-2xl md:text-3xl font-black text-slate-900 leading-tight">
                             <?= htmlspecialchars($leader['nama_ketua']) ?> & <?= htmlspecialchars($leader['nama_wakil']) ?>
                         </h2>
                         <p class="text-slate-500 text-xs sm:text-sm">Pasangan Calon Nomor Urut <?= $leader['nomor_kandidat'] ?></p>
                     </div>
                 </div>
 
-                
-                <div class="flex items-center gap-4 shrink-0 z-10">
-                    <div class="text-center bg-white border border-slate-200 py-4 px-6 rounded-2xl min-w-[120px] shadow-sm">
-                        <p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">JUMLAH SUARA</p>
-                        <p class="text-2xl font-bold text-slate-900 mt-1"><?= $leader['total_suara'] ?></p>
+                <div class="flex items-center justify-center gap-3 sm:gap-4 shrink-0 z-10 w-full sm:w-auto">
+                    <div class="flex-1 sm:flex-none text-center bg-white border border-slate-200 py-3 px-4 sm:py-4 sm:px-6 rounded-xl sm:rounded-2xl min-w-[100px] sm:min-w-[120px] shadow-sm">
+                        <p class="text-[9px] sm:text-[10px] text-slate-500 font-bold tracking-widest uppercase">JUMLAH SUARA</p>
+                        <p class="text-xl sm:text-2xl font-bold text-slate-900 mt-0.5 sm:mt-1"><?= $leader['total_suara'] ?></p>
                     </div>
-                    <div class="text-center bg-emerald-50 border border-emerald-200 py-4 px-6 rounded-2xl min-w-[120px]">
-                        <p class="text-[10px] text-emerald-600 font-bold tracking-widest uppercase">PERSENTASE</p>
-                        <p class="text-2xl font-bold text-emerald-600 mt-1"><?= $leaderPercent ?>%</p>
+                    <div class="flex-1 sm:flex-none text-center bg-emerald-50 border border-emerald-200 py-3 px-4 sm:py-4 sm:px-6 rounded-xl sm:rounded-2xl min-w-[100px] sm:min-w-[120px]">
+                        <p class="text-[9px] sm:text-[10px] text-emerald-600 font-bold tracking-widest uppercase">PERSENTASE</p>
+                        <p class="text-xl sm:text-2xl font-bold text-emerald-600 mt-0.5 sm:mt-1"><?= $leaderPercent ?>%</p>
                     </div>
                 </div>
             </section>
@@ -315,33 +310,33 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             </div>
         </div>
 
-        
+        <!-- Chart Section -->
         <div class="grid grid-cols-1 xl:grid-cols-5 gap-4">
-            
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4 items-center xl:col-span-2">
-                <h3 class="font-sans text-base font-bold text-slate-800 self-start">Proporsi Persentase Suara</h3>
-                <div class="w-full max-w-[380px] aspect-square flex items-center justify-center mt-4">
+            <!-- Pie Chart Container -->
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-6 md:p-8 flex flex-col gap-3 items-center xl:col-span-2">
+                <h3 class="font-sans text-sm sm:text-base font-bold text-slate-800 self-start">Proporsi Persentase Suara</h3>
+                <div class="w-full relative h-[250px] sm:h-[300px] md:h-[340px] flex items-center justify-center mt-2">
                     <canvas id="pieChart"></canvas>
                 </div>
             </div>
 
-            
-            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4 xl:col-span-3">
-                <h3 class="font-sans text-base font-bold text-slate-800">Perolehan Suara Paslon</h3>
-                <div class="w-full h-full min-h-[380px] flex items-center justify-center mt-4">
+            <!-- Bar Chart Container -->
+            <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-6 md:p-8 flex flex-col gap-3 xl:col-span-3">
+                <h3 class="font-sans text-sm sm:text-base font-bold text-slate-800">Perolehan Suara Paslon</h3>
+                <div class="w-full relative h-[250px] sm:h-[300px] md:h-[340px] flex items-center justify-center mt-2">
                     <canvas id="barChart"></canvas>
                 </div>
             </div>
         </div>
 
-        
-        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4">
+        <!-- Tabel Perolehan Rinci -->
+        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-6 md:p-8 flex flex-col gap-4">
             <div>
-                <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-3">
+                <h2 class="font-sans text-sm sm:text-base font-bold text-slate-800 flex items-center gap-2.5">
                     <i class="bi bi-bar-chart-steps text-emerald-500"></i>
                     <span>Tabel Perolehan Rinci & Grafik Batang</span>
                 </h2>
-                <p class="text-xs text-slate-500 mt-1">Perolehan suara riil beserta status persentase akurat untuk setiap pasangan calon</p>
+                <p class="text-xs text-slate-500 mt-0.5">Perolehan suara riil beserta status persentase akurat untuk setiap pasangan calon</p>
             </div>
 
             <div class="flex flex-col gap-4">
@@ -351,29 +346,29 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                     while ($row = mysqli_fetch_assoc($query)):
                         $persentase = $totalVotes > 0 ? round(($row['total_suara'] / $totalVotes) * 100, 2) : 0;
                 ?>
-                    <div class="flex flex-col gap-3">
+                    <div class="flex flex-col gap-2.5">
                         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                            <div class="flex items-center gap-3">
-                                <span class="w-8 h-8 rounded-xl bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center font-sans font-extrabold text-sm">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-emerald-100 border border-emerald-200 text-emerald-600 flex items-center justify-center font-sans font-extrabold text-xs sm:text-sm shrink-0">
                                     <?= htmlspecialchars($row['nomor_kandidat']) ?>
                                 </span>
-                                <span class="text-slate-700 font-sans font-extrabold text-sm sm:text-base">
+                                <span class="text-slate-800 font-sans font-bold text-xs sm:text-sm md:text-base leading-snug">
                                     <?= htmlspecialchars($row['nama_ketua']) ?> & <?= htmlspecialchars($row['nama_wakil']) ?>
                                 </span>
                             </div>
 
-                            <div class="flex items-center gap-3 self-end sm:self-auto">
-                                <span class="text-xs text-slate-500 font-semibold font-sans uppercase">Total: <?= htmlspecialchars($row['total_suara']) ?> Suara</span>
-                                <span class="text-emerald-600 font-sans font-black text-sm bg-emerald-50 py-1.5 px-3.5 rounded-xl border border-emerald-200">
+                            <div class="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto pt-1 sm:pt-0">
+                                <span class="text-[11px] sm:text-xs text-slate-500 font-semibold font-sans uppercase">Total: <?= htmlspecialchars($row['total_suara']) ?> Suara</span>
+                                <span class="text-emerald-600 font-sans font-black text-xs sm:text-sm bg-emerald-50 py-1 px-3 rounded-lg border border-emerald-200">
                                     <?= $persentase ?>%
                                 </span>
                             </div>
                         </div>
 
-                        <div class="w-full h-11 bg-slate-100 border border-slate-200 rounded-2xl overflow-hidden relative flex items-center p-1.5">
-                            <div class="h-full bg-emerald-600 rounded-xl transition-all duration-[1200ms] ease-out flex items-center justify-end px-4 min-w-[20px]" style="width: <?= $persentase ?>%;">
-                                <?php if ($persentase >= 10): ?>
-                                    <span class="text-[10px] sm:text-xs font-sans font-black text-white bg-slate-900/60 backdrop-blur-sm py-0.5 px-2 rounded-md border border-white/10 uppercase tracking-widest">
+                        <div class="w-full h-9 sm:h-11 bg-slate-100 border border-slate-200 rounded-xl sm:rounded-2xl overflow-hidden relative flex items-center p-1 sm:p-1.5">
+                            <div class="h-full bg-emerald-600 rounded-lg sm:rounded-xl transition-all duration-[1200ms] ease-out flex items-center justify-end px-3 sm:px-4 min-w-[20px]" style="width: <?= $persentase ?>%;">
+                                <?php if ($persentase >= 12): ?>
+                                    <span class="text-[9px] sm:text-xs font-sans font-black text-white bg-slate-900/60 backdrop-blur-sm py-0.5 px-1.5 sm:px-2 rounded border border-white/10 uppercase tracking-wider">
                                         <?= $persentase ?>%
                                     </span>
                                 <?php endif; ?>
@@ -392,9 +387,11 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
         const labels = <?= json_encode($labels); ?>;
         const dataVotes = <?= json_encode($dataVotes); ?>;
 
+        const isMobile = window.innerWidth < 640;
+
         Chart.defaults.color = '#475569';
         Chart.defaults.borderColor = 'rgba(0, 0, 0, 0.08)';
-        Chart.defaults.font.family = 'Plus Jakarta Sans, system-ui, sans-serif';
+        Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
         Chart.defaults.font.weight = 600;
 
         new Chart(document.getElementById('pieChart'), {
@@ -404,7 +401,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                 datasets: [{
                     data: dataVotes,
                     backgroundColor: ['#10b981', '#a855f7', '#ec4899', '#3b82f6', '#eab308'],
-                    borderWidth: 3,
+                    borderWidth: 2,
                     borderColor: '#ffffff'
                 }]
             },
@@ -415,11 +412,12 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                     legend: {
                         position: 'bottom',
                         labels: {
-                            padding: 20,
+                            padding: isMobile ? 10 : 20,
                             usePointStyle: true,
+                            boxWidth: isMobile ? 8 : 10,
                             font: {
-                                size: 12,
-                                weight: 700
+                                size: isMobile ? 10 : 12,
+                                weight: 600
                             }
                         }
                     }
@@ -435,9 +433,9 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                     label: 'Jumlah Suara',
                     data: dataVotes,
                     backgroundColor: ['#10b981', '#a855f7', '#ec4899', '#3b82f6', '#eab308'],
-                    borderRadius: 14,
+                    borderRadius: isMobile ? 8 : 12,
                     borderWidth: 0,
-                    barPercentage: 0.55
+                    barPercentage: isMobile ? 0.7 : 0.55
                 }]
             },
             options: {
@@ -452,7 +450,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                         ticks: {
                             precision: 0,
                             font: {
-                                size: 11
+                                size: isMobile ? 10 : 11
                             }
                         }
                     },
@@ -461,9 +459,11 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                             display: false
                         },
                         ticks: {
+                            maxRotation: isMobile ? 45 : 0,
+                            minRotation: isMobile ? 45 : 0,
                             font: {
-                                size: 11,
-                                weight: 700
+                                size: isMobile ? 9 : 11,
+                                weight: 600
                             }
                         }
                     }
