@@ -41,15 +41,24 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
     
 
     
-    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+    <!-- Mobile Overlay Backdrop -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-30 hidden lg:hidden transition-opacity duration-300 opacity-0" onclick="toggleSidebar()"></div>
+
+    <!-- Aside Sidebar -->
+    <aside id="sidebarMenu" class="w-64 bg-white/95 lg:bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-xl lg:shadow-sm flex flex-col fixed top-0 left-0 z-40 h-screen transition-transform duration-300 -translate-x-full lg:translate-x-0">
         
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
-            <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
-                <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
-                <div>
-                    <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
-                    <p class="text-xs text-slate-500 font-semibold tracking-wide">E-VOTING SKALSA</p>
+            <div class="flex items-center justify-between border-b border-slate-200 pb-6">
+                <div class="flex items-center gap-3">
+                    <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
+                    <div>
+                        <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
+                        <p class="text-xs text-slate-500 font-semibold tracking-wide">E-VOTING SKALSA</p>
+                    </div>
                 </div>
+                <button type="button" onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+                    <i class="bi bi-x-lg text-lg"></i>
+                </button>
             </div>
 
             <nav class="flex flex-col gap-1.5">
@@ -102,10 +111,15 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
     </aside>
 
     
-    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
+    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full lg:ml-64">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
-            <div>
-                <h1 class="font-sans text-3xl font-extrabold text-slate-900">Daftar Kandidat OSIS</h1>
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="toggleSidebar()" class="lg:hidden p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-lg shadow-sm hover:bg-slate-50 flex items-center justify-center">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div>
+                    <h1 class="font-sans text-2xl sm:text-3xl font-extrabold text-slate-900">Daftar Kandidat OSIS</h1>
+                </div>
             </div>
             <div class="flex gap-3">
                 <a href="#tambahKandidatSec" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 border border-emerald-500 (16, 185, 129,0.25)] text-white font-bold text-sm tracking-wide transition-all duration-300">
@@ -224,6 +238,23 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
             </form>
         </div>
     </main>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (!sidebar || !overlay) return;
+
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+    </script>
 </body>
 
 </html>

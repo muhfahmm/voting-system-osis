@@ -37,16 +37,25 @@ $admin = $_SESSION['username'] ?? 'Admin';
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
     
     
-    <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
+    <!-- Mobile Overlay Backdrop -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-30 hidden lg:hidden transition-opacity duration-300 opacity-0" onclick="toggleSidebar()"></div>
+
+    <!-- Aside Sidebar -->
+    <aside id="sidebarMenu" class="w-64 bg-white/95 lg:bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-xl lg:shadow-sm flex flex-col fixed top-0 left-0 z-40 h-screen transition-transform duration-300 -translate-x-full lg:translate-x-0">
         
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             
-            <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
-                <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
-                <div>
-                    <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
-                    <p class="text-xs text-slate-500 font-semibold tracking-wide">E-VOTING SKALSA</p>
+            <div class="flex items-center justify-between border-b border-slate-200 pb-6">
+                <div class="flex items-center gap-3">
+                    <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
+                    <div>
+                        <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
+                        <p class="text-xs text-slate-500 font-semibold tracking-wide">E-VOTING SKALSA</p>
+                    </div>
                 </div>
+                <button type="button" onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
+                    <i class="bi bi-x-lg text-lg"></i>
+                </button>
             </div>
 
             
@@ -100,11 +109,16 @@ $admin = $_SESSION['username'] ?? 'Admin';
     </aside>
 
     
-    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-6 w-full ml-64 max-w-4xl">
+    <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-6 w-full lg:ml-64 max-w-4xl">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
-            <div>
-                <h1 class="font-sans text-2xl font-bold text-slate-900">Tambah Pasangan Kandidat</h1>
-                <p class="text-slate-500 text-sm mt-1">Masukkan data lengkap Calon Ketua & Wakil Ketua OSIS</p>
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="toggleSidebar()" class="lg:hidden p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-lg shadow-sm hover:bg-slate-50 flex items-center justify-center">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div>
+                    <h1 class="font-sans text-2xl font-bold text-slate-900">Tambah Pasangan Kandidat</h1>
+                    <p class="text-slate-500 text-sm mt-1">Masukkan data lengkap Calon Ketua & Wakil Ketua OSIS</p>
+                </div>
             </div>
             <a href="daftar-kandidat.php" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-sm transition-all duration-300 hover:bg-slate-200 self-start sm:self-auto">
                 <i class="bi bi-arrow-left"></i>
@@ -176,6 +190,23 @@ $admin = $_SESSION['username'] ?? 'Admin';
             </form>
         </div>
     </main>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (!sidebar || !overlay) return;
+
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+    </script>
 </body>
 
 </html>

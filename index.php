@@ -211,6 +211,19 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voting Kandidat OSIS Skalsa</title>
     <link rel="icon" href="admin/assets/img/logo osis.png">
+    <link rel="preload" as="image" href="admin/assets/img/logo osis.png">
+    <link rel="preload" as="image" href="admin/assets/img/logo sekolah.png">
+    <?php 
+    mysqli_data_seek($query, 0);
+    while ($k = mysqli_fetch_assoc($query)): 
+        if (!empty($k['foto_ketua'])): ?>
+    <link rel="preload" as="image" href="admin/uploads/<?= htmlspecialchars($k['foto_ketua']) ?>">
+        <?php endif; 
+        if (!empty($k['foto_wakil'])): ?>
+    <link rel="preload" as="image" href="admin/uploads/<?= htmlspecialchars($k['foto_wakil']) ?>">
+        <?php endif; 
+    endwhile; 
+    ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -289,8 +302,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         
         <div class="flex justify-center">
             <div class="flex justify-center items-center gap-6 bg-white/90 backdrop-blur-md py-4 px-8 rounded-2xl border border-slate-200 shadow-sm">
-                <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[75px] lg:h-[95px] object-contain">
-                <img src="admin/assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-[75px] lg:h-[95px] object-contain">
+                <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[75px] lg:h-[95px] object-contain" loading="eager" fetchpriority="high" decoding="async">
+                <img src="admin/assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-[75px] lg:h-[95px] object-contain" loading="eager" fetchpriority="high" decoding="async">
             </div>
         </div>
         
@@ -306,12 +319,12 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     
                     <div class="flex gap-2.5 lg:gap-3 mb-4 relative z-10">
                         <div class="flex-1 min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-2.5 lg:p-3 text-center flex flex-col items-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full aspect-[4/5] object-cover object-top rounded-lg mb-2.5 shadow-sm">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full aspect-[4/5] object-cover object-top rounded-lg mb-2.5 shadow-sm" loading="eager" fetchpriority="high" decoding="async">
                             <h3 class="nama-ketua font-sans my-0.5 font-bold text-xs lg:text-base text-slate-900 truncate w-full text-center"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
                             <small class="text-slate-500 text-[10px] lg:text-xs font-semibold uppercase tracking-wider whitespace-nowrap">Calon Ketua</small>
                         </div>
                         <div class="flex-1 min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-2.5 lg:p-3 text-center flex flex-col items-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full aspect-[4/5] object-cover object-top rounded-lg mb-2.5 shadow-sm">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full aspect-[4/5] object-cover object-top rounded-lg mb-2.5 shadow-sm" loading="eager" fetchpriority="high" decoding="async">
                             <h3 class="nama-wakil font-sans my-0.5 font-bold text-xs lg:text-base text-slate-900 truncate w-full text-center"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
                             <small class="text-slate-500 text-[10px] lg:text-xs font-semibold uppercase tracking-wider whitespace-nowrap">Calon Wakil</small>
                         </div>
