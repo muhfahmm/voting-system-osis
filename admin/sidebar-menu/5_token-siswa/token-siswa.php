@@ -505,38 +505,15 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                                         <td class="py-2.5 px-3 text-center text-emerald-600 font-bold"><?= $usedTokenMap[$k['id']] ?? 0; ?></td>
                                         <td class="py-2.5 px-3">
                                             <div class="flex flex-wrap gap-2 justify-center">
-                                                <a href="?edit=<?= $k['id']; ?>" class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-xs transition-colors">Edit</a>
-                                                <a href="?hapus=<?= $k['id']; ?>" class="px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-600 font-bold text-xs transition-colors" onclick="return confirm('Yakin ingin menghapus kelas ini?')">Hapus</a>
+                                                <a href="?edit=<?= $k['id']; ?>" class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-xs transition-colors flex items-center gap-1">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                    <span>Edit</span>
+                                                </a>
+                                                <a href="?hapus=<?= $k['id']; ?>" class="px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-600 font-bold text-xs transition-colors flex items-center gap-1" onclick="return confirm('Yakin ingin menghapus kelas ini?')">
+                                                    <i class="bi bi-trash"></i>
+                                                    <span>Hapus</span>
+                                                </a>
                                             </div>
-                                            
-                                            <?php if (isset($editRow) && $editRow['id'] == $k['id']): ?>
-                                                <div class="mt-4 p-4 rounded-xl border border-amber-200 bg-amber-50/50 text-left flex flex-col gap-3 shadow-sm">
-                                                    <div class="flex items-center gap-2 text-amber-700 font-bold text-xs">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                        <span>Edit Data Kelas</span>
-                                                    </div>
-                                                    <form method="POST" class="flex flex-col gap-3">
-                                                        <input type="hidden" name="id" value="<?= $editRow['id']; ?>">
-                                                        <div class="flex flex-col gap-1">
-                                                            <label class="text-[11px] font-semibold text-slate-600">Nama Kelas</label>
-                                                            <input type="text" name="kelas_baru" value="<?= htmlspecialchars($editRow['nama_kelas']); ?>" class="py-2 px-3 rounded-lg bg-white border border-slate-200 font-sans text-xs text-slate-800 focus:outline-none focus:border-amber-500" required>
-                                                        </div>
-                                                        <div class="flex flex-col gap-1">
-                                                            <label class="text-[11px] font-semibold text-slate-600">Jumlah Siswa</label>
-                                                            <input type="number" name="jumlah_siswa_baru" value="<?= htmlspecialchars($editRow['jumlah_siswa']); ?>" min="1" class="py-2 px-3 rounded-lg bg-white border border-slate-200 font-sans text-xs text-slate-800 focus:outline-none focus:border-amber-500" required>
-                                                        </div>
-                                                        <div class="flex gap-2 pt-1">
-                                                            <button type="submit" name="update_class" class="flex-1 py-2 rounded-lg bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1.5">
-                                                                <i class="bi bi-check-lg"></i>
-                                                                <span>Simpan</span>
-                                                            </button>
-                                                            <a href="token-siswa.php" class="px-3 py-2 rounded-lg bg-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-300 transition-colors flex items-center justify-center">
-                                                                Batal
-                                                            </a>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach;
@@ -699,6 +676,44 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             </div>
         </div>
     </main>
+
+<?php if (isset($editRow)): ?>
+<div id="modalEditClass" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-[1050] flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-md p-6 flex flex-col gap-5 relative">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <h3 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
+                <i class="bi bi-pencil-square text-amber-500 text-lg"></i>
+                <span>Edit Data Kelas</span>
+            </h3>
+            <a href="token-siswa.php" class="text-slate-400 hover:text-slate-600 text-xl font-bold transition-colors">&times;</a>
+        </div>
+
+        <form method="POST" class="flex flex-col gap-4">
+            <input type="hidden" name="id" value="<?= $editRow['id']; ?>">
+            
+            <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-slate-600">Nama Kelas</label>
+                <input type="text" name="kelas_baru" value="<?= htmlspecialchars($editRow['nama_kelas']); ?>" class="py-2.5 px-3.5 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-800 focus:outline-none focus:border-amber-500" required>
+            </div>
+
+            <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold text-slate-600">Jumlah Siswa</label>
+                <input type="number" name="jumlah_siswa_baru" value="<?= htmlspecialchars($editRow['jumlah_siswa']); ?>" min="1" class="py-2.5 px-3.5 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-800 focus:outline-none focus:border-amber-500" required>
+            </div>
+
+            <div class="flex gap-3 pt-3 border-t border-slate-100">
+                <a href="token-siswa.php" class="flex-1 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs hover:bg-slate-200 transition-colors flex items-center justify-center">
+                    Batal
+                </a>
+                <button type="submit" name="update_class" class="flex-1 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 transition-colors shadow-sm flex items-center justify-center gap-1.5">
+                    <i class="bi bi-check-lg text-sm"></i>
+                    <span>Simpan Perubahan</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endif; ?>
 
 <?php if ($showExceedModal): ?>
 <script>

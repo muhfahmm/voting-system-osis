@@ -668,9 +668,9 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                             tokenInput.classList.add('border-amber-500');
                             isTokenValid = false;
                         } else {
-                            tokenFeedback.classList.add('text-red-600');
-                            tokenFeedback.textContent = '✕ ' + data.message;
-                            tokenInput.classList.add('border-red-500');
+                            tokenFeedback.classList.add('hidden');
+                            tokenFeedback.textContent = '';
+                            tokenInput.classList.add('border-slate-200');
                             isTokenValid = false;
                         }
                     })
