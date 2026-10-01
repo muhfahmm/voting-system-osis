@@ -293,10 +293,10 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
 <body class="text-slate-800 min-h-screen p-4 sm:p-6 leading-relaxed overflow-x-hidden relative flex flex-col items-center justify-start lg:py-8">
     <div class="container max-w-[1350px] mx-auto relative z-10 w-full flex flex-col gap-6">
-        <div class="flex justify-between items-center bg-white/90 backdrop-blur-md border border-slate-200 py-3.5 px-6 rounded-2xl shadow-sm">
-            <h1 class="font-sans text-base lg:text-xl font-bold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
-            <div>
-                <button class="bg-white border border-slate-200 h-10 px-5 rounded-xl font-sans text-xs lg:text-sm font-semibold cursor-pointer text-slate-700 backdrop-blur-sm transition-colors hover:bg-slate-50" name="login" onclick="window.open('admin/auth/logout.php', '_blank', 'noopener,noreferrer')">Dashboard</button>
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 bg-white/90 backdrop-blur-md border border-slate-200 py-3.5 px-4 sm:px-6 rounded-2xl shadow-sm text-center sm:text-left">
+            <h1 class="font-sans text-sm sm:text-base lg:text-xl font-bold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
+            <div class="shrink-0">
+                <button class="bg-white border border-slate-200 h-9 sm:h-10 px-4 sm:px-5 rounded-xl font-sans text-xs sm:text-sm font-semibold cursor-pointer text-slate-700 backdrop-blur-sm transition-colors hover:bg-slate-50" name="login" onclick="window.open('admin/auth/logout.php', '_blank', 'noopener,noreferrer')">Dashboard</button>
             </div>
         </div>
         
