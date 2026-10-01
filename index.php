@@ -407,9 +407,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         <div class="modal-content bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-[580px] text-center relative flex flex-col items-center">
             <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-slate-600">&times;</span>
             <div class="icon-wrap w-24 h-24 rounded-full flex justify-center items-center mx-auto mb-6 text-4xl bg-emerald-100 text-emerald-600 border border-emerald-200 shadow-inner">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="52" height="52">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                </svg>
+                <i class="bi bi-check-lg text-5xl"></i>
             </div>
             <h2 class="font-sans text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Vote Berhasil!</h2>
             <p class="text-slate-600 text-base mb-8 leading-relaxed max-w-[460px]">Terima kasih sudah memilih. Semoga pilihanmu membawa kebaikan bagi sekolah.</p>
@@ -421,9 +419,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         <div class="modal-content bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-[580px] text-center relative flex flex-col items-center">
             <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-slate-600">&times;</span>
             <div class="icon-wrap w-24 h-24 rounded-full flex justify-center items-center mx-auto mb-6 text-4xl bg-red-100 text-red-600 border border-red-200 shadow-inner">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="52" height="52">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <i class="bi bi-x-lg text-5xl"></i>
             </div>
             <h2 id="modalErrorTitle" class="font-sans text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Terjadi Kesalahan</h2>
             <p id="errorText" class="text-slate-600 text-base mb-8 leading-relaxed max-w-[460px]"></p>
@@ -435,9 +431,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         <div class="modal-content bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-[580px] text-center relative flex flex-col items-center">
             <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-slate-600">&times;</span>
             <div class="icon-wrap w-24 h-24 rounded-full flex justify-center items-center mx-auto mb-6 text-4xl bg-amber-100 text-amber-600 border border-amber-200 shadow-inner">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="52" height="52">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
+                <i class="bi bi-exclamation-triangle-fill text-5xl"></i>
             </div>
             <h2 class="font-sans text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Token Sudah Digunakan</h2>
             <p class="text-slate-600 text-base mb-8 leading-relaxed max-w-[460px]">Token ini sudah dipakai untuk memilih sebelumnya. Satu token hanya berlaku untuk satu kali pemungutan suara.</p>

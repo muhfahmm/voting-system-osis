@@ -116,121 +116,82 @@ if (!$data) {
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
                 <h1 class="font-sans text-2xl font-bold text-slate-900 flex items-center gap-3">
-                    
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                    </svg>
-                    Edit Kandidat
+                    <i class="bi bi-pencil-square text-emerald-500 text-3xl"></i>
+                    <span>Edit Kandidat</span>
                 </h1>
                 <p class="text-slate-500 text-sm mt-1">Ubah data pasangan calon Ketua dan Wakil Ketua OSIS</p>
             </div>
-            <a href="daftar-kandidat.php" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-sm transition-all duration-300 shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                <span>Kembali</span>
-            </a>
         </header>
 
         
-        <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4 max-w-4xl w-full mx-auto transition-all duration-300 ">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 md:p-8 flex flex-col gap-6 max-w-4xl w-full mx-auto transition-all duration-300">
             <div>
                 <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
+                    <i class="bi bi-pencil-square text-emerald-500 text-xl"></i>
                     <span>Form Edit Kandidat</span>
                 </h2>
-                <p class="text-xs text-slate-500 mt-1">Perbarui informasi pasangan calon nomor urut <span class="font-bold text-emerald-600"><?= $data['nomor_kandidat']; ?></span></p>
+                <p class="text-xs text-slate-500 mt-1">Perbarui informasi pasangan calon nomor urut <span class="font-bold text-emerald-600"><?= htmlspecialchars($data['nomor_kandidat']); ?></span></p>
             </div>
 
-            <form action="api/proses-edit.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
+            <form action="api/proses-edit.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-6">
                 <input type="hidden" name="id" value="<?= $data['id']; ?>">
 
-                
-                <div class="flex flex-col gap-2">
-                    <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-                        </svg>
-                        Nomor Urut Kandidat
-                    </label>
-                    <input type="text" id="nomor_kandidat" name="nomor_kandidat" value="<?= $data['nomor_kandidat']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
+                <div class="flex flex-col gap-1.5 max-w-xs">
+                    <label for="nomor_kandidat" class="text-xs font-semibold text-slate-600">Nomor Urut Kandidat</label>
+                    <input type="number" id="nomor_kandidat" name="nomor_kandidat" value="<?= htmlspecialchars($data['nomor_kandidat']); ?>" class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500 focus:outline-none" required autocomplete="off">
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-200 pt-6">
-                    
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-slate-100 pt-6">
                     <div class="flex flex-col gap-4">
-                        <span class="font-sans font-bold text-sm text-emerald-600 uppercase tracking-wider flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            Calon Ketua OSIS
-                        </span>
-                        
-                        <div class="flex flex-col gap-2">
-                            <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="nama_ketua">Nama Ketua</label>
-                            <input type="text" id="nama_ketua" name="nama_ketua" value="<?= $data['nama_ketua']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
+                        <h3 class="text-sm font-bold text-slate-800 pb-2 border-b border-slate-100 flex items-center gap-2">
+                            <i class="bi bi-person-fill text-emerald-500"></i>
+                            <span>Calon Ketua OSIS</span>
+                        </h3>
+                        <div class="flex flex-col gap-1.5">
+                            <label for="nama_ketua" class="text-xs font-semibold text-slate-600">Nama Lengkap Ketua</label>
+                            <input type="text" id="nama_ketua" name="nama_ketua" value="<?= htmlspecialchars($data['nama_ketua']); ?>" class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500 focus:outline-none" required autocomplete="off">
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                Foto Ketua
-                            </label>
-                            <div class="preview mb-2">
-                                <img id="preview_ketua" src="../../uploads/<?= $data['foto_ketua']; ?>" alt="Foto Ketua" class="w-full aspect-[3/4] object-cover rounded-2xl border border-slate-200 shadow-sm transition-transform duration-300 ">
+                            <label class="text-xs font-semibold text-slate-600">Foto Ketua Saat Ini & Pratinjau</label>
+                            <div class="w-32 aspect-[3/4] overflow-hidden rounded-xl border border-slate-200 shadow-sm bg-slate-50">
+                                <img id="preview_ketua" src="../../uploads/<?= htmlspecialchars($data['foto_ketua']); ?>" alt="Foto Ketua" class="w-full h-full object-cover">
                             </div>
-                            <input type="file" name="foto_ketua" accept="image/*" onchange="previewImage(this, 'preview_ketua')" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-600 :bg-emerald-100 transition-all">
-                            <p class="text-[11px] text-slate-400">Biarkan kosong jika tidak ingin mengubah foto.</p>
+                            <input type="file" name="foto_ketua" accept="image/*" onchange="previewImage(this, 'preview_ketua')" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-all">
+                            <p class="text-[11px] text-slate-400">Biarkan kosong jika tidak ingin mengunggah foto baru.</p>
                         </div>
                     </div>
 
-                    
-                    <div class="flex flex-col gap-4 border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0 md:pl-6">
-                        <span class="font-sans font-bold text-sm text-emerald-600 uppercase tracking-wider flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            Calon Wakil Ketua OSIS
-                        </span>
-                        
-                        <div class="flex flex-col gap-2">
-                            <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider" for="nama_wakil">Nama Wakil</label>
-                            <input type="text" id="nama_wakil" name="nama_wakil" value="<?= $data['nama_wakil']; ?>" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full transition-all duration-300 placeholder-slate-400 focus:outline-none (16, 185, 129,0.15)]" required autocomplete="off">
+                    <div class="flex flex-col gap-4 border-t md:border-t-0 md:border-l border-slate-100 pt-6 md:pt-0 md:pl-6">
+                        <h3 class="text-sm font-bold text-slate-800 pb-2 border-b border-slate-100 flex items-center gap-2">
+                            <i class="bi bi-person-fill text-emerald-500"></i>
+                            <span>Calon Wakil Ketua OSIS</span>
+                        </h3>
+                        <div class="flex flex-col gap-1.5">
+                            <label for="nama_wakil" class="text-xs font-semibold text-slate-600">Nama Lengkap Wakil</label>
+                            <input type="text" id="nama_wakil" name="nama_wakil" value="<?= htmlspecialchars($data['nama_wakil']); ?>" class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500 focus:outline-none" required autocomplete="off">
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label class="font-sans font-semibold text-xs text-slate-500 tracking-wider flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                Foto Wakil
-                            </label>
-                            <div class="preview mb-2">
-                                <img id="preview_wakil" src="../../uploads/<?= $data['foto_wakil']; ?>" alt="Foto Wakil" class="w-full aspect-[3/4] object-cover rounded-2xl border border-slate-200 shadow-sm transition-transform duration-300 ">
+                            <label class="text-xs font-semibold text-slate-600">Foto Wakil Saat Ini & Pratinjau</label>
+                            <div class="w-32 aspect-[3/4] overflow-hidden rounded-xl border border-slate-200 shadow-sm bg-slate-50">
+                                <img id="preview_wakil" src="../../uploads/<?= htmlspecialchars($data['foto_wakil']); ?>" alt="Foto Wakil" class="w-full h-full object-cover">
                             </div>
-                            <input type="file" name="foto_wakil" accept="image/*" onchange="previewImage(this, 'preview_wakil')" class="py-2.5 px-4 rounded-xl bg-white border border-slate-200 font-sans text-xs text-slate-600 w-full focus:outline-none file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-600 :bg-emerald-100 transition-all">
-                            <p class="text-[11px] text-slate-400">Biarkan kosong jika tidak ingin mengubah foto.</p>
+                            <input type="file" name="foto_wakil" accept="image/*" onchange="previewImage(this, 'preview_wakil')" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-all">
+                            <p class="text-[11px] text-slate-400">Biarkan kosong jika tidak ingin mengunggah foto baru.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-4 border-t border-slate-200 pt-6">
-                    <button type="submit" name="edit" class="flex-1 flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-emerald-600 border border-emerald-500 (16, 185, 129,0.35)] text-white font-bold text-sm tracking-wide transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                        </svg>
-                        Simpan Perubahan
-                    </button>
-                    <a href="daftar-kandidat.php" class="flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-bold text-sm transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                        Batal
+                <div class="pt-4 border-t border-slate-100 flex justify-end gap-3">
+                    <a href="daftar-kandidat.php" class="py-2.5 px-5 rounded-xl bg-slate-100 text-slate-700 font-bold text-sm hover:bg-slate-200 transition-all flex items-center gap-2">
+                        <i class="bi bi-x-lg"></i>
+                        <span>Batal</span>
                     </a>
+                    <button type="submit" name="edit" class="py-2.5 px-6 rounded-xl bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 transition-all shadow-sm flex items-center gap-2">
+                        <i class="bi bi-check-lg"></i>
+                        <span>Simpan Perubahan</span>
+                    </button>
                 </div>
             </form>
         </div>

@@ -510,15 +510,29 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                                             </div>
                                             
                                             <?php if (isset($editRow) && $editRow['id'] == $k['id']): ?>
-                                                <div class="mt-4 p-4 rounded-xl border border-slate-200 bg-slate-50 text-left flex flex-col gap-3">
-                                                    <span class="text-xs font-bold text-amber-600 uppercase tracking-wide">Edit Data Kelas</span>
+                                                <div class="mt-4 p-4 rounded-xl border border-amber-200 bg-amber-50/50 text-left flex flex-col gap-3 shadow-sm">
+                                                    <div class="flex items-center gap-2 text-amber-700 font-bold text-xs">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                        <span>Edit Data Kelas</span>
+                                                    </div>
                                                     <form method="POST" class="flex flex-col gap-3">
                                                         <input type="hidden" name="id" value="<?= $editRow['id']; ?>">
-                                                        <input type="text" name="kelas_baru" value="<?= htmlspecialchars($editRow['nama_kelas']); ?>" class="py-2 px-3 rounded-lg bg-white border border-slate-200 font-sans text-xs text-slate-700" required>
-                                                        <input type="number" name="jumlah_siswa_baru" value="<?= htmlspecialchars($editRow['jumlah_siswa']); ?>" min="1" class="py-2 px-3 rounded-lg bg-white border border-slate-200 font-sans text-xs text-slate-700" required>
-                                                        <div class="flex gap-2">
-                                                            <button type="submit" name="update_class" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold text-xs">Update</button>
-                                                            <a href="token-siswa.php" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-600 font-bold text-xs flex items-center justify-center">Batal</a>
+                                                        <div class="flex flex-col gap-1">
+                                                            <label class="text-[11px] font-semibold text-slate-600">Nama Kelas</label>
+                                                            <input type="text" name="kelas_baru" value="<?= htmlspecialchars($editRow['nama_kelas']); ?>" class="py-2 px-3 rounded-lg bg-white border border-slate-200 font-sans text-xs text-slate-800 focus:outline-none focus:border-amber-500" required>
+                                                        </div>
+                                                        <div class="flex flex-col gap-1">
+                                                            <label class="text-[11px] font-semibold text-slate-600">Jumlah Siswa</label>
+                                                            <input type="number" name="jumlah_siswa_baru" value="<?= htmlspecialchars($editRow['jumlah_siswa']); ?>" min="1" class="py-2 px-3 rounded-lg bg-white border border-slate-200 font-sans text-xs text-slate-800 focus:outline-none focus:border-amber-500" required>
+                                                        </div>
+                                                        <div class="flex gap-2 pt-1">
+                                                            <button type="submit" name="update_class" class="flex-1 py-2 rounded-lg bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1.5">
+                                                                <i class="bi bi-check-lg"></i>
+                                                                <span>Simpan</span>
+                                                            </button>
+                                                            <a href="token-siswa.php" class="px-3 py-2 rounded-lg bg-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-300 transition-colors flex items-center justify-center">
+                                                                Batal
+                                                            </a>
                                                         </div>
                                                     </form>
                                                 </div>
