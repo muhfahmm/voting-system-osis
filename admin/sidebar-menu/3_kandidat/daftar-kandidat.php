@@ -19,7 +19,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
     <title>Daftar Kandidat - Voting OSIS</title>
     <link rel="icon" href="../../assets/img/logo osis.png">
     
-    <!-- Tailwind Play CDN -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -40,9 +40,9 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
     
     
 
-    <!-- Sidebar Navigation (FIXED) -->
+    
     <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
-        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
@@ -84,7 +84,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
             </nav>
         </div>
 
-        <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
+        
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
@@ -102,7 +102,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
         </div>
     </aside>
 
-    <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
+    
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
@@ -116,7 +116,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
             </div>
         </header>
 
-        <!-- Candidate Cards Container -->
+        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <?php if (mysqli_num_rows($query) > 0): ?>
                 <?php while ($row = mysqli_fetch_assoc($query)): ?>
@@ -158,7 +158,7 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
             <?php endif; ?>
         </div>
 
-        <!-- Add Candidate Section -->
+        
         <div id="tambahKandidatSec" class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col gap-4 max-w-2xl mt-4">
             <div>
                 <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
@@ -214,8 +214,8 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                 </div>
 
                 <div class="flex flex-col gap-4 border-t border-slate-200 pt-5">
-                    <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-emerald-600 border border-emerald-500 (16, 185, 129,0.35)] text-white font-bold text-sm tracking-wide transition-all duration-300">
-                        💾 Simpan Data Kandidat
+                    <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-emerald-600 border border-emerald-500 (16, 185, 129,0.35)] text-white font-bold text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2">
+                        <i class="bi bi-floppy"></i> <span>Simpan Data Kandidat</span>
                     </button>
                     <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_kandidat" target="_blank" class="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-100 text-slate-600 text-xs border border-slate-200 transition-all duration-300">
                         <i class="bi bi-database"></i>

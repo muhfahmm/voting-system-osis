@@ -9,7 +9,7 @@ if (!isset($_SESSION['login'])) {
 
 $admin = $_SESSION['username'];
 
-// Fungsi untuk men-generate kode guru unik
+
 function generateUniqueKodeGuru($db)
 {
     $chars = 'abcdefghijklmnopqrstuvwxyz';
@@ -19,7 +19,7 @@ function generateUniqueKodeGuru($db)
             $kode .= $chars[rand(0, strlen($chars) - 1)];
         }
 
-        // Cek apakah kode sudah ada di database
+        
         $check = mysqli_query($db, "SELECT id FROM tb_kode_guru WHERE kode = '$kode'");
     } while (mysqli_num_rows($check) > 0);
 
@@ -28,35 +28,35 @@ function generateUniqueKodeGuru($db)
 
 $message = '';
 
-// Aksi Buat Token Manual (admin mengetik sendiri)
+
 if (isset($_POST['add_manual'])) {
     $kode = strtolower(trim($_POST['kode_manual'] ?? ''));
 
     if ($kode === '') {
-        $message = "⚠️ Token tidak boleh kosong!";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Token tidak boleh kosong!';
     } elseif (!preg_match('/^[a-z]+$/', $kode)) {
-        $message = "⚠️ Token hanya boleh berisi huruf (a-z)!";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Token hanya boleh berisi huruf (a-z)!';
     } elseif (strlen($kode) < 2 || strlen($kode) > 100) {
-        $message = "⚠️ Token harus antara 2 sampai 100 karakter!";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Token harus antara 2 sampai 100 karakter!';
     } else {
         $kode_esc = mysqli_real_escape_string($db, $kode);
         $check = mysqli_query($db, "SELECT id FROM tb_kode_guru WHERE kode = '$kode_esc'");
         if (mysqli_num_rows($check) > 0) {
-            $message = "⚠️ Token <b>$kode</b> sudah terdaftar!";
+            $message = '<i class="bi bi-exclamation-triangle"></i> Token <b>' . $kode . '</b> sudah terdaftar!';
         } else {
             $query = mysqli_query($db, "INSERT INTO tb_kode_guru (kode) VALUES ('$kode_esc')");
             if ($query) {
-                $message = "✅ Token Guru manual berhasil ditambahkan: <b>$kode</b>";
+                $message = '<i class="bi bi-check-circle"></i> Token Guru manual berhasil ditambahkan: <b>' . $kode . '</b>';
                 header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
                 exit;
             } else {
-                $message = "❌ Gagal menambahkan token guru.";
+                $message = '<i class="bi bi-x-circle"></i> Gagal menambahkan token guru.';
             }
         }
     }
 }
 
-// Aksi Generate Token Otomatis (sesuai jumlah guru yang diinput)
+
 if (isset($_POST['generate'])) {
     $jumlah = (int)($_POST['jumlah'] ?? 0);
 
@@ -69,19 +69,19 @@ if (isset($_POST['generate'])) {
                 $berhasil++;
             }
         }
-        $message = "✅ Berhasil membuat $berhasil token guru otomatis.";
+        $message = '<i class="bi bi-check-circle"></i> Berhasil membuat ' . $berhasil . ' token guru otomatis.';
         header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
         exit;
     } else {
-        $message = "⚠️ Jumlah guru/token harus antara 1 sampai 100!";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Jumlah guru/token harus antara 1 sampai 100!';
     }
 }
 
-// Aksi Hapus Token Tunggal
+
 if (isset($_GET['hapus'])) {
     $id = (int)$_GET['hapus'];
 
-    // Cek apakah token sudah digunakan untuk memilih
+    
     $checkUsed = mysqli_query($db, "
         SELECT v.id 
         FROM tb_voter v
@@ -90,22 +90,22 @@ if (isset($_GET['hapus'])) {
     ");
 
     if (mysqli_num_rows($checkUsed) > 0) {
-        $message = "❌ Token tidak dapat dihapus karena sudah digunakan untuk memilih!";
+        $message = '<i class="bi bi-x-circle"></i> Token tidak dapat dihapus karena sudah digunakan untuk memilih!';
     } else {
         $delete = mysqli_query($db, "DELETE FROM tb_kode_guru WHERE id = $id");
         if ($delete) {
-            $message = "🗑️ Token berhasil dihapus.";
+            $message = '<i class="bi bi-trash"></i> Token berhasil dihapus.';
             header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
             exit;
         } else {
-            $message = "❌ Gagal menghapus token.";
+            $message = '<i class="bi bi-x-circle"></i> Gagal menghapus token.';
         }
     }
 }
 
-// Aksi Reset/Hapus Semua Token yang Belum Dipakai
+
 if (isset($_POST['reset_unused'])) {
-    // Cari token yang tidak berelasi ke tb_voter (belum digunakan)
+    
     $deleteUnused = mysqli_query($db, "
         DELETE g FROM tb_kode_guru g
         LEFT JOIN tb_voter v ON g.kode = v.nama_voter
@@ -113,19 +113,19 @@ if (isset($_POST['reset_unused'])) {
     ");
 
     if ($deleteUnused) {
-        $message = "🗑️ Seluruh token yang belum digunakan berhasil di-reset/dihapus.";
+        $message = '<i class="bi bi-trash"></i> Seluruh token yang belum digunakan berhasil di-reset/dihapus.';
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;
     } else {
-        $message = "❌ Gagal me-reset token.";
+        $message = '<i class="bi bi-x-circle"></i> Gagal me-reset token.';
     }
 }
 
-// Aksi Reset Token Guru Tunggal
+
 if (isset($_GET['reset_token'])) {
     $id = (int)$_GET['reset_token'];
     
-    // Cek apakah token ada
+    
     $check = mysqli_query($db, "SELECT kode FROM tb_kode_guru WHERE id = $id");
     if (mysqli_num_rows($check) > 0) {
         $row = mysqli_fetch_assoc($check);
@@ -133,37 +133,37 @@ if (isset($_GET['reset_token'])) {
         
         mysqli_begin_transaction($db);
         try {
-            // Dapatkan voter_id dari tb_voter menggunakan kode guru
+            
             $voterQuery = mysqli_query($db, "SELECT id FROM tb_voter WHERE kode_guru_id = $id OR nama_voter = '$kode'");
             while ($v = mysqli_fetch_assoc($voterQuery)) {
                 $voter_id = $v['id'];
-                // Hapus log vote terkait
+                
                 mysqli_query($db, "DELETE FROM tb_vote_log WHERE voter_id = $voter_id");
             }
-            // Hapus voter terkait
+            
             mysqli_query($db, "DELETE FROM tb_voter WHERE kode_guru_id = $id OR nama_voter = '$kode'");
             
-            // Set status_kode menjadi 'belum'
+            
             mysqli_query($db, "UPDATE tb_kode_guru SET status_kode = 'belum' WHERE id = $id");
             
             mysqli_commit($db);
-            $message = "🔄 Penggunaan token guru berhasil di-reset. Token sekarang dapat digunakan kembali untuk memilih.";
+            $message = '<i class="bi bi-arrow-counterclockwise"></i> Penggunaan token guru berhasil di-reset. Token sekarang dapat digunakan kembali untuk memilih.';
             header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
             exit;
         } catch (Exception $e) {
             mysqli_rollback($db);
-            $message = "❌ Gagal me-reset token guru: " . $e->getMessage();
+            $message = '<i class="bi bi-x-circle"></i> Gagal me-reset token guru: ' . $e->getMessage();
         }
     } else {
-        $message = "⚠️ Token tidak ditemukan.";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Token tidak ditemukan.';
     }
 }
 
-// Aksi Reset Semua Token Guru Terpakai
+
 if (isset($_POST['reset_all_used'])) {
     mysqli_begin_transaction($db);
     try {
-        // Dapatkan semua token guru yang sudah terpakai
+        
         $tokenQuery = mysqli_query($db, "
             SELECT g.id, g.kode 
             FROM tb_kode_guru g
@@ -186,16 +186,16 @@ if (isset($_POST['reset_all_used'])) {
         }
         
         mysqli_commit($db);
-        $message = "🔄 Berhasil me-reset $reset_count token guru yang telah digunakan.";
+        $message = '<i class="bi bi-arrow-counterclockwise"></i> Berhasil me-reset ' . $reset_count . ' token guru yang telah digunakan.';
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;
     } catch (Exception $e) {
         mysqli_rollback($db);
-        $message = "❌ Gagal me-reset token guru: " . $e->getMessage();
+        $message = '<i class="bi bi-x-circle"></i> Gagal me-reset token guru: ' . $e->getMessage();
     }
 }
 
-// Aksi Kosongkan Semua Token Guru
+
 if (isset($_POST['clear_all_tokens'])) {
     mysqli_begin_transaction($db);
     try {
@@ -203,17 +203,17 @@ if (isset($_POST['clear_all_tokens'])) {
         mysqli_query($db, "DELETE FROM tb_voter");
         mysqli_query($db, "DELETE FROM tb_kode_guru");
         mysqli_commit($db);
-        $message = "🗑️ Semua token guru berhasil dihapus.";
+        $message = '<i class="bi bi-trash"></i> Semua token guru berhasil dihapus.';
         header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
         exit;
     } catch (Exception $e) {
         mysqli_rollback($db);
-        $message = "❌ Gagal menghapus semua token guru: " . $e->getMessage();
+        $message = '<i class="bi bi-x-circle"></i> Gagal menghapus semua token guru: ' . $e->getMessage();
     }
 }
 
 
-// Paginasi & Pencarian
+
 $limit = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
@@ -225,13 +225,13 @@ if ($search !== '') {
     $whereClause = "WHERE g.kode LIKE '%$search%'";
 }
 
-// Hitung total data
+
 $totalQuery = mysqli_query($db, "SELECT COUNT(*) as total FROM tb_kode_guru g $whereClause");
 $totalRow = mysqli_fetch_assoc($totalQuery);
 $totalData = isset($totalRow['total']) ? (int)$totalRow['total'] : 0;
 $totalPages = max(1, ceil($totalData / $limit));
 
-// Ambil data token guru beserta status penggunaannya
+
 $queryTokens = mysqli_query($db, "
     SELECT 
         g.*,
@@ -246,11 +246,11 @@ $queryTokens = mysqli_query($db, "
     LIMIT $limit OFFSET $offset
 ");
 
-// Total Token Keseluruhan
+
 $qStatTotal = mysqli_query($db, "SELECT COUNT(*) as total FROM tb_kode_guru");
 $statTotal = mysqli_fetch_assoc($qStatTotal)['total'] ?? 0;
 
-// Total Token Sudah Digunakan
+
 $qStatUsed = mysqli_query($db, "
     SELECT COUNT(DISTINCT v.id) as total 
     FROM tb_voter v
@@ -269,7 +269,7 @@ $statUnused = $statTotal - $statUsed;
     <title>Token Guru & Karyawan - Voting OSIS</title>
     <link rel="icon" href="../../assets/img/logo osis.png">
     
-    <!-- Tailwind Play CDN -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -290,11 +290,11 @@ $statUnused = $statTotal - $statUsed;
     
     
 
-    <!-- Sidebar Navigation (FIXED) -->
+    
     <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
-        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
-            <!-- Brand / Header -->
+            
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
@@ -303,7 +303,7 @@ $statUnused = $statTotal - $statUsed;
                 </div>
             </div>
 
-            <!-- Navigation Links -->
+            
             <nav class="flex flex-col gap-1.5">
                 <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
@@ -336,7 +336,7 @@ $statUnused = $statTotal - $statUsed;
             </nav>
         </div>
 
-        <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
+        
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
@@ -354,16 +354,16 @@ $statUnused = $statTotal - $statUsed;
         </div>
     </aside>
 
-    <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
+    
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
-        <!-- Top bar / Welcome -->
+        
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
                 <h1 class="font-sans text-2xl font-bold text-slate-900">Token Guru & Karyawan</h1>
             </div>
         </header>
 
-        <!-- Message Alert -->
+        
         <?php if (!empty($message)): ?>
             <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-2xl text-sm flex items-center gap-3">
                 <i class="bi bi-info-circle text-emerald-500 flex-shrink-0 text-lg"></i>
@@ -371,9 +371,9 @@ $statUnused = $statTotal - $statUsed;
             </div>
         <?php endif; ?>
 
-        <!-- Stats Widgets -->
+        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <!-- Total Token -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
@@ -387,7 +387,7 @@ $statUnused = $statTotal - $statUsed;
                 </div>
             </div>
 
-            <!-- Sudah Digunakan -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
@@ -401,7 +401,7 @@ $statUnused = $statTotal - $statUsed;
                 </div>
             </div>
 
-            <!-- Belum Digunakan -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
@@ -416,9 +416,9 @@ $statUnused = $statTotal - $statUsed;
             </div>
         </div>
 
-        <!-- Forms Grid Section -->
+        
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <!-- Generate Token Card -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-5 h-fit lg:col-span-1">
                 <div>
                     <h3 class="font-sans text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -427,7 +427,7 @@ $statUnused = $statTotal - $statUsed;
                     </h3>
                 </div>
 
-                <!-- Manual -->
+                
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="kode_manual">Buat Token Manual</label>
@@ -444,7 +444,7 @@ $statUnused = $statTotal - $statUsed;
                     <span class="flex-1 h-px bg-slate-200"></span>
                 </div>
 
-                <!-- Otomatis -->
+                
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="jumlah">Jumlah Guru</label>
@@ -455,7 +455,7 @@ $statUnused = $statTotal - $statUsed;
                     </button>
                 </form>
 
-                <!-- Danger / Reset Section -->
+                
                 <div class="mt-4 pt-5 border-t border-slate-200 flex flex-col gap-4">
                     <div>
                         <h4 class="text-xs font-bold text-red-600 uppercase tracking-wider flex items-center gap-1.5">
@@ -471,7 +471,7 @@ $statUnused = $statTotal - $statUsed;
                 </div>
             </div>
 
-            <!-- Token List Table Card -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4 lg:col-span-2">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                     <h3 class="font-sans text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -479,14 +479,14 @@ $statUnused = $statTotal - $statUsed;
                         <span>Token Guru Terdaftar</span>
                     </h3>
 
-                    <!-- Search Form -->
+                    
                     <form method="GET" class="relative">
                         <input type="text" name="search" value="<?= htmlspecialchars($search); ?>" placeholder="Cari token..." class="py-2 px-3 pl-8 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none w-44 sm:w-56 font-medium">
                         <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                     </form>
                 </div>
 
-                <!-- Token List Table -->
+                
                 <div class="overflow-x-auto w-full">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -543,7 +543,7 @@ $statUnused = $statTotal - $statUsed;
                     </table>
                 </div>
 
-                <!-- Pagination -->
+                
                 <?php if ($totalPages > 1): ?>
                     <div class="flex justify-center gap-1.5 mt-2">
                         <?php for ($p = 1; $p <= $totalPages; $p++): ?>
@@ -552,7 +552,7 @@ $statUnused = $statTotal - $statUsed;
                     </div>
                 <?php endif; ?>
 
-                <!-- Excel Export & DB Actions -->
+                
                 <div class="flex flex-wrap gap-4 border-t border-slate-200 pt-5 justify-between items-center mt-2">
                     <div class="flex flex-wrap gap-3">
                         <form method="POST" action="../token/export_token_guru.php">

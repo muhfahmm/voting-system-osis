@@ -57,10 +57,10 @@ if (isset($_POST['login'])) {
 
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col items-center justify-center font-sans p-4">
 
-    <!-- Container Login Card -->
+    
     <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-6 relative">
 
-        <!-- Header Logos & Titles -->
+        
         <div class="text-center flex flex-col items-center gap-3">
             <div class="flex items-center gap-4 justify-center">
                 <img src="../assets/img/logo osis.png" alt="Logo OSIS" class="h-14 object-contain">
@@ -83,7 +83,7 @@ if (isset($_POST['login'])) {
         <form class="login-form flex flex-col gap-4" action="" method="post">
             <input type="hidden" name="login" value="1">
             
-            <!-- Username -->
+            
             <div class="flex flex-col gap-1.5">
                 <label class="font-sans font-semibold text-xs text-slate-700 uppercase tracking-wider" for="username">Username</label>
                 <div class="relative">
@@ -98,7 +98,7 @@ if (isset($_POST['login'])) {
                 </div>
             </div>
 
-            <!-- Password -->
+            
             <div class="flex flex-col gap-1.5">
                 <label class="font-sans font-semibold text-xs text-slate-700 uppercase tracking-wider" for="password">Password</label>
                 <div class="relative">
@@ -111,7 +111,7 @@ if (isset($_POST['login'])) {
                            class="py-2.5 px-3.5 pl-10 pr-10 rounded-lg bg-slate-50 border border-slate-300 font-sans text-sm text-slate-800 w-full focus:outline-none transition-colors placeholder-slate-400" 
                            placeholder="Masukkan password" required autocomplete="current-password">
                     
-                    <!-- Toggle Password Button -->
+                    
                     <button type="button" id="togglePasswordBtn" 
                             class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 cursor-pointer"
                             onclick="togglePassword()">

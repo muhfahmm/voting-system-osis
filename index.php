@@ -180,7 +180,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             }
         }
 
-        /* Interactive candidate card selection blur & active effects */
         .kandidat-list.has-selection .kandidat-card:not(.active) {
             filter: blur(5px) grayscale(30%);
             opacity: 0.35;
@@ -195,7 +194,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             transform: translateY(-4px) scale(1.01);
         }
 
-        /* Ambient glowing circles */
         . {
             background: #f8fafc 0%, rgba(5, 150, 105, 0.05) 50%, transparent 100%);
             filter: blur(80px);
@@ -226,7 +224,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
 <body class="text-slate-800 min-h-screen p-5 leading-relaxed overflow-x-hidden relative flex flex-col items-center justify-start lg:py-8">
     <div class="container max-w-[1000px] mx-auto relative z-10 w-full flex flex-col gap-4">
-        <!-- Header -->
         <div class="flex justify-between items-center bg-white/90 backdrop-blur-md border border-slate-200 py-3 px-5 rounded-xl shadow-sm">
             <h1 class="font-sans text-base lg:text-lg font-bold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
             <div>
@@ -234,7 +231,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             </div>
         </div>
         
-        <!-- Logo Section -->
         <div class="flex justify-center">
             <div class="flex justify-center items-center gap-6 bg-white/90 backdrop-blur-md py-3 px-6 rounded-2xl border border-slate-200 shadow-sm">
                 <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[70px] lg:h-[85px] object-contain">
@@ -242,26 +238,22 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             </div>
         </div>
         
-        <!-- Candidate List -->
         <div class="kandidat-list grid grid-cols-1 gap-4 mb-4 lg:grid-cols-3 lg:gap-4 lg:mb-0" id="kandidatList">
             <?php 
             mysqli_data_seek($query, 0);
             while ($row = mysqli_fetch_assoc($query)) : 
             ?>
                 <div class="kandidat-card bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden select-none lg:p-3.5 lg:h-fit self-center" data-id="<?= $row['nomor_kandidat']; ?>">
-                    <!-- Large Number Background -->
                     <div class="absolute -top-3 -right-1 text-[80px] font-sans font-black text-slate-900/10 pointer-events-none select-none z-0 leading-none">0<?= $row['nomor_kandidat']; ?></div>
                     
                     <h3 class="font-sans text-base font-bold text-slate-900 mb-3 text-center relative z-10">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
                     
                     <div class="flex gap-2.5 mb-3 relative z-10">
-                        <!-- Ketua -->
                         <div class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2 text-center">
                             <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full h-[130px] lg:h-[140px] object-cover object-top rounded-lg mb-2 shadow-sm">
                             <h3 class="nama-ketua font-sans my-0.5 font-bold text-xs lg:text-sm text-slate-900 truncate"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
                             <small class="text-slate-500 text-[10px] font-semibold uppercase tracking-wider">Calon Ketua</small>
                         </div>
-                        <!-- Wakil -->
                         <div class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-2 text-center">
                             <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full h-[130px] lg:h-[140px] object-cover object-top rounded-lg mb-2 shadow-sm">
                             <h3 class="nama-wakil font-sans my-0.5 font-bold text-xs lg:text-sm text-slate-900 truncate"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
@@ -279,15 +271,12 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         </div>
     </div>
 
-    <!-- Modal Voting Form -->
     <div id="modalVoteForm" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-4">
         <div class="modal-content bg-white border border-slate-200 p-6 rounded-2xl shadow-xl w-full max-w-[560px] text-left relative">
             <span class="close absolute top-4 right-5 cursor-pointer text-xl text-slate-400" id="closeVoteForm">&times;</span>
             <h2 id="modalVoteTitle" class="font-sans text-lg lg:text-xl font-bold text-slate-900 mb-1">Konfirmasi Pilihan</h2>
             
-            <!-- Selected Candidate Preview -->
             <div id="modalKandidatPreview" class="flex gap-3 mt-4 mb-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <!-- Ketua Preview -->
                 <div class="flex flex-1 items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200 overflow-hidden">
                     <img id="modalKetuaFoto" src="" alt="Ketua" class="w-[60px] h-[72px] object-cover object-top rounded-md border border-slate-200 shadow-sm">
                     <div class="overflow-hidden flex-1">
@@ -295,7 +284,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                         <p id="modalKetuaNama" class="text-xs lg:text-sm font-bold text-slate-900 truncate mt-0.5"></p>
                     </div>
                 </div>
-                <!-- Wakil Preview -->
                 <div class="flex flex-1 items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200 overflow-hidden">
                     <img id="modalWakilFoto" src="" alt="Wakil" class="w-[60px] h-[72px] object-cover object-top rounded-md border border-slate-200 shadow-sm">
                     <div class="overflow-hidden flex-1">
@@ -310,14 +298,14 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     <div class="form-group flex flex-col gap-2">
                         <label for="pemilih" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Token Pemilih</label>
                         <input type="text" id="pemilih" name="token_pemilih" 
-                               placeholder="Masukkan Token Anda" autocomplete="off" 
+                               placeholder="Masukkan Token" autocomplete="off" 
                                class="py-3 px-[18px] rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none "
                                value="<?= htmlspecialchars($_POST['token_pemilih'] ?? '') ?>"
                                required>
                     </div>
                     
                     <div class="form-group flex flex-col gap-2">
-                        <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Role / Status</label>
+                        <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Status</label>
                         <input type="hidden" id="role" name="role" value="<?= htmlspecialchars($_POST['role'] ?? 'siswa') ?>">
                         <div class="flex gap-3 w-full">
                             <button type="button" data-role="siswa" class="role-btn flex-1 py-3 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
@@ -347,13 +335,12 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 
                 <div class="flex gap-4 mt-6">
                     <button type="button" id="btnBatalVote" class="button-ok bg-slate-100 border border-slate-200 text-slate-700 w-full h-[52px] rounded-xl font-sans font-bold cursor-pointer flex-1">Batal</button>
-                    <button type="submit" name="kirim" class="submit-btn bg-emerald-600 text-white border-none w-full h-[52px] rounded-xl font-sans font-bold cursor-pointer tracking-wide flex-[2]">Kirim Vote Sekarang</button>
+                    <button type="submit" name="kirim" class="submit-btn bg-emerald-600 text-white border-none w-full h-[52px] rounded-xl font-sans font-bold cursor-pointer tracking-wide flex-[2]">Konfirmasi</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal Success -->
     <div id="modalSuccess" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
         <div class="modal-content bg-white/95 backdrop-blur-2xl border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[460px] text-center relative">
             <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400">&times;</span>
@@ -368,7 +355,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         </div>
     </div>
 
-    <!-- Modal Error -->
     <div id="modalError" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
         <div class="modal-content bg-white/95 backdrop-blur-2xl border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[460px] text-center relative">
             <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400">&times;</span>
@@ -383,7 +369,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         </div>
     </div>
 
-    <!-- Modal Token Used -->
     <div id="modalTokenUsed" class="modal fixed inset-0 bg-slate-950/70 backdrop-blur-md justify-center items-center z-[1000] p-5">
         <div class="modal-content bg-white/95 backdrop-blur-2xl border border-slate-200 p-9 rounded-[28px] shadow-[0_20px_45px_-15px_rgba(15,23,42,0.18)] w-full max-w-[460px] text-center relative">
             <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400">&times;</span>
@@ -398,7 +383,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         </div>
     </div>
 
-    <!-- Internal JS -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const kandidatList = document.getElementById('kandidatList');
@@ -409,7 +393,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             const kelasWrap = document.getElementById('kelasWrap');
             let selectedCard = null;
             
-            // Modal Elements
             const modalSuccess = document.getElementById('modalSuccess');
             const modalError = document.getElementById('modalError');
             const modalTokenUsed = document.getElementById('modalTokenUsed');
@@ -432,7 +415,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 }, 300);
             };
 
-            // Periksa apakah kandidat sudah terpilih dari sesi sebelumnya (misalnya setelah POST gagal)
             const selectedKandidat = inputKandidat.value;
             if (selectedKandidat) {
                 const card = document.querySelector(`.kandidat-card[data-id="${selectedKandidat}"]`);
@@ -441,7 +423,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 }
             }
 
-            // Tampilkan atau sembunyikan dropdown kelas berdasarkan role
             const updateKelasVisibility = () => {
                 if (roleInput.value === 'siswa') {
                     kelasWrap.style.display = 'flex';
@@ -471,7 +452,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
             setRole(roleInput.value || 'siswa');
 
-            // Klik pada tombol vote kandidat
             voteButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
@@ -493,29 +473,24 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 const button = card.querySelector('.vote-btn');
                 
                 card.classList.add('active');
-                // Hanya ubah teks, tidak merubah background class
                 button.textContent = "Pilihan Terpilih";
                 
                 inputKandidat.value = cardId;
                 kandidatList.classList.add('has-selection');
                 selectedCard = card;
 
-                // Extract Ketua & Wakil data
                 const fotoKetua = card.querySelector('.foto-ketua').src;
                 const namaKetua = card.querySelector('.nama-ketua').textContent;
                 const fotoWakil = card.querySelector('.foto-wakil').src;
                 const namaWakil = card.querySelector('.nama-wakil').textContent;
 
-                // Update info di dalam modal vote form
                 document.getElementById('modalVoteTitle').textContent = `Konfirmasi Pilihan: Pasangan Nomor ${cardId}`;
                 
-                // Populate preview elements
                 document.getElementById('modalKetuaFoto').src = fotoKetua;
                 document.getElementById('modalKetuaNama').textContent = namaKetua;
                 document.getElementById('modalWakilFoto').src = fotoWakil;
                 document.getElementById('modalWakilNama').textContent = namaWakil;
 
-                // Buka modal secara otomatis
                 showModal(modalVoteForm);
             }
 
@@ -556,7 +531,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 });
             });
 
-            // Klik di luar area modal untuk menutup
             window.onclick = (e) => {
                 if (e.target === modalSuccess) {
                     hideModal(modalSuccess);
@@ -575,7 +549,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 }
             };
 
-            // Trigger modal feedback dari PHP
             <?php if (!empty($successMessage)) : ?>
                 showModal(modalSuccess);
             <?php elseif (!empty($errorMessage)) : ?>
@@ -585,7 +558,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 showModal(modalTokenUsed);
             <?php endif; ?>
 
-            // Validasi form sebelum submit
             document.getElementById('formVote').addEventListener('submit', function(e) {
                 if (!inputKandidat.value) {
                     e.preventDefault();

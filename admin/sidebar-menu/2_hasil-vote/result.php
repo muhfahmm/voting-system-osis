@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require '../../../db/db.php';
 
@@ -9,7 +9,7 @@ if (!isset($_SESSION['login'])) {
 
 $admin = $_SESSION['username'];
 
-// Ambil data target kelas & jumlah siswa
+
 $dataKelas = [];
 $resultKelas = mysqli_query($db, "SELECT nama_kelas, jumlah_siswa FROM tb_kelas ORDER BY nama_kelas ASC");
 while ($row = mysqli_fetch_assoc($resultKelas)) {
@@ -17,7 +17,7 @@ while ($row = mysqli_fetch_assoc($resultKelas)) {
 }
 $total_siswa = array_sum($dataKelas);
 
-// Ambil kueri kandidat dan jumlah suara real-time
+
 $query = mysqli_query($db, "
     SELECT k.nomor_kandidat, k.nama_ketua, k.nama_wakil, k.foto_ketua, k.foto_wakil, COUNT(v.id) AS total_suara
     FROM tb_kandidat k
@@ -26,7 +26,7 @@ $query = mysqli_query($db, "
     ORDER BY k.nomor_kandidat ASC
 ");
 
-// Cari Pemimpin Perolehan Suara Terbanyak (Leader)
+
 $leaderQuery = mysqli_query($db, "
     SELECT k.nomor_kandidat, k.nama_ketua, k.nama_wakil, k.foto_ketua, k.foto_wakil, COUNT(v.id) AS total_suara
     FROM tb_kandidat k
@@ -37,7 +37,7 @@ $leaderQuery = mysqli_query($db, "
 ");
 $leader = mysqli_fetch_assoc($leaderQuery);
 
-// Ambil data untuk Chart.js
+
 $labels = [];
 $dataVotes = [];
 $resultForChart = mysqli_query($db, "
@@ -54,7 +54,7 @@ while ($row = mysqli_fetch_assoc($resultForChart)) {
 
 mysqli_data_seek($query, 0);
 
-// Hitung total pemilih masuk per role
+
 $totalVotesSiswaQuery = mysqli_query($db, "
     SELECT COUNT(DISTINCT v.id) AS total 
     FROM tb_voter v
@@ -76,11 +76,11 @@ $totalVotes = (int)mysqli_fetch_assoc($totalQuery)['total'];
 
 $totalSiswaTarget = $total_siswa;
 
-// total guru dari tb_kode_guru
+
 $guruResult = mysqli_query($db, "SELECT COUNT(*) AS total_guru FROM tb_kode_guru");
 $totalGuruTarget = (int)mysqli_fetch_assoc($guruResult)['total_guru'];
 
-// Total partisipasi terdaftar (siswa + guru)
+
 $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
 ?>
 <!DOCTYPE html>
@@ -92,7 +92,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
     <title>Hasil Sementara Premium - Voting OSIS</title>
     <link rel="icon" href="../../assets/img/logo osis.png">
     
-    <!-- Tailwind Play CDN -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -106,21 +106,21 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
-    <!-- Chart.js -->
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
-    <!-- Ambient Glow Backdrops (Enhanced) -->
+    
     
     
 
-    <!-- Sidebar Navigation (FIXED - sama seperti dashboard.php) -->
+    
     <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
-        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
-            <!-- Brand / Header -->
+            
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
@@ -129,7 +129,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                 </div>
             </div>
 
-            <!-- Navigation Links -->
+            
             <nav class="flex flex-col gap-1.5">
                 <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
@@ -162,7 +162,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             </nav>
         </div>
 
-        <!-- Bagian Bawah: User / Logout (Aman, tidak akan kemana-mana) -->
+        
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
@@ -180,16 +180,16 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
         </div>
     </aside>
 
-    <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
+    
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
-        <!-- Top bar / Welcome -->
+        
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
                 <h1 class="font-sans text-2xl md:text-3xl font-bold text-slate-900 mt-2">Hasil Pemilihan</h1>
             </div>
         </header>
 
-        <!-- LEADERS HERO FEATURE DISPLAY -->
+        
         <?php if ($leader && $leader['total_suara'] > 0): ?>
             <?php 
             $leaderPercent = $totalVotes > 0 ? round(($leader['total_suara'] / $totalVotes) * 100, 1) : 0;
@@ -198,7 +198,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                 
                 
 
-                <!-- Left side: Visual -->
+                
                 <div class="flex flex-col sm:flex-row items-center gap-4 z-10">
                     <div class="flex gap-3 relative shrink-0">
                         <img src="../../uploads/<?= $leader['foto_ketua']; ?>" alt="Foto Ketua Terunggul" class="w-24 h-32 sm:w-28 sm:h-38 object-cover rounded-2xl border-2 border-emerald-200 shadow-md group-transition-transform duration-500">
@@ -219,7 +219,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                     </div>
                 </div>
 
-                <!-- Right side: Big Numbers -->
+                
                 <div class="flex items-center gap-4 shrink-0 z-10">
                     <div class="text-center bg-white border border-slate-200 py-4 px-6 rounded-2xl min-w-[120px] shadow-sm">
                         <p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">JUMLAH SUARA</p>
@@ -233,9 +233,9 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             </section>
         <?php endif; ?>
 
-        <!-- Massive Vote Logs Summary Cards -->
+        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <!-- Total Masuk -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-4 relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
@@ -255,7 +255,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                 </div>
             </div>
 
-            <!-- Siswa Card -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-4 relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
@@ -278,7 +278,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                 </div>
             </div>
 
-            <!-- Guru Card -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-4 relative overflow-hidden group">
                 
                 <div class="flex items-center gap-4">
@@ -302,9 +302,9 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             </div>
         </div>
 
-        <!-- Huge Charts Area -->
+        
         <div class="grid grid-cols-1 xl:grid-cols-5 gap-4">
-            <!-- Pie Chart Card -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4 items-center xl:col-span-2">
                 <h3 class="font-sans text-base font-bold text-slate-800 self-start">Proporsi Persentase Suara</h3>
                 <div class="w-full max-w-[380px] aspect-square flex items-center justify-center mt-4">
@@ -312,7 +312,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
                 </div>
             </div>
 
-            <!-- Bar Chart Card -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4 xl:col-span-3">
                 <h3 class="font-sans text-base font-bold text-slate-800">Perolehan Suara Paslon</h3>
                 <div class="w-full h-full min-h-[380px] flex items-center justify-center mt-4">
@@ -321,7 +321,7 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             </div>
         </div>
 
-        <!-- Standings Grafik Batang Rinci -->
+        
         <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4">
             <div>
                 <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-3">
@@ -384,7 +384,6 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
         Chart.defaults.font.family = 'Plus Jakarta Sans, system-ui, sans-serif';
         Chart.defaults.font.weight = 600;
 
-        // Pie Chart
         new Chart(document.getElementById('pieChart'), {
             type: 'pie',
             data: {
@@ -415,7 +414,6 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             }
         });
 
-        // Bar Chart
         new Chart(document.getElementById('barChart'), {
             type: 'bar',
             data: {

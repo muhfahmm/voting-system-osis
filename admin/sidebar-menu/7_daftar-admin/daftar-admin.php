@@ -9,7 +9,7 @@ if (!isset($_SESSION['login'])) {
 
 $admin = $_SESSION['username'];
 
-// Ambil data admin
+
 $adminsQuery = mysqli_query($db, "SELECT id, username FROM tb_admin ORDER BY id ASC");
 $totalAdmins = mysqli_num_rows($adminsQuery);
 ?>
@@ -22,7 +22,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
     <title>Daftar Admin - Voting OSIS</title>
     <link rel="icon" href="../../assets/img/logo osis.png">
     
-    <!-- Tailwind Play CDN -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -40,11 +40,11 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
     
-    <!-- Sidebar Navigation (FIXED) -->
+    
     <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
-        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
-            <!-- Brand / Header -->
+            
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
@@ -53,7 +53,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
                 </div>
             </div>
 
-            <!-- Navigation Links -->
+            
             <nav class="flex flex-col gap-1.5">
                 <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
                     <i class="bi bi-speedometer2 text-lg group-hover:text-emerald-600 transition-colors"></i>
@@ -86,7 +86,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
             </nav>
         </div>
 
-        <!-- User / Logout -->
+        
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
@@ -104,9 +104,9 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
         </div>
     </aside>
 
-    <!-- Main Content Area -->
+    
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
-        <!-- Top bar / Welcome -->
+        
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
                 <h1 class="font-sans text-2xl font-bold text-slate-900">Daftar Administrator</h1>
@@ -119,7 +119,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
             </div>
         </header>
 
-        <!-- Stats Widgets -->
+        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
                 <div class="flex items-center gap-4">
@@ -134,7 +134,7 @@ $totalAdmins = mysqli_num_rows($adminsQuery);
             </div>
         </div>
 
-        <!-- Admins Table Section -->
+        
         <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4">
             <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
                 <i class="bi bi-list-task text-emerald-500"></i>

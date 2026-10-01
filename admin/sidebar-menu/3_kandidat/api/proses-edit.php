@@ -37,26 +37,26 @@ if (isset($_POST['edit'])) {
         $fileName = time() . "_ketua_" . $_FILES['foto_ketua']['name'];
         $target = "../../../uploads/" . $fileName;
         move_uploaded_file($_FILES['foto_ketua']['tmp_name'], $target);
-        // hapus foto lama
+        
         if (file_exists("../../../uploads/" . $foto_ketua)) {
             unlink("../../../uploads/" . $foto_ketua);
         }
         $foto_ketua = $fileName;
     }
 
-    // jika upload foto wakil baru
+    
     if (!empty($_FILES['foto_wakil']['name'])) {
         $fileName2 = time() . "_wakil_" . $_FILES['foto_wakil']['name'];
         $target2 = "../../../uploads/" . $fileName2;
         move_uploaded_file($_FILES['foto_wakil']['tmp_name'], $target2);
-        // hapus foto lama
+        
         if (file_exists("../../../uploads/" . $foto_wakil)) {
             unlink("../../../uploads/" . $foto_wakil);
         }
         $foto_wakil = $fileName2;
     }
 
-    // update ke database
+    
     $update = mysqli_query($db, "UPDATE tb_kandidat SET
         nomor_kandidat='$nomor_kandidat',
         nama_ketua='$nama_ketua',

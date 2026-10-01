@@ -29,9 +29,9 @@ if (isset($_GET['hapus_token'])) {
     $check = mysqli_query($db, "SELECT token FROM tb_buat_token WHERE id = $id_token AND kelas_id = $kelas_id");
     if (mysqli_num_rows($check) > 0) {
         $hapus = mysqli_query($db, "DELETE FROM tb_buat_token WHERE id = $id_token");
-        $message = $hapus ? "🗑️ Token berhasil dihapus." : "❌ Gagal menghapus token.";
+        $message = $hapus ? '<i class="bi bi-trash"></i> Token berhasil dihapus.' : '<i class="bi bi-x-circle"></i> Gagal menghapus token.';
     } else {
-        $message = "⚠️ Token tidak ditemukan.";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Token tidak ditemukan.';
     }
 }
 
@@ -46,7 +46,7 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
     <title>Daftar Token - <?= htmlspecialchars($kelas) ?> - Voting OSIS</title>
     <link rel="icon" href="../../assets/img/logo osis.png">
     
-    <!-- Tailwind Play CDN -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -67,11 +67,11 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
     
-    <!-- Sidebar Navigation (FIXED) -->
+    
     <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
-        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
-            <!-- Brand / Header -->
+            
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
@@ -80,7 +80,7 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
                 </div>
             </div>
 
-            <!-- Navigation Links -->
+            
             <nav class="flex flex-col gap-1.5">
                 <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
                     <i class="bi bi-speedometer2 text-lg group-hover:text-emerald-600 transition-colors"></i>
@@ -113,7 +113,7 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
             </nav>
         </div>
 
-        <!-- User / Logout -->
+        
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
@@ -131,9 +131,9 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
         </div>
     </aside>
 
-    <!-- Main Content Area -->
+    
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
-        <!-- Top bar / Welcome -->
+        
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/5 pb-6">
             <div>
                 <div class="flex items-center gap-3">
@@ -148,7 +148,7 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
             </div>
         </header>
 
-        <!-- Message Alert -->
+        
         <?php if (!empty($message)): ?>
             <div class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-200 p-4 rounded-2xl text-sm flex items-center gap-3">
                 <i class="bi bi-info-circle text-emerald-400 flex-shrink-0 text-lg"></i>
@@ -156,7 +156,7 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
             </div>
         <?php endif; ?>
 
-        <!-- Token Table Section -->
+        
         <div class="bg-slate-900/40 backdrop-blur-md border border-white/5 rounded-2xl shadow-2xl p-4 md:p-5 flex flex-col gap-4">
             <div class="overflow-x-auto w-full">
                 <table class="w-full text-left border-collapse">

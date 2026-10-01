@@ -26,7 +26,7 @@ if (!$data) {
     <title>Edit Kandidat - Voting OSIS</title>
     <link rel="icon" href="../../assets/img/logo osis.png">
     
-    <!-- Tailwind Play CDN -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -47,11 +47,11 @@ if (!$data) {
     
     
 
-    <!-- Sidebar Navigation (FIXED) -->
+    
     <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
-        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
-            <!-- Brand / Header -->
+            
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
@@ -60,7 +60,7 @@ if (!$data) {
                 </div>
             </div>
 
-            <!-- Navigation Links -->
+            
             <nav class="flex flex-col gap-1.5">
                 <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group">
                     <i class="bi bi-speedometer2 text-lg group-transition-colors"></i>
@@ -93,7 +93,7 @@ if (!$data) {
             </nav>
         </div>
 
-        <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
+        
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
@@ -111,13 +111,13 @@ if (!$data) {
         </div>
     </aside>
 
-    <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
+    
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
-        <!-- Top bar -->
+        
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
                 <h1 class="font-sans text-2xl font-bold text-slate-900 flex items-center gap-3">
-                    <!-- Ikon Pensil dari Heroicons -->
+                    
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                     </svg>
@@ -133,7 +133,7 @@ if (!$data) {
             </a>
         </header>
 
-        <!-- Edit Candidate Form Card -->
+        
         <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-8 flex flex-col gap-4 max-w-4xl w-full mx-auto transition-all duration-300 ">
             <div>
                 <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2.5">
@@ -148,7 +148,7 @@ if (!$data) {
             <form action="api/proses-edit.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
                 <input type="hidden" name="id" value="<?= $data['id']; ?>">
 
-                <!-- Nomor Urut -->
+                
                 <div class="flex flex-col gap-2">
                     <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -160,7 +160,7 @@ if (!$data) {
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-200 pt-6">
-                    <!-- Ketua Form -->
+                    
                     <div class="flex flex-col gap-4">
                         <span class="font-sans font-bold text-sm text-emerald-600 uppercase tracking-wider flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -189,7 +189,7 @@ if (!$data) {
                         </div>
                     </div>
 
-                    <!-- Wakil Form -->
+                    
                     <div class="flex flex-col gap-4 border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0 md:pl-6">
                         <span class="font-sans font-bold text-sm text-emerald-600 uppercase tracking-wider flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

@@ -2,13 +2,13 @@
 session_start();
 require '../../../db/db.php';
 
-// Cek session login
+
 if (!isset($_SESSION['login'])) {
     header("Location: ../../auth/login.php");
     exit;
 }
 
-// Query data token guru
+
 $query = mysqli_query($db, "
     SELECT 
         g.*,
@@ -21,7 +21,7 @@ $query = mysqli_query($db, "
     ORDER BY g.id ASC
 ");
 
-// Header untuk file Excel
+
 header("Content-Type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=token_guru_" . date('Y-m-d') . ".xls");
 header("Pragma: no-cache");

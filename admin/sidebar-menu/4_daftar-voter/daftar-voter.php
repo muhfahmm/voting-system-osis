@@ -159,9 +159,9 @@ while ($row = mysqli_fetch_assoc($q)) {
     
     
 
-    <!-- Sidebar Navigation (FIXED) -->
+    
     <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
-        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
@@ -203,7 +203,7 @@ while ($row = mysqli_fetch_assoc($q)) {
             </nav>
         </div>
 
-        <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
+        
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
@@ -221,7 +221,7 @@ while ($row = mysqli_fetch_assoc($q)) {
         </div>
     </aside>
 
-    <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
+    
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
@@ -229,7 +229,7 @@ while ($row = mysqli_fetch_assoc($q)) {
             </div>
         </header>
 
-        <!-- voter Siswa Section -->
+        
         <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4">
             <div class="flex justify-between items-center">
                 <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
@@ -285,7 +285,7 @@ while ($row = mysqli_fetch_assoc($q)) {
             <?php endif; ?>
         </div>
 
-        <!-- Ringkasan Voting Kelas Grid -->
+        
         <div class="flex flex-col gap-4 mt-4">
             <div>
                 <h3 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
@@ -341,7 +341,7 @@ while ($row = mysqli_fetch_assoc($q)) {
             </div>
         </div>
 
-        <!-- Voter Guru Section -->
+        
         <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4 mt-4">
             <div class="flex justify-between items-center">
                 <h2 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
@@ -395,7 +395,7 @@ while ($row = mysqli_fetch_assoc($q)) {
             <?php endif; ?>
         </div>
 
-        <!-- Ringkasan Voting Guru -->
+        
         <?php
         $guruSummary = [
             "total" => 0,

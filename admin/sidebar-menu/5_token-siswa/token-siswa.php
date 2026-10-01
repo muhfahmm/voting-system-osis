@@ -61,14 +61,14 @@ if (isset($_POST['add_class'])) {
         $exists = mysqli_query($db, "SELECT * FROM tb_kelas WHERE nama_kelas='$kelas_esc'");
         if (mysqli_num_rows($exists) == 0) {
             mysqli_query($db, "INSERT INTO tb_kelas (nama_kelas, jumlah_siswa) VALUES ('$kelas_esc', $jumlah_siswa)");
-            $message = "✅ Kelas '$kelas_input' berhasil ditambahkan.";
+            $message = '<i class="bi bi-check-circle"></i> Kelas \'' . $kelas_input . '\' berhasil ditambahkan.';
             header("Location: " . $_SERVER['REQUEST_URI']);
             exit;
         } else {
-            $message = "⚠️ Kelas '$kelas_input' sudah ada.";
+            $message = '<i class="bi bi-exclamation-triangle"></i> Kelas \'' . $kelas_input . '\' sudah ada.';
         }
     } else {
-        $message = "⚠️ Nama kelas atau jumlah siswa tidak boleh kosong!";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Nama kelas atau jumlah siswa tidak boleh kosong!';
     }
 }
 
@@ -85,7 +85,7 @@ if (isset($_GET['hapus'])) {
         $like = mysqli_real_escape_string($db, $prefix . '%');
         mysqli_query($db, "DELETE FROM tb_buat_token WHERE token LIKE '{$like}'");
 
-        $message = "🗑️ Kelas '$kelas' dan token terkait berhasil dihapus.";
+        $message = '<i class="bi bi-trash"></i> Kelas \'' . $kelas . '\' dan token terkait berhasil dihapus.';
         header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
         exit;
     }
@@ -97,7 +97,7 @@ if (isset($_GET['edit'])) {
     $editRow = mysqli_fetch_assoc($q);
 
     if (!$editRow) {
-        $message = "⚠️ Kelas tidak ditemukan untuk diedit.";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Kelas tidak ditemukan untuk diedit.';
     }
 }
 
@@ -114,14 +114,14 @@ if (isset($_POST['update_class'])) {
             mysqli_query($db, "UPDATE tb_kelas 
                                 SET nama_kelas='$kelas_esc', jumlah_siswa=$jumlah_siswa_baru 
                                 WHERE id=$id");
-            $message = "✅ Data kelas berhasil diperbarui.";
+            $message = '<i class="bi bi-check-circle"></i> Data kelas berhasil diperbarui.';
             header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
             exit;
         } else {
-            $message = "⚠️ Nama kelas '$kelas_baru' sudah digunakan.";
+            $message = '<i class="bi bi-exclamation-triangle"></i> Nama kelas \'' . $kelas_baru . '\' sudah digunakan.';
         }
     } else {
-        $message = "⚠️ Nama kelas atau jumlah siswa tidak boleh kosong!";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Nama kelas atau jumlah siswa tidak boleh kosong!';
     }
 }
 
@@ -130,9 +130,9 @@ if (isset($_GET['hapus_token'])) {
     $check = mysqli_query($db, "SELECT token FROM tb_buat_token WHERE id = $id_token");
     if (mysqli_num_rows($check) > 0) {
         $hapus = mysqli_query($db, "DELETE FROM tb_buat_token WHERE id = $id_token");
-        $message = $hapus ? "🗑️ Token dan voter terkait berhasil dihapus." : "❌ Gagal menghapus token.";
+        $message = $hapus ? '<i class="bi bi-trash"></i> Token dan voter terkait berhasil dihapus.' : '<i class="bi bi-x-circle"></i> Gagal menghapus token.';
     } else {
-        $message = "⚠️ Token tidak ditemukan.";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Token tidak ditemukan.';
     }
 }
 
@@ -150,13 +150,13 @@ if (isset($_GET['reset_token'])) {
             mysqli_query($db, "DELETE FROM tb_voter WHERE token_id = $id_token");
             $reset = mysqli_query($db, "UPDATE tb_buat_token SET status_token = 'belum' WHERE id = $id_token");
             mysqli_commit($db);
-            $message = "🔄 Penggunaan token berhasil di-reset. Token sekarang dapat digunakan kembali untuk memilih.";
+            $message = '<i class="bi bi-arrow-counterclockwise"></i> Penggunaan token berhasil di-reset. Token sekarang dapat digunakan kembali untuk memilih.';
         } catch (Exception $e) {
             mysqli_rollback($db);
-            $message = "❌ Gagal me-reset token: " . $e->getMessage();
+            $message = '<i class="bi bi-x-circle"></i> Gagal me-reset token: ' . $e->getMessage();
         }
     } else {
-        $message = "⚠️ Token tidak ditemukan.";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Token tidak ditemukan.';
     }
 }
 
@@ -178,10 +178,10 @@ if (isset($_POST['reset_all_used'])) {
             $reset_count++;
         }
         mysqli_commit($db);
-        $message = "🔄 Berhasil me-reset $reset_count token yang telah digunakan di kelas ini.";
+        $message = '<i class="bi bi-arrow-counterclockwise"></i> Berhasil me-reset ' . $reset_count . ' token yang telah digunakan di kelas ini.';
     } catch (Exception $e) {
         mysqli_rollback($db);
-        $message = "❌ Gagal me-reset token: " . $e->getMessage();
+        $message = '<i class="bi bi-x-circle"></i> Gagal me-reset token: ' . $e->getMessage();
     }
 }
 if (isset($_POST['clear_tokens'])) {
@@ -200,10 +200,10 @@ if (isset($_POST['clear_tokens'])) {
         }
         mysqli_query($db, "DELETE FROM tb_buat_token WHERE kelas_id = $kelas_id");
         mysqli_commit($db);
-        $message = "🗑️ Semua token untuk kelas ini telah dihapus.";
+        $message = '<i class="bi bi-trash"></i> Semua token untuk kelas ini telah dihapus.';
     } catch (Exception $e) {
         mysqli_rollback($db);
-        $message = "❌ Gagal mengosongkan token: " . $e->getMessage();
+        $message = '<i class="bi bi-x-circle"></i> Gagal mengosongkan token: ' . $e->getMessage();
     }
 }
 
@@ -223,19 +223,19 @@ if (isset($_POST['generate'])) {
         if ($currentTokenCount >= $jumlah_siswa) {
             $showExceedModal = true;
             $kelasTerpilih = $kelas_id;
-            $message = "⚠️ Jumlah token untuk kelas <b>$kelas_nama</b> sudah mencapai batas jumlah siswa ($jumlah_siswa). Token baru tidak dibuat.";
+            $message = '<i class="bi bi-exclamation-triangle"></i> Jumlah token untuk kelas <b>' . $kelas_nama . '</b> sudah mencapai batas jumlah siswa (' . $jumlah_siswa . '). Token baru tidak dibuat.';
         } else {
             $prefix = kelasToPrefix($kelas_nama);
             $classNum = $classNumberMap[$kelas_id] ?? 0;
             $token = generateTokenByPrefixAndNumber($prefix, $classNum, $db);
             $token_esc = mysqli_real_escape_string($db, $token);
             mysqli_query($db, "INSERT INTO tb_buat_token (token, kelas_id, created_by) VALUES ('$token_esc', $kelas_id, '$admin')");
-            $message = "✅ Token dibuat untuk <b>$kelas_nama</b>: <b>$token</b>";
+            $message = '<i class="bi bi-check-circle"></i> Token dibuat untuk <b>' . $kelas_nama . '</b>: <b>' . $token . '</b>';
             header("Location: token-siswa.php?kelas_id=$kelas_id");
             exit;
         }
     } else {
-        $message = "⚠️ Kelas tidak ditemukan.";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Kelas tidak ditemukan.';
     }
 }
 
@@ -244,7 +244,7 @@ if (isset($_POST['generate_bulk'])) {
     $jumlah = (int)($_POST['jumlah'] ?? 0);
 
     if ($jumlah < 1 || $jumlah > 100) {
-        $message = "⚠️ Jumlah token harus antara 1 sampai 100!";
+        $message = '<i class="bi bi-exclamation-triangle"></i> Jumlah token harus antara 1 sampai 100!';
         $kelasTerpilih = $kelas_id;
     } else {
         $q = mysqli_query($db, "SELECT nama_kelas, jumlah_siswa FROM tb_kelas WHERE id = $kelas_id LIMIT 1");
@@ -260,7 +260,7 @@ if (isset($_POST['generate_bulk'])) {
             if ($remaining <= 0) {
                 $showExceedModal = true;
                 $kelasTerpilih = $kelas_id;
-                $message = "⚠️ Jumlah token untuk kelas <b>$kelas_nama</b> sudah mencapai batas jumlah siswa ($jumlah_siswa). Token baru tidak dibuat.";
+                $message = '<i class="bi bi-exclamation-triangle"></i> Jumlah token untuk kelas <b>' . $kelas_nama . '</b> sudah mencapai batas jumlah siswa (' . $jumlah_siswa . '). Token baru tidak dibuat.';
             } else {
                 $toCreate = min($jumlah, $remaining);
                 $prefix = kelasToPrefix($kelas_nama);
@@ -276,15 +276,15 @@ if (isset($_POST['generate_bulk'])) {
                 }
 
                 if ($toCreate < $jumlah) {
-                    $message = "⚠️ Hanya <b>$berhasil</b> token dibuat untuk <b>$kelas_nama</b> (batas siswa: $jumlah_siswa, sisa slot: $remaining).";
+                    $message = '<i class="bi bi-exclamation-triangle"></i> Hanya <b>' . $berhasil . '</b> token dibuat untuk <b>' . $kelas_nama . '</b> (batas siswa: ' . $jumlah_siswa . ', sisa slot: ' . $remaining . ').';
                 } else {
-                    $message = "✅ Berhasil membuat <b>$berhasil</b> token otomatis untuk kelas <b>$kelas_nama</b>.";
+                    $message = '<i class="bi bi-check-circle"></i> Berhasil membuat <b>' . $berhasil . '</b> token otomatis untuk kelas <b>' . $kelas_nama . '</b>.';
                 }
                 header("Location: token-siswa.php?kelas_id=$kelas_id");
                 exit;
             }
         } else {
-            $message = "⚠️ Kelas tidak ditemukan.";
+            $message = '<i class="bi bi-exclamation-triangle"></i> Kelas tidak ditemukan.';
         }
     }
 }
@@ -369,9 +369,9 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
     
     
 
-    <!-- Sidebar Navigation (FIXED) -->
+    
     <aside class="w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-sm flex flex-col fixed top-0 left-0 z-20 h-screen">
-        <!-- Bagian Atas: Brand & Navigasi (Bisa di-scroll dalam sidebar) -->
+        
         <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
             <div class="flex items-center gap-3 border-b border-slate-200 pb-6">
                 <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
@@ -413,7 +413,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             </nav>
         </div>
 
-        <!-- Bagian Bawah: User / Logout (Tetap terlihat) -->
+        
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
@@ -431,7 +431,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
         </div>
     </aside>
 
-    <!-- Main Content Area (Diberi margin kiri agar tidak tertutup sidebar) -->
+    
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full ml-64">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
@@ -439,7 +439,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             </div>
         </header>
 
-        <!-- Message Alert -->
+        
         <?php if (!empty($message)): ?>
             <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-2xl text-sm flex items-center gap-3">
                 <i class="bi bi-info-circle text-emerald-500 flex-shrink-0 text-lg"></i>
@@ -450,9 +450,9 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
     <?php include __DIR__ . '/modals/modal_exceed.php'; ?>
 <?php endif; ?>
 
-        <!-- Two Columns: Add Class Form & Kelas List -->
+        
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <!-- Add Class Form -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-5 lg:col-span-1 h-fit">
                 <div>
                     <h3 class="font-sans text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -476,7 +476,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                 </form>
             </div>
 
-            <!-- Kelas List Table -->
+            
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4 lg:col-span-2">
                 <h3 class="font-sans text-sm font-bold text-slate-800 flex items-center gap-2">
                     <i class="bi bi-list-stars text-emerald-500"></i>
@@ -538,7 +538,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             </div>
         </div>
 
-        <!-- Token Management Section -->
+        
         <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4 mt-4">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                 <h3 class="font-sans text-base font-bold text-slate-800 flex items-center gap-2">
@@ -583,7 +583,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                 </div>
             <?php endif; ?>
 
-            <!-- Token Records Table -->
+            
             <div class="overflow-x-auto w-full">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -642,7 +642,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                 </table>
             </div>
 
-            <!-- Token Pagination -->
+            
             <?php if ($totalPagesToken > 1): ?>
                 <div class="flex justify-center gap-1.5 mt-2">
                     <?php for ($p = 1; $p <= $totalPagesToken; $p++): ?>
@@ -651,7 +651,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                 </div>
             <?php endif; ?>
 
-            <!-- Action buttons -->
+            
             <div class="flex flex-wrap gap-4 border-t border-slate-200 pt-5 justify-between items-center">
                 <div class="flex flex-wrap gap-3">
                     <form method="POST" action="../token/export_token_siswa.php">
@@ -670,7 +670,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                         </button>
                     </form>
 
-                    <form method="POST" action="" onsubmit="return confirm('⚠️ PERHATIAN! Ini akan menghapus SEMUA token kelas ini (termasuk yang belum dipakai). Data voter dan log vote juga akan ikut dihapus. Lanjutkan?')">
+                    <form method="POST" action="" onsubmit="return confirm('PERHATIAN! Ini akan menghapus SEMUA token kelas ini (termasuk yang belum dipakai). Data voter dan log vote juga akan ikut dihapus. Lanjutkan?')">
                         <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">
                         <button type="submit" name="clear_tokens" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-red-600 border border-red-500 (220,38,38,0.25)] text-white font-bold text-xs transition-all duration-300">
                             <i class="bi bi-trash3"></i>
