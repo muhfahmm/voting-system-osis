@@ -741,4 +741,3 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
 </html>
 <?php mysqli_close($db); ?>
-

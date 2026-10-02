@@ -496,10 +496,3 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
 </body>
 
 </html>
-
-
-
-
-
-
-

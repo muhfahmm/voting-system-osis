@@ -166,5 +166,3 @@ if (isset($_POST['register'])) {
 </body>
 
 </html>
-
-
