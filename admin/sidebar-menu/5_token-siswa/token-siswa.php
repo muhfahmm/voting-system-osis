@@ -765,11 +765,3 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
 </body>
 
 </html>
-
-
-
-
-
-
-
-

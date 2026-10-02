@@ -242,10 +242,3 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
 </body>
 
 </html>
-
-
-
-
-
-
-

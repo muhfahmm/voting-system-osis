@@ -8,7 +8,3 @@
     <button id="closeExceedModal" class="px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium transition-colors">Tutup</button>
   </div>
 </div>
-
-
-
-

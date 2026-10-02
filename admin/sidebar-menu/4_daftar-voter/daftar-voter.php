@@ -498,11 +498,3 @@ while ($row = mysqli_fetch_assoc($q)) {
 </body>
 
 </html>
-
-
-
-
-
-
-
-
