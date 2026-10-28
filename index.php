@@ -318,13 +318,13 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     <h3 class="font-sans text-lg lg:text-xl font-bold text-slate-900 mb-4 text-center relative z-10">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
                     
                     <div class="flex gap-2.5 lg:gap-3 mb-4 relative z-10">
-                        <div class="flex-1 min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-2.5 lg:p-3 text-center flex flex-col items-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full aspect-[4/5] object-cover object-top rounded-lg mb-2.5 shadow-sm" loading="eager" fetchpriority="high" decoding="async">
+                        <div class="flex-1 min-w-0 p-1 text-center flex flex-col items-center">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full aspect-[4/5] object-cover object-top rounded-xl mb-2.5 shadow-sm" loading="eager" fetchpriority="high" decoding="async">
                             <h3 class="nama-ketua font-sans my-0.5 font-bold text-xs lg:text-base text-slate-900 truncate w-full text-center"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
                             <small class="text-slate-500 text-[10px] lg:text-xs font-semibold uppercase tracking-wider whitespace-nowrap">Calon Ketua</small>
                         </div>
-                        <div class="flex-1 min-w-0 bg-slate-50 border border-slate-200 rounded-xl p-2.5 lg:p-3 text-center flex flex-col items-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full aspect-[4/5] object-cover object-top rounded-lg mb-2.5 shadow-sm" loading="eager" fetchpriority="high" decoding="async">
+                        <div class="flex-1 min-w-0 p-1 text-center flex flex-col items-center">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full aspect-[4/5] object-cover object-top rounded-xl mb-2.5 shadow-sm" loading="eager" fetchpriority="high" decoding="async">
                             <h3 class="nama-wakil font-sans my-0.5 font-bold text-xs lg:text-base text-slate-900 truncate w-full text-center"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
                             <small class="text-slate-500 text-[10px] lg:text-xs font-semibold uppercase tracking-wider whitespace-nowrap">Calon Wakil</small>
                         </div>

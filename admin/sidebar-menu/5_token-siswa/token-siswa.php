@@ -9,6 +9,33 @@ if (!isset($_SESSION['login'])) {
 
 $admin = $_SESSION['username'];
 
+function generateTokenPemilih($db)
+{
+    $q = mysqli_query($db, "SELECT token FROM tb_buat_token WHERE token LIKE 'PEM%' ORDER BY id DESC LIMIT 1");
+    $nextNum = 1;
+    if ($row = mysqli_fetch_assoc($q)) {
+        if (preg_match('/^PEM(\d+)$/i', $row['token'], $m)) {
+            $nextNum = (int)$m[1] + 1;
+        } else {
+            $countQ = mysqli_query($db, "SELECT COUNT(*) AS total FROM tb_buat_token WHERE token LIKE 'PEM%'");
+            $nextNum = ((int)mysqli_fetch_assoc($countQ)['total']) + 1;
+        }
+    } else {
+        $countQ = mysqli_query($db, "SELECT COUNT(*) AS total FROM tb_buat_token");
+        $nextNum = ((int)mysqli_fetch_assoc($countQ)['total']) + 1;
+    }
+
+    // Pastikan token unik
+    do {
+        $candidate = 'PEM' . str_pad($nextNum, 3, '0', STR_PAD_LEFT);
+        $check = mysqli_query($db, "SELECT id FROM tb_buat_token WHERE token = '$candidate' LIMIT 1");
+        if (mysqli_num_rows($check) == 0) {
+            return $candidate;
+        }
+        $nextNum++;
+    } while (true);
+}
+
 function kelasToPrefix($kelas)
 {
     $letters = preg_replace('/[^a-zA-Z]/', '', $kelas);
@@ -18,12 +45,7 @@ function kelasToPrefix($kelas)
 
 function generateTokenByPrefixAndNumber($prefix, $classNum, $db)
 {
-    $like = mysqli_real_escape_string($db, $prefix . $classNum . '%');
-    $q = mysqli_query($db, "SELECT COUNT(*) AS jumlah FROM tb_buat_token WHERE token LIKE '{$like}'");
-    $row = mysqli_fetch_assoc($q);
-    $jumlah = (int)$row['jumlah'] + 1;
-
-    return $prefix . $classNum . str_pad($jumlah, 3, '0', STR_PAD_LEFT);
+    return generateTokenPemilih($db);
 }
 
 $kelasQuery = mysqli_query($db, "SELECT * FROM tb_kelas ORDER BY id ASC");
@@ -79,11 +101,8 @@ if (isset($_GET['hapus'])) {
     $kelas = $r ? $r['nama_kelas'] : null;
 
     if ($kelas) {
-        $prefix = kelasToPrefix($kelas);
+        mysqli_query($db, "DELETE FROM tb_buat_token WHERE kelas_id = $id");
         mysqli_query($db, "DELETE FROM tb_kelas WHERE id=$id");
-
-        $like = mysqli_real_escape_string($db, $prefix . '%');
-        mysqli_query($db, "DELETE FROM tb_buat_token WHERE token LIKE '{$like}'");
 
         $message = '<i class="bi bi-trash"></i> Kelas \'' . $kelas . '\' dan token terkait berhasil dihapus.';
         header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
@@ -382,7 +401,6 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                     <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                     <div>
                         <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
-                        <p class="text-xs text-slate-500 font-semibold tracking-wide">E-VOTING SKALSA</p>
                     </div>
                 </div>
                 <button type="button" onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
@@ -424,14 +442,6 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
 
         
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
-                    <?= strtoupper(substr($admin, 0, 2)) ?>
-                </div>
-                <div class="overflow-hidden">
-                    <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
-                </div>
-            </div>
             <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
@@ -593,7 +603,6 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                     <thead>
                         <tr class="border-b border-slate-200 text-xs text-slate-500 font-bold uppercase tracking-wider">
                             <th class="py-2.5 px-3 text-left">No</th>
-                            <th class="py-2.5 px-3 text-left">Kelas</th>
                             <th class="py-2.5 px-3 text-center">Token</th>
                             <th class="py-2.5 px-3 text-center">Status Token</th>
                             <th class="py-2.5 px-3 text-center">Aksi</th>
@@ -604,7 +613,6 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                             while ($row = mysqli_fetch_assoc($tokens)): ?>
                                 <tr class="transition-colors duration-200">
                                     <td class="py-2.5 px-3 font-semibold text-slate-500"><?= $no++; ?></td>
-                                    <td class="py-2.5 px-3 font-bold text-slate-900"><?= htmlspecialchars($row['nama_kelas'] ?? '-'); ?></td>
                                     <td class="py-2.5 px-3 text-center">
                                         <span class="font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 py-1 px-3.5 rounded-lg text-xs font-bold">
                                             <?= htmlspecialchars($row['token']); ?>
@@ -639,7 +647,7 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
                             <?php endwhile;
                         else: ?>
                             <tr>
-                                <td colspan="5" class="py-8 text-center text-slate-500">Belum ada token dibuat di kelas ini.</td>
+                                <td colspan="4" class="py-8 text-center text-slate-500">Belum ada token dibuat di kelas ini.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -658,13 +666,10 @@ while ($row = mysqli_fetch_assoc($usedTokenQuery)) {
             
             <div class="flex flex-wrap gap-4 border-t border-slate-200 pt-5 justify-between items-center">
                 <div class="flex flex-wrap gap-3">
-                    <form method="POST" action="../token/export_token_siswa.php">
-                        <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">
-                        <button type="submit" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 border border-emerald-500 (16,185,129,0.25)] text-white font-bold text-xs transition-all duration-300">
-                            <i class="bi bi-file-earmark-excel"></i>
-                            <span>Ekspor Token ke Excel</span>
-                        </button>
-                    </form>
+                    <a href="../token/export_token_siswa.php?kelas_id=<?= $kelasTerpilih; ?>" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 border border-emerald-500 text-white font-bold text-xs transition-all duration-300 shadow-sm">
+                        <i class="bi bi-printer"></i>
+                        <span>Cetak / Ekspor PDF Token</span>
+                    </a>
 
                     <form method="POST" action="" onsubmit="return confirm('Apakah Anda yakin ingin me-reset SEMUA token terpakai di kelas ini? Tindakan ini akan menghapus data voter dan log vote dari token-token terkait.')">
                         <input type="hidden" name="kelas_id" value="<?= $kelasTerpilih; ?>">

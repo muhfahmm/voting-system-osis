@@ -342,7 +342,6 @@ $statUnused = $statTotal - $statUsed;
                     <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                     <div>
                         <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
-                        <p class="text-xs text-slate-500 font-semibold tracking-wide">E-VOTING SKALSA</p>
                     </div>
                 </div>
                 <button type="button" onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
@@ -385,14 +384,6 @@ $statUnused = $statTotal - $statUsed;
 
         
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
-                    <?= strtoupper(substr($admin, 0, 2)) ?>
-                </div>
-                <div class="overflow-hidden">
-                    <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
-                </div>
-            </div>
             <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
@@ -615,12 +606,10 @@ $statUnused = $statTotal - $statUsed;
                 
                 <div class="flex flex-wrap gap-4 border-t border-slate-200 pt-5 justify-between items-center mt-2">
                     <div class="flex flex-wrap gap-3">
-                        <form method="POST" action="../token/export_token_guru.php">
-                            <button type="submit" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 border border-emerald-500 (16,185,129,0.25)] text-white font-bold text-xs transition-all duration-300">
-                                <i class="bi bi-file-earmark-excel"></i>
-                                <span>Ekspor Token ke Excel</span>
-                            </button>
-                        </form>
+                        <a href="../token/export_token_guru.php" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 border border-emerald-500 text-white font-bold text-xs transition-all duration-300 shadow-sm">
+                            <i class="bi bi-printer"></i>
+                            <span>Cetak / Ekspor PDF Token Guru</span>
+                        </a>
 
                         <form method="POST" action="" onsubmit="return confirm('Apakah Anda yakin ingin me-reset SEMUA token guru yang telah digunakan? Tindakan ini akan menghapus data voter dan log vote dari token guru terkait.')">
                             <button type="submit" name="reset_all_used" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-600 border border-amber-500 (245,158,11,0.25)] text-white font-bold text-xs transition-all duration-300">

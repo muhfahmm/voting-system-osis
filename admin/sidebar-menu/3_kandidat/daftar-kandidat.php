@@ -53,7 +53,6 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
                     <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
                     <div>
                         <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
-                        <p class="text-xs text-slate-500 font-semibold tracking-wide">E-VOTING SKALSA</p>
                     </div>
                 </div>
                 <button type="button" onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
@@ -95,14 +94,6 @@ $query = mysqli_query($db, "SELECT * FROM tb_kandidat ORDER BY nomor_kandidat AS
 
         
         <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 font-sans font-bold text-sm">
-                    <?= strtoupper(substr($admin, 0, 2)) ?>
-                </div>
-                <div class="overflow-hidden">
-                    <p class="text-sm text-slate-700 font-bold truncate"><?= htmlspecialchars($admin) ?></p>
-                </div>
-            </div>
             <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Keluar (Logout)</span>
