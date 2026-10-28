@@ -227,6 +227,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -431,8 +432,10 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <div id="modalError" class="modal fixed inset-0 bg-slate-950/60 justify-center items-center z-[1050] p-4">
         <div class="modal-content bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-[580px] text-center relative flex flex-col items-center">
             <span class="close absolute top-5 right-6 cursor-pointer text-2xl text-slate-400 hover:text-slate-600">&times;</span>
-            <div class="icon-wrap w-24 h-24 rounded-full flex justify-center items-center mx-auto mb-6 text-4xl bg-red-100 text-red-600 border border-red-200 shadow-inner">
-                <i class="bi bi-x-lg text-5xl"></i>
+            <div id="iconErrorWrap" class="icon-wrap w-24 h-24 rounded-full flex justify-center items-center mx-auto mb-6 bg-red-100 text-red-600 border border-red-200 shadow-inner">
+                <svg id="svgErrorIcon" class="w-12 h-12 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
             </div>
             <h2 id="modalErrorTitle" class="font-sans text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Terjadi Kesalahan</h2>
             <p id="errorText" class="text-slate-600 text-base mb-8 leading-relaxed max-w-[460px]"></p>
@@ -451,6 +454,11 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             <button id="tokenUsedBtn" class="button-ok bg-amber-600 w-full h-[52px] border-none rounded-xl font-sans text-base font-bold text-white cursor-pointer hover:bg-amber-700 transition-colors">OK</button>
         </div>
     </div>
+
+    <!-- Include 3 Modals Terpisah -->
+    <?php include 'modals/modal_kandidat_kosong.php'; ?>
+    <?php include 'modals/modal_token_kosong.php'; ?>
+    <?php include 'modals/modal_kelas_kosong.php'; ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -626,6 +634,10 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     hideModal(modalTokenUsed);
                     setTimeout(() => { window.location.href = 'index.php'; }, 350);
                 }
+                if (e.target === modalPilihKandidat || e.target === modalTokenKosong || e.target === modalKelasKosong) {
+                    hideModal(e.target);
+                    setTimeout(() => { showModal(modalVoteForm); }, 250);
+                }
                 if (e.target === modalVoteForm) {
                     handleCancelVote();
                 }
@@ -711,27 +723,55 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 const modalErrorTitle = document.getElementById('modalErrorTitle');
                 if (modalErrorTitle) modalErrorTitle.textContent = title;
                 errorText.textContent = message;
+                const iconEl = document.getElementById('iconErrorEl');
+                if (iconEl) {
+                    iconEl.className = 'bi bi-exclamation-triangle-fill text-5xl text-red-600';
+                }
                 setTimeout(() => {
                     showModal(modalError);
                 }, 200);
             };
 
+            const modalPilihKandidat = document.getElementById('modalPilihKandidat');
+            const modalTokenKosong = document.getElementById('modalTokenKosong');
+            const modalKelasKosong = document.getElementById('modalKelasKosong');
+
+            const openValidationModal = (targetModal) => {
+                hideModal(modalVoteForm);
+                setTimeout(() => {
+                    showModal(targetModal);
+                }, 200);
+            };
+
+            const closeValidationBtns = document.querySelectorAll('.close-modal-validation, .btn-ok-validation');
+            closeValidationBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const parentModal = this.closest('.modal');
+                    if (parentModal) {
+                        hideModal(parentModal);
+                        setTimeout(() => {
+                            showModal(modalVoteForm);
+                        }, 250);
+                    }
+                });
+            });
+
             document.getElementById('formVote').addEventListener('submit', function(e) {
                 if (!inputKandidat.value) {
                     e.preventDefault();
-                    showCustomAlert('Peringatan', 'Silakan pilih salah satu pasangan kandidat terlebih dahulu!');
+                    openValidationModal(modalPilihKandidat);
                     return false;
                 }
                 
                 if (!document.getElementById('pemilih').value.trim()) {
                     e.preventDefault();
-                    showCustomAlert('Peringatan', 'masukkan token terlebih dahulu!');
+                    openValidationModal(modalTokenKosong);
                     return false;
                 }
                 
                 if (roleInput.value === 'siswa' && !document.getElementById('kelas').value) {
                     e.preventDefault();
-                    showCustomAlert('Peringatan', 'Silakan pilih kelas terlebih dahulu!');
+                    openValidationModal(modalKelasKosong);
                     return false;
                 }
             });
