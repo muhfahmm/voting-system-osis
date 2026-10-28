@@ -381,10 +381,11 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         </div>
     </div>
 
-    <!-- Include 3 Modals Terpisah -->
+    <!-- Include Modals Terpisah -->
     <?php include 'modals/modal_kandidat_kosong.php'; ?>
     <?php include 'modals/modal_token_kosong.php'; ?>
     <?php include 'modals/modal_kelas_kosong.php'; ?>
+    <?php include 'modals/modal_token_tidak_terdaftar.php'; ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -560,7 +561,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                     hideModal(modalTokenUsed);
                     setTimeout(() => { window.location.href = 'index.php'; }, 350);
                 }
-                if (e.target === modalPilihKandidat || e.target === modalTokenKosong || e.target === modalKelasKosong) {
+                if (e.target === modalPilihKandidat || e.target === modalTokenKosong || e.target === modalKelasKosong || e.target === modalTokenInvalid) {
                     hideModal(e.target);
                     setTimeout(() => { showModal(modalVoteForm); }, 250);
                 }
@@ -572,8 +573,10 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             <?php if (!empty($successMessage)) : ?>
                 showModal(modalSuccess);
             <?php elseif (!empty($errorMessage)) : ?>
-                errorText.innerText = "<?= addslashes($errorMessage) ?>";
-                showModal(modalError);
+                const modalTokenInvalid = document.getElementById('modalTokenInvalid');
+                const invalidText = document.getElementById('modalTokenInvalidText');
+                if (invalidText) invalidText.innerText = "<?= addslashes($errorMessage) ?>";
+                showModal(modalTokenInvalid);
             <?php elseif (!empty($tokenUsedMessage)) : ?>
                 showModal(modalTokenUsed);
             <?php endif; ?>
@@ -669,7 +672,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 }, 200);
             };
 
-            const closeValidationBtns = document.querySelectorAll('.close-modal-validation, .btn-ok-validation');
+            const closeValidationBtns = document.querySelectorAll('.close-modal-validation, .btn-ok-validation, .close-modal-invalid, .btn-ok-invalid');
             closeValidationBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const parentModal = this.closest('.modal');
