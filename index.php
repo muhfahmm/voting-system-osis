@@ -209,7 +209,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voting Kandidat OSIS Skalsa</title>
+    <title>Pemilos 2026</title>
     <link rel="icon" href="admin/assets/img/logo osis.png">
     <link rel="preload" as="image" href="admin/assets/img/logo osis.png">
     <link rel="preload" as="image" href="admin/assets/img/logo sekolah.png">
@@ -294,12 +294,11 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
 <body class="text-slate-800 min-h-screen p-4 sm:p-6 leading-relaxed overflow-x-hidden relative flex flex-col items-center justify-start lg:py-8">
     <div class="container max-w-[1350px] mx-auto relative z-10 w-full flex flex-col gap-6">
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 bg-white/90 backdrop-blur-md border border-slate-200 py-3.5 px-4 sm:px-6 rounded-2xl shadow-sm text-center sm:text-left">
-            <h1 class="font-sans text-sm sm:text-base lg:text-xl font-bold text-slate-900 tracking-tight">Selamat Datang di Forum Pemilihan Osis Skalsa</h1>
-            <div class="shrink-0">
-                <button class="bg-white border border-slate-200 h-9 sm:h-10 px-4 sm:px-5 rounded-xl font-sans text-xs sm:text-sm font-semibold cursor-pointer text-slate-700 backdrop-blur-sm transition-colors hover:bg-slate-50" name="login" onclick="window.open('admin/auth/logout.php', '_blank', 'noopener,noreferrer')">Dashboard</button>
-            </div>
-        </div>
+        <div class="flex justify-center items-center gap-3 sm:gap-4 bg-white/90 backdrop-blur-md border border-slate-200 py-3.5 px-4 sm:px-6 rounded-2xl shadow-sm">
+    <h1 class="w-full text-center font-sans text-sm sm:text-base lg:text-xl font-bold text-slate-900 tracking-tight">
+        PEMILIHAN KETUA DAN WAKIL OSIS SMK AL ISLAM SURAKARTA
+    </h1>
+</div>
         
         <div class="flex justify-center">
             <div class="flex justify-center items-center gap-6 bg-white/90 backdrop-blur-md py-4 px-8 rounded-2xl border border-slate-200 shadow-sm">
@@ -341,81 +340,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         </div>
     </div>
 
-    <div id="modalVoteForm" class="modal fixed inset-0 bg-slate-950/60 justify-center items-center z-[1000] p-4 sm:p-6">
-        <div class="modal-content bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-[1100px] text-left relative max-h-[90vh] overflow-y-auto">
-            <button type="button" class="absolute top-5 right-6 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-sans text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 cursor-pointer z-20" id="closeVoteForm">
-                <i class="bi bi-arrow-left-right"></i>
-                <span>Ganti Pilihan</span>
-            </button>
-            <h2 id="modalVoteTitle" class="font-sans text-xl sm:text-2xl font-bold text-slate-900 mb-2 border-b border-slate-100 pb-3 pr-32">Konfirmasi Pilihan</h2>
-            
-            <div id="modalKandidatPreview" class="flex flex-col sm:flex-row gap-4 mt-4 mb-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                <div class="flex flex-1 items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                    <img id="modalKetuaFoto" src="" alt="Ketua" class="w-[90px] sm:w-[120px] h-[110px] sm:h-[145px] object-cover object-top rounded-xl border border-slate-200 shadow-sm shrink-0">
-                    <div class="overflow-hidden flex-1 min-w-0">
-                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block mb-1">Calon Ketua</span>
-                        <p id="modalKetuaNama" class="text-base sm:text-lg font-bold text-slate-900 truncate"></p>
-                    </div>
-                </div>
-                <div class="flex flex-1 items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                    <img id="modalWakilFoto" src="" alt="Wakil" class="w-[90px] sm:w-[120px] h-[110px] sm:h-[145px] object-cover object-top rounded-xl border border-slate-200 shadow-sm shrink-0">
-                    <div class="overflow-hidden flex-1 min-w-0">
-                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block mb-1">Calon Wakil</span>
-                        <p id="modalWakilNama" class="text-base sm:text-lg font-bold text-slate-900 truncate"></p>
-                    </div>
-                </div>
-            </div>
-            
-            <form action="" method="post" id="formVote" novalidate class="mt-4 flex flex-col gap-5">
-                <div class="form-user-group-wrap grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="form-group flex flex-col gap-2 md:col-span-2">
-                        <label for="pemilih" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Token</label>
-                        <div class="relative">
-                            <input type="text" id="pemilih" name="token_pemilih" 
-                                   placeholder="Masukkan Token" autocomplete="off" 
-                                   class="py-3.5 px-5 rounded-xl bg-white border border-slate-200 font-sans text-sm sm:text-base text-slate-700 w-full focus:outline-none focus:border-emerald-500 transition-colors"
-                                   value="<?= htmlspecialchars($_POST['token_pemilih'] ?? '') ?>"
-                                   required>
-                            <span id="tokenSpinner" class="hidden absolute right-4 top-4 text-slate-400 text-xs">Mengecek...</span>
-                        </div>
-                        <div id="tokenFeedback" class="hidden text-xs font-semibold mt-1 px-1"></div>
-                    </div>
-                    
-                    <div class="form-group flex flex-col gap-2">
-                        <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Status</label>
-                        <input type="hidden" id="role" name="role" value="<?= htmlspecialchars($_POST['role'] ?? 'siswa') ?>">
-                        <div class="flex gap-3 w-full">
-                            <button type="button" data-role="siswa" class="role-btn flex-1 py-3.5 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
-                                Siswa / Siswi
-                            </button>
-                            <button type="button" data-role="guru" class="role-btn flex-1 py-3.5 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
-                                Guru / Karyawan
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="kelasWrap" class="form-group flex flex-col gap-2">
-                        <label for="kelas" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Kelas Pemilih</label>
-                        <select id="kelas" name="kelas" class="pilih-kelas py-3.5 px-5 rounded-xl bg-white border border-slate-200 font-sans text-sm sm:text-base text-slate-700 w-full focus:outline-none appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
-                            <option value="">Pilih Kelas</option>
-                            <?php foreach ($kelas_list as $kelas): ?>
-                                <option value="<?= htmlspecialchars($kelas['nama_kelas']) ?>"
-                                    <?= (isset($_POST['kelas']) && $_POST['kelas'] === $kelas['nama_kelas']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($kelas['nama_kelas']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-                
-                <input type="hidden" name="kandidat_terpilih" id="kandidat_terpilih" value="<?= $_POST['kandidat_terpilih'] ?? '' ?>">
-                
-                <div class="mt-4">
-                    <button type="submit" name="kirim" class="submit-btn bg-emerald-600 text-white border-none w-full h-[54px] rounded-xl font-sans font-bold text-base cursor-pointer tracking-wide hover:bg-emerald-700 transition-colors">Konfirmasi</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Include Modal Form Konfirmasi Pilihan -->
+    <?php include 'modals/modal_vote_form.php'; ?>
 
     <div id="modalSuccess" class="modal fixed inset-0 bg-slate-950/60 justify-center items-center z-[1050] p-4">
         <div class="modal-content bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-[580px] text-center relative flex flex-col items-center">
