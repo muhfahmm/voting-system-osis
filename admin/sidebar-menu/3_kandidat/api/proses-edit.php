@@ -33,27 +33,21 @@ if (isset($_POST['edit'])) {
     $foto_ketua = $old['foto_ketua'];
     $foto_wakil = $old['foto_wakil'];
 
-    if (!empty($_FILES['foto_ketua']['name'])) {
-        $fileName = time() . "_ketua_" . $_FILES['foto_ketua']['name'];
+    // Handle single paslon photo upload
+    $uploadedFile = $_FILES['foto_paslon'] ?? ($_FILES['foto_ketua'] ?? null);
+    if ($uploadedFile && !empty($uploadedFile['name'])) {
+        $fileName = time() . "_paslon_" . basename($uploadedFile['name']);
         $target = "../../../uploads/" . $fileName;
-        move_uploaded_file($_FILES['foto_ketua']['tmp_name'], $target);
-        
-        if (file_exists("../../../uploads/" . $foto_ketua)) {
-            unlink("../../../uploads/" . $foto_ketua);
+        if (move_uploaded_file($uploadedFile['tmp_name'], $target)) {
+            if (!empty($foto_ketua) && file_exists("../../../uploads/" . $foto_ketua)) {
+                unlink("../../../uploads/" . $foto_ketua);
+            }
+            if (!empty($foto_wakil) && $foto_wakil !== $foto_ketua && file_exists("../../../uploads/" . $foto_wakil)) {
+                unlink("../../../uploads/" . $foto_wakil);
+            }
+            $foto_ketua = $fileName;
+            $foto_wakil = $fileName;
         }
-        $foto_ketua = $fileName;
-    }
-
-    
-    if (!empty($_FILES['foto_wakil']['name'])) {
-        $fileName2 = time() . "_wakil_" . $_FILES['foto_wakil']['name'];
-        $target2 = "../../../uploads/" . $fileName2;
-        move_uploaded_file($_FILES['foto_wakil']['tmp_name'], $target2);
-        
-        if (file_exists("../../../uploads/" . $foto_wakil)) {
-            unlink("../../../uploads/" . $foto_wakil);
-        }
-        $foto_wakil = $fileName2;
     }
 
     

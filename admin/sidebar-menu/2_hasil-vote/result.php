@@ -200,9 +200,8 @@ $totalPartisipasi = $totalSiswaTarget + $totalGuruTarget;
             ?>
             <section class="bg-white/90 backdrop-blur-md border border-emerald-100 rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-4 group">
                 <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 z-10 w-full lg:w-auto">
-                    <div class="flex gap-2 sm:gap-3 relative shrink-0">
-                        <img src="../../uploads/<?= $leader['foto_ketua']; ?>" alt="Foto Ketua Terunggul" class="w-20 h-28 sm:w-28 sm:h-38 object-cover rounded-xl sm:rounded-2xl border-2 border-emerald-200 shadow-md">
-                        <img src="../../uploads/<?= $leader['foto_wakil']; ?>" alt="Foto Wakil Terunggul" class="w-20 h-28 sm:w-28 sm:h-38 object-cover rounded-xl sm:rounded-2xl border-2 border-emerald-200 shadow-md">
+                    <div class="relative shrink-0">
+                        <img src="../../uploads/<?= $leader['foto_ketua']; ?>" alt="Foto Paslon Terunggul" class="w-24 h-32 sm:w-28 sm:h-38 object-cover rounded-xl sm:rounded-2xl border-2 border-emerald-200 shadow-md">
                         <span class="absolute -top-2.5 -right-2.5 sm:-top-3 sm:-right-3 w-8 h-8 sm:w-10 sm:h-10 bg-emerald-500 border border-emerald-400 text-white rounded-full flex items-center justify-center font-sans font-extrabold text-xs sm:text-sm shadow-md">
                             #<?= $leader['nomor_kandidat']; ?>
                         </span>

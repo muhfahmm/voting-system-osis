@@ -141,11 +141,6 @@ $admin = $_SESSION['username'] ?? 'Admin';
                             <input type="text" id="kelas_ketua" name="kelas_ketua" placeholder="Contoh: XI PPLG 1" required
                                    class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500">
                         </div>
-                        <div class="flex flex-col gap-1.5">
-                            <label for="foto_ketua" class="text-xs font-semibold text-slate-600">Foto Ketua</label>
-                            <input type="file" id="foto_ketua" name="foto_ketua" required
-                                   class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
-                        </div>
                     </div>
 
                     
@@ -159,16 +154,18 @@ $admin = $_SESSION['username'] ?? 'Admin';
                                    class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500">
                         </div>
                         <div class="flex flex-col gap-1.5">
-                            <label for="kelas_wakil" class="text-xs font-semibold text-slate-600">Kelas</label>
+                            <label for="kelas_wakil" class="text-xs font-semibold text-slate-600">Kelas Wakil</label>
                             <input type="text" id="kelas_wakil" name="kelas_wakil" placeholder="Contoh: X PPLG 2" required
                                    class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500">
                         </div>
-                        <div class="flex flex-col gap-1.5">
-                            <label for="foto_wakil" class="text-xs font-semibold text-slate-600">Foto Wakil</label>
-                            <input type="file" id="foto_wakil" name="foto_wakil" required
-                                   class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
-                        </div>
                     </div>
+                </div>
+
+                <div class="bg-slate-50/70 p-5 rounded-xl border border-slate-200 flex flex-col gap-2">
+                    <label for="foto_paslon" class="text-xs font-bold text-slate-700 uppercase tracking-wider">Foto Paslon (1 Gambar Pasangan)</label>
+                    <input type="file" id="foto_paslon" name="foto_paslon" accept="image/*" required
+                           class="w-full text-xs text-slate-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                    <p class="text-[11px] text-slate-400">Unggah 1 foto atau poster bersama pasangan calon Ketua & Wakil.</p>
                 </div>
 
                 <div class="pt-4 border-t border-slate-100 flex justify-end gap-3">

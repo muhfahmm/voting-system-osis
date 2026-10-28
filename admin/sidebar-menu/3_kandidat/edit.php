@@ -156,15 +156,6 @@ if (!$data) {
                             <label for="nama_ketua" class="text-xs font-semibold text-slate-600">Nama Lengkap Ketua</label>
                             <input type="text" id="nama_ketua" name="nama_ketua" value="<?= htmlspecialchars($data['nama_ketua']); ?>" class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500 focus:outline-none" required autocomplete="off">
                         </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label class="text-xs font-semibold text-slate-600">Foto Ketua Saat Ini & Pratinjau</label>
-                            <div class="w-32 aspect-[3/4] overflow-hidden rounded-xl border border-slate-200 shadow-sm bg-slate-50">
-                                <img id="preview_ketua" src="../../uploads/<?= htmlspecialchars($data['foto_ketua']); ?>" alt="Foto Ketua" class="w-full h-full object-cover">
-                            </div>
-                            <input type="file" name="foto_ketua" accept="image/*" onchange="previewImage(this, 'preview_ketua')" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-all">
-                            <p class="text-[11px] text-slate-400">Biarkan kosong jika tidak ingin mengunggah foto baru.</p>
-                        </div>
                     </div>
 
                     <div class="flex flex-col gap-4 border-t md:border-t-0 md:border-l border-slate-100 pt-6 md:pt-0 md:pl-6">
@@ -176,14 +167,18 @@ if (!$data) {
                             <label for="nama_wakil" class="text-xs font-semibold text-slate-600">Nama Lengkap Wakil</label>
                             <input type="text" id="nama_wakil" name="nama_wakil" value="<?= htmlspecialchars($data['nama_wakil']); ?>" class="w-full py-2.5 px-3.5 rounded-lg bg-white border border-slate-200 text-sm font-medium text-slate-800 focus:border-emerald-500 focus:outline-none" required autocomplete="off">
                         </div>
+                    </div>
+                </div>
 
-                        <div class="flex flex-col gap-2">
-                            <label class="text-xs font-semibold text-slate-600">Foto Wakil Saat Ini & Pratinjau</label>
-                            <div class="w-32 aspect-[3/4] overflow-hidden rounded-xl border border-slate-200 shadow-sm bg-slate-50">
-                                <img id="preview_wakil" src="../../uploads/<?= htmlspecialchars($data['foto_wakil']); ?>" alt="Foto Wakil" class="w-full h-full object-cover">
-                            </div>
-                            <input type="file" name="foto_wakil" accept="image/*" onchange="previewImage(this, 'preview_wakil')" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-all">
-                            <p class="text-[11px] text-slate-400">Biarkan kosong jika tidak ingin mengunggah foto baru.</p>
+                <div class="bg-slate-50/70 p-5 rounded-xl border border-slate-200 flex flex-col gap-3">
+                    <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">Foto Paslon (1 Gambar Pasangan)</label>
+                    <div class="flex items-center gap-4">
+                        <div class="w-32 aspect-[3/4] overflow-hidden rounded-xl border border-slate-200 shadow-sm bg-white shrink-0">
+                            <img id="preview_paslon" src="../../uploads/<?= htmlspecialchars($data['foto_ketua']); ?>" alt="Foto Paslon" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex flex-col gap-2 flex-1">
+                            <input type="file" name="foto_paslon" accept="image/*" onchange="previewImage(this, 'preview_paslon')" class="w-full text-xs text-slate-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition-all">
+                            <p class="text-[11px] text-slate-400">Biarkan kosong jika tidak ingin mengubah foto/poster paslon.</p>
                         </div>
                     </div>
                 </div>

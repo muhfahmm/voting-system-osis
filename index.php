@@ -219,9 +219,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         if (!empty($k['foto_ketua'])): ?>
     <link rel="preload" as="image" href="admin/uploads/<?= htmlspecialchars($k['foto_ketua']) ?>">
         <?php endif; 
-        if (!empty($k['foto_wakil'])): ?>
-    <link rel="preload" as="image" href="admin/uploads/<?= htmlspecialchars($k['foto_wakil']) ?>">
-        <?php endif; 
     endwhile; 
     ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -315,18 +312,19 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 <div class="kandidat-card bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 lg:p-5 shadow-sm relative overflow-hidden select-none h-full flex flex-col justify-between" data-id="<?= $row['nomor_kandidat']; ?>">
                     <div class="absolute -top-3 -right-1 text-[90px] lg:text-[110px] font-sans font-black text-slate-900/10 pointer-events-none select-none z-0 leading-none">0<?= $row['nomor_kandidat']; ?></div>
                     
-                    <h3 class="font-sans text-lg lg:text-xl font-bold text-slate-900 mb-4 text-center relative z-10">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
+                    <h3 class="font-sans text-lg lg:text-xl font-bold text-slate-900 mb-3 text-center relative z-10">Pasangan Nomor <?= $row['nomor_kandidat']; ?></h3>
                     
-                    <div class="flex gap-2.5 lg:gap-3 mb-4 relative z-10">
-                        <div class="flex-1 min-w-0 p-1 text-center flex flex-col items-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Ketua" class="foto-ketua w-full aspect-[4/5] object-cover object-top rounded-xl mb-2.5 shadow-sm" loading="eager" fetchpriority="high" decoding="async">
-                            <h3 class="nama-ketua font-sans my-0.5 font-bold text-xs lg:text-base text-slate-900 truncate w-full text-center"><?= htmlspecialchars($row['nama_ketua']); ?></h3>
-                            <small class="text-slate-500 text-[10px] lg:text-xs font-semibold uppercase tracking-wider whitespace-nowrap">Calon Ketua</small>
+                    <div class="flex flex-col items-center mb-4 relative z-10">
+                        <div class="w-full flex justify-center mb-3">
+                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_ketua']) ?>" alt="Paslon <?= $row['nomor_kandidat']; ?>" class="foto-paslon w-full max-w-[280px] aspect-[3/4] object-cover object-top rounded-2xl shadow-sm border border-slate-100" loading="eager" fetchpriority="high" decoding="async">
                         </div>
-                        <div class="flex-1 min-w-0 p-1 text-center flex flex-col items-center">
-                            <img src="admin/uploads/<?= htmlspecialchars($row['foto_wakil']) ?>" alt="Wakil" class="foto-wakil w-full aspect-[4/5] object-cover object-top rounded-xl mb-2.5 shadow-sm" loading="eager" fetchpriority="high" decoding="async">
-                            <h3 class="nama-wakil font-sans my-0.5 font-bold text-xs lg:text-base text-slate-900 truncate w-full text-center"><?= htmlspecialchars($row['nama_wakil']); ?></h3>
-                            <small class="text-slate-500 text-[10px] lg:text-xs font-semibold uppercase tracking-wider whitespace-nowrap">Calon Wakil</small>
+                        <div class="w-full text-center px-1">
+                            <h4 class="nama-paslon font-sans font-bold text-sm lg:text-base text-slate-900 leading-snug">
+                                <span class="nama-ketua"><?= htmlspecialchars($row['nama_ketua']); ?></span>
+                                <span class="text-slate-400 font-normal mx-1">&</span>
+                                <span class="nama-wakil"><?= htmlspecialchars($row['nama_wakil']); ?></span>
+                            </h4>
+                            <p class="text-slate-500 text-[11px] lg:text-xs font-semibold uppercase tracking-wider mt-1">Calon Ketua & Calon Wakil</p>
                         </div>
                     </div>
                     
@@ -482,17 +480,18 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 kandidatList.classList.add('has-selection');
                 selectedCard = card;
 
-                const fotoKetua = card.querySelector('.foto-ketua').src;
+                const fotoPaslon = card.querySelector('.foto-paslon').src;
                 const namaKetua = card.querySelector('.nama-ketua').textContent;
-                const fotoWakil = card.querySelector('.foto-wakil').src;
                 const namaWakil = card.querySelector('.nama-wakil').textContent;
 
                 document.getElementById('modalVoteTitle').textContent = `Konfirmasi Pilihan: Pasangan Nomor ${cardId}`;
                 
-                document.getElementById('modalKetuaFoto').src = fotoKetua;
-                document.getElementById('modalKetuaNama').textContent = namaKetua;
-                document.getElementById('modalWakilFoto').src = fotoWakil;
-                document.getElementById('modalWakilNama').textContent = namaWakil;
+                const modalFoto = document.getElementById('modalPaslonFoto');
+                if (modalFoto) modalFoto.src = fotoPaslon;
+                const modalNamaKetua = document.getElementById('modalKetuaNama');
+                if (modalNamaKetua) modalNamaKetua.textContent = namaKetua;
+                const modalNamaWakil = document.getElementById('modalWakilNama');
+                if (modalNamaWakil) modalNamaWakil.textContent = namaWakil;
 
                 showModal(modalVoteForm);
             }

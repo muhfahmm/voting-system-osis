@@ -7,19 +7,17 @@
         </button>
         <h2 id="modalVoteTitle" class="font-sans text-xl sm:text-2xl font-bold text-slate-900 mb-2 border-b border-slate-100 pb-3 pr-32">Konfirmasi Pilihan</h2>
         
-        <div id="modalKandidatPreview" class="flex flex-col sm:flex-row gap-4 mt-4 mb-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-            <div class="flex flex-1 items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                <img id="modalKetuaFoto" src="" alt="Ketua" class="w-[90px] sm:w-[120px] h-[110px] sm:h-[145px] object-cover object-top rounded-xl border border-slate-200 shadow-sm shrink-0">
+        <div id="modalKandidatPreview" class="mt-4 mb-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <div class="flex items-center gap-4 sm:gap-5 bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <img id="modalPaslonFoto" src="" alt="Paslon" class="w-[90px] sm:w-[110px] aspect-[3/4] object-cover object-top rounded-xl border border-slate-200 shadow-sm shrink-0">
                 <div class="overflow-hidden flex-1 min-w-0">
-                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block mb-1">Calon Ketua</span>
-                    <p id="modalKetuaNama" class="text-base sm:text-lg font-bold text-slate-900 truncate"></p>
-                </div>
-            </div>
-            <div class="flex flex-1 items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                <img id="modalWakilFoto" src="" alt="Wakil" class="w-[90px] sm:w-[120px] h-[110px] sm:h-[145px] object-cover object-top rounded-xl border border-slate-200 shadow-sm shrink-0">
-                <div class="overflow-hidden flex-1 min-w-0">
-                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block mb-1">Calon Wakil</span>
-                    <p id="modalWakilNama" class="text-base sm:text-lg font-bold text-slate-900 truncate"></p>
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block mb-1">Pasangan Calon</span>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">
+                        <span id="modalKetuaNama"></span>
+                        <span class="text-slate-400 font-normal mx-1">&</span>
+                        <span id="modalWakilNama"></span>
+                    </h3>
+                    <p class="text-xs text-slate-500 font-medium mt-1">Calon Ketua & Calon Wakil Ketua OSIS</p>
                 </div>
             </div>
         </div>
