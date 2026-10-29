@@ -161,24 +161,21 @@ if (isset($_GET['reset_token'])) {
             mysqli_query($db, "DELETE FROM tb_voter WHERE token_id = $id_token");
             mysqli_query($db, "UPDATE tb_buat_token SET status_token = 'belum' WHERE id = $id_token");
             mysqli_commit($db);
-            $message = '<i class="bi bi-arrow-counterclockwise"></i> Penggunaan token siswa berhasil di-reset. Token sekarang dapat digunakan kembali untuk memilih.';
+            $message = '<i class="bi bi-arrow-counterclockwise"></i> Token berhasil di-reset menjadi Belum Digunakan.';
             header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
             exit;
         } catch (Exception $e) {
             mysqli_rollback($db);
-            $message = '<i class="bi bi-x-circle"></i> Gagal me-reset token: ' . $e->getMessage();
+            $message = '<i class="bi bi-x-circle"></i> Gagal me-reset status token: ' . $e->getMessage();
         }
-    } else {
-        $message = '<i class="bi bi-exclamation-triangle"></i> Token tidak ditemukan.';
     }
 }
 
-// Reset semua token terpakai
+// Reset seluruh token yang sudah digunakan
 if (isset($_POST['reset_all_used'])) {
     mysqli_begin_transaction($db);
     try {
         $tokenQuery = mysqli_query($db, "SELECT id FROM tb_buat_token WHERE status_token = 'sudah'");
-        $reset_count = 0;
         while ($t = mysqli_fetch_assoc($tokenQuery)) {
             $id_token = $t['id'];
             $voterQuery = mysqli_query($db, "SELECT id FROM tb_voter WHERE token_id = $id_token");
@@ -188,10 +185,9 @@ if (isset($_POST['reset_all_used'])) {
             }
             mysqli_query($db, "DELETE FROM tb_voter WHERE token_id = $id_token");
             mysqli_query($db, "UPDATE tb_buat_token SET status_token = 'belum' WHERE id = $id_token");
-            $reset_count++;
         }
         mysqli_commit($db);
-        $message = '<i class="bi bi-arrow-counterclockwise"></i> Berhasil me-reset ' . $reset_count . ' token siswa yang telah digunakan.';
+        $message = '<i class="bi bi-arrow-counterclockwise"></i> Seluruh token siswa yang telah terpakai berhasil di-reset.';
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;
     } catch (Exception $e) {
@@ -234,7 +230,7 @@ $statUsed = (int)mysqli_fetch_assoc($qStatUsed)['total'];
 
 $statUnused = $statTotal - $statUsed;
 
-// Pagination & Pencarian (sama persis dengan token guru: limit 10)
+// Pagination & Pencarian
 $limit = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
@@ -252,10 +248,10 @@ $totalData = isset($totalRow['total']) ? (int)$totalRow['total'] : 0;
 $totalPages = max(1, ceil($totalData / $limit));
 
 $queryTokens = mysqli_query($db, "
-    SELECT * 
+    SELECT id, token, status_token
     FROM tb_buat_token 
     $whereClause
-    ORDER BY id DESC
+    ORDER BY id DESC 
     LIMIT $limit OFFSET $offset
 ");
 ?>
@@ -265,7 +261,7 @@ $queryTokens = mysqli_query($db, "
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Token Siswa - Voting OSIS</title>
+    <title>Token Siswa Real-Time - Voting OSIS</title>
     <link rel="icon" href="../../assets/img/logo osis.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -273,9 +269,6 @@ $queryTokens = mysqli_query($db, "
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        darkbg: '#0b0f19',
-                    },
                     fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
                 }
             }
@@ -287,11 +280,15 @@ $queryTokens = mysqli_query($db, "
 </head>
 
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
+    
+    <!-- Mobile Overlay Backdrop -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-30 hidden lg:hidden transition-opacity duration-300 opacity-0" onclick="toggleSidebar()"></div>
 
-    <!-- Include Shared Sidebar -->
+    <!-- Aside Sidebar Modular -->
     <?php 
-    $activeMenu = 'token_siswa';
-    include '../sidebar.php'; 
+    $active = 'token_siswa';
+    $baseMenu = '../';
+    require '../sidebar.php'; 
     ?>
 
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full lg:ml-64">
@@ -301,14 +298,25 @@ $queryTokens = mysqli_query($db, "
                     <i class="bi bi-list"></i>
                 </button>
                 <div>
-                    <h1 class="font-sans text-2xl font-bold text-slate-900">Manajemen Token Siswa</h1>
+                    <div class="flex items-center gap-2.5">
+                        <h1 class="font-sans text-2xl font-bold text-slate-900">Token Siswa</h1>
+                        <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold shadow-xs">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span>REALTIME</span>
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+                        <span>Status dan statistik terupdate otomatis tiap 2 detik</span>
+                        <span>&bull;</span>
+                        <span class="text-slate-400">Sinkron: <span id="lastSyncTime"><?= date('H:i:s') ?></span></span>
+                    </p>
                 </div>
             </div>
-        </header>
-        
-        <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
-            <div>
-                <h1 class="font-sans text-2xl font-bold text-slate-900">Token Siswa</h1>
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="fetchRealtimeTokenSiswa(true)" id="btnManualSync" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-xs shadow-xs hover:bg-slate-50 transition-all">
+                    <i class="bi bi-arrow-clockwise text-emerald-600 font-bold text-sm" id="iconSync"></i>
+                    <span>Sinkronkan Sekarang</span>
+                </button>
             </div>
         </header>
 
@@ -319,7 +327,7 @@ $queryTokens = mysqli_query($db, "
             </div>
         <?php endif; ?>
 
-        <!-- Stat Cards (Sama persis dengan Token Guru) -->
+        <!-- Stat Cards Real-time -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
                 <div class="flex items-center gap-4">
@@ -328,7 +336,7 @@ $queryTokens = mysqli_query($db, "
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Total Token Siswa</p>
-                        <p class="text-xl font-bold mt-1 text-slate-900"><?= $statTotal ?></p>
+                        <p id="statTotalText" class="text-xl font-bold mt-1 text-slate-900"><?= $statTotal ?></p>
                     </div>
                 </div>
             </div>
@@ -340,7 +348,7 @@ $queryTokens = mysqli_query($db, "
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Sudah Digunakan</p>
-                        <p class="text-xl font-bold mt-1 text-emerald-600"><?= $statUsed ?></p>
+                        <p id="statUsedText" class="text-xl font-bold mt-1 text-emerald-600"><?= $statUsed ?></p>
                     </div>
                 </div>
             </div>
@@ -352,13 +360,13 @@ $queryTokens = mysqli_query($db, "
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Belum Digunakan</p>
-                        <p class="text-xl font-bold mt-1 text-red-600"><?= $statUnused ?></p>
+                        <p id="statUnusedText" class="text-xl font-bold mt-1 text-red-600"><?= $statUnused ?></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 2 Kolom Layout: Kiri Buat Token Baru (Manual + Otomatis + Reset), Kanan Tabel Token -->
+        <!-- 2 Kolom Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             
             <!-- Kolom Kiri: Buat Token Baru -->
@@ -374,7 +382,7 @@ $queryTokens = mysqli_query($db, "
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="token_manual">Buat Token Manual</label>
-                        <input type="text" id="token_manual" name="token_manual" placeholder="masukkan token siswa manual" minlength="2" maxlength="100" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-700 w-full focus:outline-none uppercase" required autocomplete="off">
+                        <input type="text" id="token_manual" name="token_manual" placeholder="masukkan token siswa manual" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none uppercase" required autocomplete="off">
                     </div>
                     <button type="submit" name="add_manual" class="w-full py-3 rounded-xl bg-emerald-600 border border-emerald-500 font-bold text-sm tracking-wide text-white transition-all duration-300">
                         Tambah Token Manual
@@ -414,7 +422,7 @@ $queryTokens = mysqli_query($db, "
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Token Siswa Terdaftar (Layout th td sama persis dengan Guru) -->
+            <!-- Kolom Kanan: Token Siswa Terdaftar -->
             <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm p-4 md:p-5 flex flex-col gap-4 lg:col-span-2">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                     <h3 class="font-sans text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -423,7 +431,7 @@ $queryTokens = mysqli_query($db, "
                     </h3>
 
                     <form method="GET" class="relative">
-                        <input type="text" name="search" value="<?= htmlspecialchars($search); ?>" placeholder="Cari token..." class="py-2 px-3 pl-8 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none w-44 sm:w-56 font-medium">
+                        <input type="text" id="searchInput" name="search" value="<?= htmlspecialchars($search); ?>" placeholder="Cari token..." class="py-2 px-3 pl-8 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none w-44 sm:w-56 font-medium">
                         <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                     </form>
                 </div>
@@ -438,17 +446,17 @@ $queryTokens = mysqli_query($db, "
                                 <th class="py-2.5 px-3 text-center">AKSI</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
+                        <tbody id="tokenTableBody" class="divide-y divide-slate-200 text-sm text-slate-700">
                             <?php if ($totalData > 0): $no = $offset + 1;
                                 while ($row = mysqli_fetch_assoc($queryTokens)): ?>
-                                    <tr class="transition-colors duration-200">
+                                    <tr class="transition-colors duration-200" data-token-id="<?= $row['id']; ?>">
                                         <td class="py-2.5 px-3 font-semibold text-slate-500"><?= $no++; ?></td>
                                         <td class="py-2.5 px-3 text-center">
                                             <span class="font-mono text-emerald-600 bg-emerald-50 border border-emerald-200 py-1 px-3.5 rounded-lg text-xs font-bold">
                                                 <?= htmlspecialchars($row['token']); ?>
                                             </span>
                                         </td>
-                                        <td class="py-2.5 px-3 text-center">
+                                        <td class="py-2.5 px-3 text-center status-col">
                                             <?php if ($row['status_token'] === 'sudah'): ?>
                                                 <span class="inline-flex items-center text-xs font-semibold py-1 px-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700">
                                                     Sudah Dipakai
@@ -459,14 +467,14 @@ $queryTokens = mysqli_query($db, "
                                                 </span>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="py-2.5 px-3 text-center">
+                                        <td class="py-2.5 px-3 text-center action-col">
                                             <div class="flex items-center justify-center gap-2">
                                                 <a href="?edit_siswa=<?= $row['id']; ?>" class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-xs transition-all duration-300 flex items-center gap-1">
                                                     <i class="bi bi-pencil-square"></i>
                                                     <span>Edit</span>
                                                 </a>
                                                 <?php if ($row['status_token'] === 'sudah'): ?>
-                                                    <a href="?reset_token=<?= $row['id']; ?>" class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold text-xs transition-all duration-300 flex items-center gap-1" onclick="return confirm('Apakah Anda yakin ingin me-reset status penggunaan token siswa ini agar dapat digunakan kembali?')">
+                                                    <a href="?reset_token=<?= $row['id']; ?>" class="btn-reset px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold text-xs transition-all duration-300 flex items-center gap-1" onclick="return confirm('Apakah Anda yakin ingin me-reset status penggunaan token siswa ini agar dapat digunakan kembali?')">
                                                         <i class="bi bi-arrow-counterclockwise"></i>
                                                         <span>Reset</span>
                                                     </a>
@@ -557,6 +565,112 @@ $queryTokens = mysqli_query($db, "
     </div>
 </div>
 <?php endif; ?>
+
+    <script>
+        const currentPage = <?= $page ?>;
+        const currentSearch = <?= json_encode($search) ?>;
+
+        let isFetchingSiswa = false;
+
+        async function fetchRealtimeTokenSiswa(manual = false) {
+            if (isFetchingSiswa) return;
+            isFetchingSiswa = true;
+
+            const iconSync = document.getElementById('iconSync');
+            if (manual && iconSync) {
+                iconSync.classList.add('animate-spin');
+            }
+
+            try {
+                const params = new URLSearchParams({
+                    page: currentPage,
+                    search: currentSearch,
+                    _: new Date().getTime()
+                });
+
+                const res = await fetch('get_realtime_token_siswa.php?' + params.toString(), {
+                    cache: 'no-cache',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!res.ok) throw new Error('Network error');
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    // Update timestamp
+                    const syncEl = document.getElementById('lastSyncTime');
+                    if (syncEl && data.timestamp) syncEl.textContent = data.timestamp;
+
+                    // Update Statistik
+                    const stTot = document.getElementById('statTotalText');
+                    if (stTot) stTot.textContent = data.statTotal;
+
+                    const stUsed = document.getElementById('statUsedText');
+                    if (stUsed) stUsed.textContent = data.statUsed;
+
+                    const stUnused = document.getElementById('statUnusedText');
+                    if (stUnused) stUnused.textContent = data.statUnused;
+
+                    // Update baris tabel secara halus
+                    if (data.tokens && Array.isArray(data.tokens)) {
+                        data.tokens.forEach(tok => {
+                            const tr = document.querySelector(`tr[data-token-id="${tok.id}"]`);
+                            if (tr) {
+                                const statusCol = tr.querySelector('.status-col');
+                                const actionCol = tr.querySelector('.action-col .flex');
+
+                                if (tok.status_token === 'sudah') {
+                                    if (statusCol && !statusCol.innerHTML.includes('Sudah Dipakai')) {
+                                        statusCol.innerHTML = `
+                                            <span class="inline-flex items-center text-xs font-semibold py-1 px-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700">
+                                                Sudah Dipakai
+                                            </span>
+                                        `;
+                                    }
+                                    if (actionCol && !actionCol.querySelector('.btn-reset')) {
+                                        const editBtn = actionCol.querySelector('a[href*="edit_siswa"]');
+                                        const resetHtml = `
+                                            <a href="?reset_token=${tok.id}" class="btn-reset px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold text-xs transition-all duration-300 flex items-center gap-1" onclick="return confirm('Apakah Anda yakin ingin me-reset status penggunaan token siswa ini agar dapat digunakan kembali?')">
+                                                <i class="bi bi-arrow-counterclockwise"></i>
+                                                <span>Reset</span>
+                                            </a>
+                                        `;
+                                        if (editBtn) {
+                                            editBtn.insertAdjacentHTML('afterend', resetHtml);
+                                        }
+                                    }
+                                } else {
+                                    if (statusCol && !statusCol.innerHTML.includes('Belum Dipakai')) {
+                                        statusCol.innerHTML = `
+                                            <span class="inline-flex items-center text-xs font-semibold py-1 px-3 rounded-lg bg-red-50 border border-red-200 text-red-600">
+                                                Belum Dipakai
+                                            </span>
+                                        `;
+                                    }
+                                    if (actionCol) {
+                                        const resetBtn = actionCol.querySelector('.btn-reset');
+                                        if (resetBtn) resetBtn.remove();
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            } catch (err) {
+                console.warn('Realtime Token Siswa warning:', err);
+            } finally {
+                isFetchingSiswa = false;
+                if (manual && iconSync) {
+                    setTimeout(() => iconSync.classList.remove('animate-spin'), 600);
+                }
+            }
+        }
+
+        // Interval realtime polling tiap 2 detik
+        setInterval(() => {
+            fetchRealtimeTokenSiswa(false);
+        }, 2000);
+    </script>
 
     <script>
         function toggleSidebar() {

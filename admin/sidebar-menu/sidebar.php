@@ -78,15 +78,12 @@ $active = $activeMenu ?? '';
         </nav>
     </div>
 
-    <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-3 shrink-0">
+    <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
         <a href="<?= $baseAdmin; ?>auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300 hover:bg-red-100">
             <i class="bi bi-box-arrow-right"></i>
             <span>Keluar (Logout)</span>
         </a>
-        <div class="text-[11px] text-slate-400 text-center leading-relaxed">
-            <p>&copy; <?php echo date('Y'); ?> Panitia Pemilihan OSIS Skalsa. All Rights Reserved.</p>
-            <p>Dikembangkan oleh: [Fahiim]</p>
-        </div>
+
     </div>
 </aside>
 
