@@ -29,6 +29,7 @@
                     <div class="relative">
                         <input type="text" id="pemilih" name="token_pemilih" 
                                placeholder="Masukkan Token" autocomplete="off" 
+                               maxlength="50" pattern="[a-zA-Z0-9\-]+"
                                class="py-3.5 px-5 rounded-xl bg-white border border-slate-200 font-sans text-sm sm:text-base text-slate-700 w-full focus:outline-none focus:border-emerald-500 transition-colors"
                                value="<?= htmlspecialchars($_POST['token_pemilih'] ?? '') ?>"
                                required>

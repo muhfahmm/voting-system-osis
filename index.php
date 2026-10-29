@@ -11,6 +11,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'check_token') {
         exit;
     }
 
+    // Validasi format token (hanya alfanumerik dan strip, max 50 char)
+    if (!preg_match('/^[a-zA-Z0-9\-]{2,50}$/', $token)) {
+        echo json_encode(['status' => 'invalid', 'message' => 'Karakter token tidak valid.']);
+        exit;
+    }
+
     // 1. Cek di tabel token siswa (tb_buat_token)
     $stmt = mysqli_prepare($db, "
         SELECT t.id, t.status_token 
@@ -70,6 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
 
     if ($token_pemilih === '' || $kandidat_terpilih <= 0) {
         $errorMessage = "Token dan kandidat wajib diisi!";
+    } elseif (!preg_match('/^[a-zA-Z0-9\-]{2,50}$/', $token_pemilih)) {
+        $errorMessage = "Format token tidak valid atau mengandung karakter terlarang!";
     } else {
         $token_db_id = null;
         $role = '';
@@ -133,7 +141,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
             } else {
                 mysqli_begin_transaction($db);
                 try {
-                    $kelas_voter = ($role === 'siswa') ? $nama_token : 'Guru/Staf';
+                    if (empty($kelas_voter)) {
+                        $kelas_voter = ($role === 'siswa') ? 'Siswa' : 'Guru/Staf';
+                    }
                     
                     if ($role === 'siswa') {
                         $sql_voter_siswa = "
@@ -277,7 +287,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 <style>input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }</style>
 </head>
 
-<body class="text-slate-800 min-h-screen p-4 sm:p-6 leading-relaxed overflow-x-hidden relative flex flex-col items-center justify-start lg:py-8">
+<body class="text-slate-800 min-h-screen p-4 sm:p-6 leading-relaxed overflow-x-hidden relative flex flex-col items-center justify-start lg:py-8 select-none" oncontextmenu="return false;">
     <div class="container max-w-[1350px] mx-auto relative z-10 w-full flex flex-col gap-6">
         <div class="flex justify-center items-center gap-3 sm:gap-4 bg-white/90 backdrop-blur-md border border-slate-200 py-3.5 px-4 sm:px-6 rounded-2xl shadow-sm">
     <h1 class="w-full text-center font-sans text-sm sm:text-base lg:text-xl font-bold text-slate-900 tracking-tight">
@@ -668,6 +678,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             });
         });
     </script>
+    <script src="assets/js/security.js"></script>
 </body>
 
 </html>
