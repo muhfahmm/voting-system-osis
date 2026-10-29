@@ -68,67 +68,11 @@ $qToken = mysqli_query($db, "SELECT * FROM tb_buat_token WHERE kelas_id = $kelas
 <body class="bg-[#f8fafc] text-slate-800 min-h-screen flex font-sans relative overflow-x-hidden">
     
     
-    <!-- Mobile Overlay Backdrop -->
-    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-30 hidden lg:hidden transition-opacity duration-300 opacity-0" onclick="toggleSidebar()"></div>
-
-    <!-- Aside Sidebar -->
-    <aside id="sidebarMenu" class="w-64 bg-white/95 lg:bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-xl lg:shadow-sm flex flex-col fixed top-0 left-0 z-40 h-screen transition-transform duration-300 -translate-x-full lg:translate-x-0">
-        
-        <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
-            
-            <div class="flex items-center justify-between border-b border-slate-200 pb-6">
-                <div class="flex items-center gap-3">
-                    <img src="../../assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
-                    <div>
-                        <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
-                    </div>
-                </div>
-                <button type="button" onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors">
-                    <i class="bi bi-x-lg text-lg"></i>
-                </button>
-            </div>
-
-            
-            <nav class="flex flex-col gap-1.5">
-                <a href="../1_dashboard/dashboard.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
-                    <i class="bi bi-speedometer2 text-lg group-hover:text-emerald-600 transition-colors"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="../2_hasil-vote/result.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
-                    <i class="bi bi-bar-chart-line text-lg group-hover:text-emerald-600 transition-colors"></i>
-                    <span>Hasil Vote</span>
-                </a>
-                <a href="../3_kandidat/daftar-kandidat.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
-                    <i class="bi bi-people text-lg group-hover:text-emerald-600 transition-colors"></i>
-                    <span>Daftar Kandidat</span>
-                </a>
-                <a href="../4_daftar-voter/daftar-voter.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500 font-semibold group">
-                    <i class="bi bi-card-checklist text-lg text-emerald-500"></i>
-                    <span>Daftar Voter</span>
-                </a>
-                <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
-                    <i class="bi bi-key text-lg group-hover:text-emerald-600 transition-colors"></i>
-                    <span>Token Siswa</span>
-                </a>
-                <a href="../6_token-guru/token-guru.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
-                    <i class="bi bi-shield-lock text-lg group-hover:text-emerald-600 transition-colors"></i>
-                    <span>Token Guru</span>
-                </a>
-                <a href="../7_daftar-admin/daftar-admin.php" class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-slate-600 font-medium transition-all duration-300 group hover:bg-slate-100/80">
-                    <i class="bi bi-person-workspace text-lg group-hover:text-emerald-600 transition-colors"></i>
-                    <span>Daftar Admin</span>
-                </a>
-            </nav>
-        </div>
-
-        
-        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
-            <a href="../../auth/logout.php" class="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg bg-red-50 text-red-600 border border-red-200 font-bold text-sm transition-all duration-300 hover:bg-red-100">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Keluar (Logout)</span>
-            </a>
-        </div>
-    </aside>
+    <?php 
+    $active = 'daftar_voter';
+    $baseMenu = '../';
+    require '../sidebar.php'; 
+    ?>
 
     
     <main class="flex-1 p-5 md:p-8 z-10 flex flex-col gap-4 w-full lg:ml-64">

@@ -10,31 +10,46 @@ if (!isset($_SESSION['login'])) {
 $admin = $_SESSION['username'];
 $message = '';
 
-function generateRandomString($length = 6)
+function generateUniqueTokenGuru($db)
 {
-    $characters = 'abcdefghijklmnopqrstuvwxyz';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    $q = mysqli_query($db, "SELECT kode FROM tb_kode_guru WHERE kode LIKE 'GR%' ORDER BY id DESC LIMIT 1");
+    $nextNum = 1;
+    if ($row = mysqli_fetch_assoc($q)) {
+        if (preg_match('/^GR(\d+)$/i', $row['kode'], $m)) {
+            $nextNum = (int)$m[1] + 1;
+        } else {
+            $countQ = mysqli_query($db, "SELECT COUNT(*) AS total FROM tb_kode_guru WHERE kode LIKE 'GR%'");
+            $nextNum = ((int)mysqli_fetch_assoc($countQ)['total']) + 1;
+        }
+    } else {
+        $countQ = mysqli_query($db, "SELECT COUNT(*) AS total FROM tb_kode_guru");
+        $nextNum = ((int)mysqli_fetch_assoc($countQ)['total']) + 1;
     }
-    return $randomString;
+
+    do {
+        $candidate = 'GR' . str_pad($nextNum, 3, '0', STR_PAD_LEFT);
+        $check = mysqli_query($db, "SELECT id FROM tb_kode_guru WHERE kode = '$candidate' LIMIT 1");
+        if (mysqli_num_rows($check) == 0) {
+            return $candidate;
+        }
+        $nextNum++;
+    } while (true);
 }
 
 if (isset($_POST['add_manual'])) {
-    $kode_manual = strtolower(trim($_POST['kode_manual']));
+    $kode_manual = strtoupper(trim($_POST['kode_manual']));
 
     if (empty($kode_manual)) {
         $message = '<i class="bi bi-exclamation-triangle"></i> Token tidak boleh kosong!';
-    } elseif (!preg_match('/^[a-z]+$/', $kode_manual)) {
-        $message = '<i class="bi bi-exclamation-triangle"></i> Token hanya boleh berisi huruf!';
+    } elseif (strlen($kode_manual) < 2 || strlen($kode_manual) > 100) {
+        $message = '<i class="bi bi-exclamation-triangle"></i> Token harus antara 2 sampai 100 karakter!';
     } else {
         $kode_esc = mysqli_real_escape_string($db, $kode_manual);
         $check = mysqli_query($db, "SELECT id FROM tb_kode_guru WHERE kode = '$kode_esc'");
         if (mysqli_num_rows($check) > 0) {
             $message = '<i class="bi bi-exclamation-triangle"></i> Token sudah terdaftar!';
         } else {
-            $insert = mysqli_query($db, "INSERT INTO tb_kode_guru (kode) VALUES ('$kode_esc')");
+            $insert = mysqli_query($db, "INSERT INTO tb_kode_guru (kode, status_kode) VALUES ('$kode_esc', 'belum')");
             if ($insert) {
                 $message = '<i class="bi bi-check-circle"></i> Token manual berhasil ditambahkan: ' . htmlspecialchars($kode_manual);
                 header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
@@ -48,12 +63,12 @@ if (isset($_POST['add_manual'])) {
 
 if (isset($_POST['update_token_guru'])) {
     $id = (int)$_POST['id'];
-    $kode_baru = strtolower(trim($_POST['kode_baru']));
+    $kode_baru = strtoupper(trim($_POST['kode_baru']));
 
     if (empty($kode_baru)) {
         $message = '<i class="bi bi-exclamation-triangle"></i> Token tidak boleh kosong!';
-    } elseif (!preg_match('/^[a-z]+$/', $kode_baru)) {
-        $message = '<i class="bi bi-exclamation-triangle"></i> Token hanya boleh berisi huruf!';
+    } elseif (strlen($kode_baru) < 2 || strlen($kode_baru) > 100) {
+        $message = '<i class="bi bi-exclamation-triangle"></i> Token harus antara 2 sampai 100 karakter!';
     } else {
         $kode_esc = mysqli_real_escape_string($db, $kode_baru);
         $check = mysqli_query($db, "SELECT id FROM tb_kode_guru WHERE kode = '$kode_esc' AND id != $id");
@@ -88,7 +103,7 @@ if (isset($_GET['hapus'])) {
     $checkUsed = mysqli_query($db, "
         SELECT v.id 
         FROM tb_voter v
-        JOIN tb_kode_guru g ON v.nama_voter = g.kode
+        JOIN tb_kode_guru g ON (v.nama_voter = g.kode OR v.kode_guru_id = g.id)
         WHERE g.id = $id
     ");
 
@@ -109,7 +124,7 @@ if (isset($_GET['hapus'])) {
 if (isset($_POST['reset_unused'])) {
     $deleteUnused = mysqli_query($db, "
         DELETE g FROM tb_kode_guru g
-        LEFT JOIN tb_voter v ON g.kode = v.nama_voter
+        LEFT JOIN tb_voter v ON (g.kode = v.nama_voter OR g.id = v.kode_guru_id)
         WHERE v.id IS NULL
     ");
 
@@ -128,17 +143,14 @@ if (isset($_POST['generate'])) {
     if ($jumlah > 0 && $jumlah <= 500) {
         $berhasil = 0;
         for ($i = 0; $i < $jumlah; $i++) {
-            do {
-                $token = generateRandomString(6);
-                $token_esc = mysqli_real_escape_string($db, $token);
-                $check = mysqli_query($db, "SELECT id FROM tb_kode_guru WHERE kode = '$token_esc'");
-            } while (mysqli_num_rows($check) > 0);
+            $token = generateUniqueTokenGuru($db);
+            $token_esc = mysqli_real_escape_string($db, $token);
 
-            if (mysqli_query($db, "INSERT INTO tb_kode_guru (kode) VALUES ('$token_esc')")) {
+            if (mysqli_query($db, "INSERT INTO tb_kode_guru (kode, status_kode) VALUES ('$token_esc', 'belum')")) {
                 $berhasil++;
             }
         }
-        $message = '<i class="bi bi-check-circle"></i> Berhasil membuat ' . $berhasil . ' token guru otomatis.';
+        $message = '<i class="bi bi-check-circle"></i> Berhasil membuat ' . $berhasil . ' token guru otomatis (GR001, dst).';
         header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
         exit;
     } else {
@@ -161,6 +173,7 @@ if (isset($_GET['reset_token'])) {
                 mysqli_query($db, "DELETE FROM tb_vote_log WHERE voter_id = $voter_id");
             }
             mysqli_query($db, "DELETE FROM tb_voter WHERE kode_guru_id = $id OR nama_voter = '$kode'");
+            mysqli_query($db, "UPDATE tb_kode_guru SET status_kode = 'belum' WHERE id = $id");
             mysqli_commit($db);
             $message = '<i class="bi bi-arrow-counterclockwise"></i> Token berhasil di-reset menjadi Belum Digunakan.';
             header("Location: " . preg_replace('/(\?.*)?$/', '', $_SERVER['REQUEST_URI']));
@@ -178,7 +191,7 @@ if (isset($_POST['reset_all_used'])) {
         $usedTokens = mysqli_query($db, "
             SELECT DISTINCT g.id, g.kode 
             FROM tb_kode_guru g
-            JOIN tb_voter v ON g.kode = v.nama_voter OR g.id = v.kode_guru_id
+            JOIN tb_voter v ON (g.kode = v.nama_voter OR g.id = v.kode_guru_id)
         ");
         
         while ($t = mysqli_fetch_assoc($usedTokens)) {
@@ -191,6 +204,7 @@ if (isset($_POST['reset_all_used'])) {
                 mysqli_query($db, "DELETE FROM tb_vote_log WHERE voter_id = $voter_id");
             }
             mysqli_query($db, "DELETE FROM tb_voter WHERE kode_guru_id = $id OR nama_voter = '$kode'");
+            mysqli_query($db, "UPDATE tb_kode_guru SET status_kode = 'belum' WHERE id = $id");
         }
         mysqli_commit($db);
         $message = '<i class="bi bi-arrow-counterclockwise"></i> Seluruh token yang terpakai berhasil di-reset.';
@@ -205,8 +219,12 @@ if (isset($_POST['reset_all_used'])) {
 if (isset($_POST['clear_all_tokens'])) {
     mysqli_begin_transaction($db);
     try {
-        mysqli_query($db, "DELETE FROM tb_vote_log");
-        mysqli_query($db, "DELETE FROM tb_voter");
+        $voterGuruQuery = mysqli_query($db, "SELECT id FROM tb_voter WHERE role = 'guru'");
+        while ($vg = mysqli_fetch_assoc($voterGuruQuery)) {
+            $vgid = $vg['id'];
+            mysqli_query($db, "DELETE FROM tb_vote_log WHERE voter_id = $vgid");
+        }
+        mysqli_query($db, "DELETE FROM tb_voter WHERE role = 'guru'");
         mysqli_query($db, "DELETE FROM tb_kode_guru");
         mysqli_commit($db);
         $message = '<i class="bi bi-trash"></i> Semua token guru berhasil dihapus.';
@@ -238,25 +256,26 @@ $queryTokens = mysqli_query($db, "
     SELECT 
         g.*,
         CASE 
-            WHEN v.id IS NOT NULL THEN 'sudah'
+            WHEN g.status_kode = 'sudah' OR v.id IS NOT NULL THEN 'sudah'
             ELSE 'belum'
         END AS status_penggunaan
     FROM tb_kode_guru g
-    LEFT JOIN tb_voter v ON g.kode = v.nama_voter
+    LEFT JOIN tb_voter v ON (g.kode = v.nama_voter OR g.id = v.kode_guru_id)
     $whereClause
     ORDER BY g.id DESC
     LIMIT $limit OFFSET $offset
 ");
 
 $qStatTotal = mysqli_query($db, "SELECT COUNT(*) as total FROM tb_kode_guru");
-$statTotal = mysqli_fetch_assoc($qStatTotal)['total'] ?? 0;
+$statTotal = (int)(mysqli_fetch_assoc($qStatTotal)['total'] ?? 0);
 
 $qStatUsed = mysqli_query($db, "
-    SELECT COUNT(DISTINCT v.id) as total 
-    FROM tb_voter v
-    JOIN tb_kode_guru g ON v.nama_voter = g.kode
+    SELECT COUNT(DISTINCT g.id) as total 
+    FROM tb_kode_guru g
+    LEFT JOIN tb_voter v ON (g.kode = v.nama_voter OR g.id = v.kode_guru_id)
+    WHERE g.status_kode = 'sudah' OR v.id IS NOT NULL
 ");
-$statUsed = mysqli_fetch_assoc($qStatUsed)['total'] ?? 0;
+$statUsed = (int)(mysqli_fetch_assoc($qStatUsed)['total'] ?? 0);
 
 $statUnused = $statTotal - $statUsed;
 ?>
@@ -368,7 +387,7 @@ $statUnused = $statTotal - $statUsed;
                 <form method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1.5">
                         <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider" for="kode_manual">Buat Token Manual</label>
-                        <input type="text" id="kode_manual" name="kode_manual" placeholder="masukkan token guru manual" pattern="[a-zA-Z]+" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none lowercase" required autocomplete="off">
+                        <input type="text" id="kode_manual" name="kode_manual" placeholder="Contoh: GR001 / GR-GURU01" class="py-3 px-4 rounded-xl bg-white border border-slate-200 font-sans text-sm text-slate-700 w-full focus:outline-none uppercase" required autocomplete="off">
                     </div>
                     <button type="submit" name="add_manual" class="w-full py-3 rounded-xl bg-emerald-600 border border-emerald-500 font-bold text-sm tracking-wide text-white transition-all duration-300">
                         Tambah Token Manual
@@ -510,8 +529,8 @@ $statUnused = $statTotal - $statUsed;
             </div>
         </div>
     
-        <footer class="mt-8 pt-6 pb-4 text-center text-xs text-slate-500 flex flex-col gap-1 border-t border-slate-200">
-            <p>&copy; <?php echo date('Y'); ?> Gradasiweb. All Rights Reserved.</p>
+        <footer class="mt-auto pt-6 pb-2 text-center text-xs text-slate-500 flex flex-col gap-1 border-t border-slate-200">
+            <p>&copy; <?php echo date('Y'); ?> Panitia Pemilihan OSIS Skalsa. All Rights Reserved.</p>
             <p>Dikembangkan oleh: [Fahiim]</p>
         </footer>
     </main>
@@ -532,8 +551,7 @@ $statUnused = $statTotal - $statUsed;
             
             <div class="flex flex-col gap-1.5">
                 <label class="text-xs font-semibold text-slate-600">Kode Token Guru</label>
-                <input type="text" name="kode_baru" value="<?= htmlspecialchars($editRowGuru['kode']); ?>" pattern="[a-zA-Z]+" minlength="2" maxlength="100" class="py-2.5 px-3.5 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-800 focus:outline-none focus:border-amber-500 lowercase" required autocomplete="off">
-                <p class="text-[11px] text-slate-400">Token hanya boleh berisi huruf (a-z).</p>
+                <input type="text" name="kode_baru" value="<?= htmlspecialchars($editRowGuru['kode']); ?>" minlength="2" maxlength="100" class="py-2.5 px-3.5 rounded-xl bg-white border border-slate-200 font-mono text-sm text-slate-800 focus:outline-none focus:border-amber-500 uppercase" required autocomplete="off">
             </div>
 
             <div class="flex gap-3 pt-3 border-t border-slate-100">
@@ -560,11 +578,6 @@ $statUnused = $statTotal - $statUsed;
             if (isFetchingGuru) return;
             isFetchingGuru = true;
 
-            const iconSync = document.getElementById('iconSync');
-            if (manual && iconSync) {
-                iconSync.classList.add('animate-spin');
-            }
-
             try {
                 const params = new URLSearchParams({
                     page: currentPage,
@@ -581,10 +594,6 @@ $statUnused = $statTotal - $statUsed;
                 const data = await res.json();
 
                 if (data.status === 'success') {
-                    // Update timestamp
-                    const syncEl = document.getElementById('lastSyncTime');
-                    if (syncEl && data.timestamp) syncEl.textContent = data.timestamp;
-
                     // Update Statistik
                     const stTot = document.getElementById('statTotalText');
                     if (stTot) stTot.textContent = data.statTotal;
@@ -644,9 +653,6 @@ $statUnused = $statTotal - $statUsed;
                 console.warn('Realtime Token Guru warning:', err);
             } finally {
                 isFetchingGuru = false;
-                if (manual && iconSync) {
-                    setTimeout(() => iconSync.classList.remove('animate-spin'), 600);
-                }
             }
         }
 

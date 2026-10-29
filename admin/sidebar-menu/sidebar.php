@@ -24,7 +24,7 @@ if ($inTokenDir) {
     $baseRoot = '../../../';
 }
 
-$active = $activeMenu ?? '';
+$active = $active ?? ($activeMenu ?? '');
 ?>
 
 <!-- Mobile Overlay Backdrop -->

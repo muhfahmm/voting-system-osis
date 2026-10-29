@@ -15,9 +15,10 @@ $qStatTotal = mysqli_query($db, "SELECT COUNT(*) as total FROM tb_kode_guru");
 $statTotal = (int)(mysqli_fetch_assoc($qStatTotal)['total'] ?? 0);
 
 $qStatUsed = mysqli_query($db, "
-    SELECT COUNT(DISTINCT v.id) as total 
-    FROM tb_voter v
-    JOIN tb_kode_guru g ON v.nama_voter = g.kode
+    SELECT COUNT(DISTINCT g.id) as total 
+    FROM tb_kode_guru g
+    LEFT JOIN tb_voter v ON (g.kode = v.nama_voter OR g.id = v.kode_guru_id)
+    WHERE g.status_kode = 'sudah' OR v.id IS NOT NULL
 ");
 $statUsed = (int)(mysqli_fetch_assoc($qStatUsed)['total'] ?? 0);
 
@@ -45,11 +46,11 @@ $queryTokens = mysqli_query($db, "
         g.id,
         g.kode,
         CASE 
-            WHEN v.id IS NOT NULL THEN 'sudah'
+            WHEN g.status_kode = 'sudah' OR v.id IS NOT NULL THEN 'sudah'
             ELSE 'belum'
         END AS status_penggunaan
     FROM tb_kode_guru g
-    LEFT JOIN tb_voter v ON g.kode = v.nama_voter
+    LEFT JOIN tb_voter v ON (g.kode = v.nama_voter OR g.id = v.kode_guru_id)
     $whereClause
     ORDER BY g.id DESC
     LIMIT $limit OFFSET $offset
@@ -78,4 +79,3 @@ echo json_encode([
     'tokens'      => $tokens
 ], JSON_UNESCAPED_UNICODE);
 exit;
-
