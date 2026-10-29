@@ -102,6 +102,50 @@ $total_token = count($tokens);
                 margin: 8mm 8mm;
             }
         }
+
+        /* Styling saat dicapture oleh html2pdf */
+        .pdf-export-mode {
+            padding: 0 !important;
+            margin: 0 !important;
+            background: #ffffff !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+        .pdf-export-mode .token-grid {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            margin: 0 -4px !important;
+            gap: 0 !important;
+        }
+        .pdf-export-mode .token-slip {
+            width: 25% !important;
+            max-width: 25% !important;
+            flex: 0 0 25% !important;
+            padding: 4px !important;
+            box-sizing: border-box !important;
+            border: none !important;
+            background: transparent !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+        .pdf-export-mode .slip-inner {
+            border: 1.5px dashed #94a3b8 !important;
+            border-radius: 8px !important;
+            padding: 10px 4px !important;
+            background: #ffffff !important;
+            text-align: center !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            display: block !important;
+        }
+        .pdf-export-mode .slip-token {
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.08em !important;
+            color: #0f172a !important;
+            display: inline-block !important;
+        }
     </style>
 </head>
 
@@ -182,9 +226,11 @@ $total_token = count($tokens);
             <?php if ($total_token > 0): ?>
                 <div class="token-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
                     <?php foreach ($tokens as $idx => $t): ?>
-                        <div class="token-slip border-2 border-dashed border-slate-300 rounded-2xl p-5 bg-slate-50/50 hover:bg-white hover:border-emerald-500 transition-all flex items-center justify-center shadow-xs">
-                            <div class="slip-token font-mono font-black text-2xl sm:text-3xl text-slate-900 text-center tracking-widest py-3 px-6 bg-white rounded-xl border border-slate-200 shadow-inner w-full">
-                                <?= htmlspecialchars($t['token']); ?>
+                        <div class="token-slip">
+                            <div class="slip-inner border-2 border-dashed border-slate-300 rounded-2xl p-4 bg-white flex items-center justify-center">
+                                <span class="slip-token font-mono font-bold text-lg text-slate-900 text-center tracking-wider">
+                                    <?= htmlspecialchars($t['token']); ?>
+                                </span>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -232,21 +278,29 @@ $total_token = count($tokens);
             btn.disabled = true;
 
             const element = document.getElementById('printArea');
+            element.classList.add('pdf-export-mode');
             
             // Konfigurasi html2pdf
             const opt = {
                 margin:       [8, 8, 8, 8],
                 filename:     'token_siswa.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    logging: false
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
+                element.classList.remove('pdf-export-mode');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }).catch(err => {
                 console.error(err);
+                element.classList.remove('pdf-export-mode');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 window.print();
