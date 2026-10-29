@@ -24,7 +24,7 @@
         
         <form action="" method="post" id="formVote" novalidate class="mt-4 flex flex-col gap-5">
             <div class="form-user-group-wrap grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div class="form-group flex flex-col gap-2 md:col-span-2">
+                <div class="form-group flex flex-col gap-2">
                     <label for="pemilih" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Token</label>
                     <div class="relative">
                         <input type="text" id="pemilih" name="token_pemilih" 
@@ -48,19 +48,6 @@
                             Guru / Karyawan
                         </button>
                     </div>
-                </div>
-                
-                <div id="kelasWrap" class="form-group flex flex-col gap-2">
-                    <label for="kelas" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Kelas Pemilih</label>
-                    <select id="kelas" name="kelas" class="pilih-kelas py-3.5 px-5 rounded-xl bg-white border border-slate-200 font-sans text-sm sm:text-base text-slate-700 w-full focus:outline-none appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 24 24%22 stroke=%22%236b7280%22%3E%3Cpath stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M19 9l-7 7-7-7%22/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_18px_center] bg-[size:14px] pr-11">
-                        <option value="">Pilih Kelas</option>
-                        <?php foreach ($kelas_list as $kelas): ?>
-                            <option value="<?= htmlspecialchars($kelas['nama_kelas']) ?>"
-                                <?= (isset($_POST['kelas']) && $_POST['kelas'] === $kelas['nama_kelas']) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($kelas['nama_kelas']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
                 </div>
             </div>
             

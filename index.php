@@ -6,7 +6,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'check_token') {
     header('Content-Type: application/json');
     $token = trim($_GET['token'] ?? '');
     $role = trim($_GET['role'] ?? 'siswa');
-    $kelas = trim($_GET['kelas'] ?? '');
 
     if ($token === '') {
         echo json_encode(['status' => 'empty', 'message' => 'Token belum diisi']);
@@ -30,10 +29,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'check_token') {
             echo json_encode(['status' => 'invalid', 'message' => 'Token tidak terdaftar dalam database.']);
         } elseif ($status === 'sudah') {
             echo json_encode(['status' => 'used', 'message' => 'Token ini sudah digunakan untuk memilih sebelumnya.']);
-        } elseif ($kelas !== '' && $nama_kelas !== $kelas) {
-            echo json_encode(['status' => 'mismatch', 'message' => 'Token ini terdaftar untuk kelas ' . $nama_kelas . ', bukan kelas ' . $kelas . '.']);
         } else {
-            echo json_encode(['status' => 'valid', 'message' => 'Token tersedia dan valid (' . $nama_kelas . ').']);
+            echo json_encode(['status' => 'valid', 'message' => 'Token tersedia dan valid' . ($nama_kelas ? ' (' . $nama_kelas . ')' : '') . '.']);
         }
     } else {
         $stmt = mysqli_prepare($db, "
@@ -75,8 +72,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
         $errorMessage = "Token dan kandidat wajib diisi!";
     } elseif (!in_array($role, ['siswa', 'guru'])) {
         $errorMessage = "Role tidak valid.";
-    } elseif ($role === 'siswa' && $kelas_pemilih === '') {
-        $errorMessage = "Untuk siswa, kelas wajib diisi.";
     } else {
         $token_db_id = null;
         $nama_token = '';
@@ -98,16 +93,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
             mysqli_stmt_close($token_check);
 
             if ($token_db_id) {
-                if ($nama_kelas_token !== $kelas_pemilih) {
-                    $errorMessage = "Token ini bukan untuk kelas $kelas_pemilih. Token ini untuk kelas $nama_kelas_token.";
-                } else {
-                    $voter_token_id = $token_db_id;
-                    $voter_kode_guru_id = null;
-                    $nama_token = $nama_kelas_token;
-                    $token_table_name = 'tb_buat_token';
-                    $status_check = $status_token;
-                    $kelas_token = $nama_kelas_token;
-                }
+                $voter_token_id = $token_db_id;
+                $voter_kode_guru_id = null;
+                $nama_token = $nama_kelas_token ?? '';
+                $token_table_name = 'tb_buat_token';
+                $status_check = $status_token;
+                $kelas_token = $nama_kelas_token ?? '';
             } else {
                 $errorMessage = "Token tidak terdaftar.";
             }
@@ -145,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
             } else {
                 mysqli_begin_transaction($db);
                 try {
-                    $kelas_voter = ($role === 'siswa') ? $kelas_pemilih : $nama_token;
+                    $kelas_voter = ($role === 'siswa') ? $nama_token : 'Guru/Staf';
                     
                     if ($role === 'siswa') {
                         $sql_voter_siswa = "
@@ -425,11 +416,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             }
 
             const updateKelasVisibility = () => {
-                if (roleInput.value === 'siswa') {
-                    kelasWrap.style.display = 'flex';
-                } else {
+                if (kelasWrap) {
                     kelasWrap.style.display = 'none';
-                    document.getElementById('kelas').value = '';
                 }
             };
 
@@ -590,7 +578,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             const checkTokenAvailability = () => {
                 const tokenVal = tokenInput.value.trim();
                 const roleVal = roleInput.value;
-                const kelasVal = kelasSelect ? kelasSelect.value : '';
 
                 if (!tokenVal) {
                     tokenFeedback.classList.add('hidden');
@@ -603,7 +590,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
                 tokenSpinner.classList.remove('hidden');
 
-                fetch(`index.php?action=check_token&token=${encodeURIComponent(tokenVal)}&role=${encodeURIComponent(roleVal)}&kelas=${encodeURIComponent(kelasVal)}`)
+                fetch(`index.php?action=check_token&token=${encodeURIComponent(tokenVal)}&role=${encodeURIComponent(roleVal)}`)
                     .then(res => res.json())
                     .then(data => {
                         tokenSpinner.classList.add('hidden');
@@ -694,12 +681,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 if (!document.getElementById('pemilih').value.trim()) {
                     e.preventDefault();
                     openValidationModal(modalTokenKosong);
-                    return false;
-                }
-                
-                if (roleInput.value === 'siswa' && !document.getElementById('kelas').value) {
-                    e.preventDefault();
-                    openValidationModal(modalKelasKosong);
                     return false;
                 }
             });
