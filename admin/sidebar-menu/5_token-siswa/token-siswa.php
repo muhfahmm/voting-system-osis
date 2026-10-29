@@ -498,7 +498,7 @@ $queryTokens = mysqli_query($db, "
 
                 <div class="flex flex-wrap gap-4 border-t border-slate-200 pt-5 justify-between items-center mt-2">
                     <div class="flex flex-wrap gap-3">
-                        <a href="../token/export_token_siswa.php" target="_blank" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 border border-emerald-500 text-white font-bold text-xs transition-all duration-300 shadow-sm">
+                        <a href="../token/export_token_siswa.php" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 border border-emerald-500 text-white font-bold text-xs transition-all duration-300 shadow-sm">
                             <i class="bi bi-printer"></i>
                             <span>Cetak / Ekspor PDF Token Siswa</span>
                         </a>
@@ -511,7 +511,7 @@ $queryTokens = mysqli_query($db, "
                         </form>
                     </div>
 
-                    <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_buat_token" target="_blank" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-600 text-xs border border-slate-200 transition-all duration-300">
+                    <a href="http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=db_vote_osis_generate_token&table=tb_buat_token" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-600 text-xs border border-slate-200 transition-all duration-300">
                         <i class="bi bi-database"></i>
                         <span>Buka Database tb_buat_token</span>
                     </a>
