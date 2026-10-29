@@ -5,60 +5,60 @@ require 'db/db.php';
 if (isset($_GET['action']) && $_GET['action'] === 'check_token') {
     header('Content-Type: application/json');
     $token = trim($_GET['token'] ?? '');
-    $role = trim($_GET['role'] ?? 'siswa');
 
     if ($token === '') {
         echo json_encode(['status' => 'empty', 'message' => 'Token belum diisi']);
         exit;
     }
 
-    if ($role === 'siswa') {
-        $stmt = mysqli_prepare($db, "
-            SELECT t.id, t.status_token, k.nama_kelas 
-            FROM tb_buat_token t
-            LEFT JOIN tb_kelas k ON t.kelas_id = k.id
-            WHERE t.token = ?
-        ");
-        mysqli_stmt_bind_param($stmt, "s", $token);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $tid, $status, $nama_kelas);
-        $found = mysqli_stmt_fetch($stmt);
-        mysqli_stmt_close($stmt);
+    // 1. Cek di tabel token siswa (tb_buat_token)
+    $stmt = mysqli_prepare($db, "
+        SELECT t.id, t.status_token 
+        FROM tb_buat_token t
+        WHERE t.token = ?
+    ");
+    mysqli_stmt_bind_param($stmt, "s", $token);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $tid, $status_token);
+    $found_siswa = mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
 
-        if (!$found) {
-            echo json_encode(['status' => 'invalid', 'message' => 'Token tidak terdaftar dalam database.']);
-        } elseif ($status === 'sudah') {
+    if ($found_siswa) {
+        if ($status_token === 'sudah') {
             echo json_encode(['status' => 'used', 'message' => 'Token ini sudah digunakan untuk memilih sebelumnya.']);
         } else {
-            echo json_encode(['status' => 'valid', 'message' => 'Token tersedia dan valid' . ($nama_kelas ? ' (' . $nama_kelas . ')' : '') . '.']);
+            echo json_encode(['status' => 'valid', 'message' => 'Token Siswa tersedia dan valid.', 'role' => 'siswa']);
         }
-    } else {
-        $stmt = mysqli_prepare($db, "
-            SELECT id, status_kode 
-            FROM tb_kode_guru 
-            WHERE kode = ?
-        ");
-        mysqli_stmt_bind_param($stmt, "s", $token);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $gid, $status_kode);
-        $found = mysqli_stmt_fetch($stmt);
-        mysqli_stmt_close($stmt);
+        exit;
+    }
 
-        if (!$found) {
-            echo json_encode(['status' => 'invalid', 'message' => 'Token Guru tidak terdaftar dalam database.']);
-        } elseif ($status_kode === 'sudah') {
+    // 2. Cek di tabel token guru (tb_kode_guru)
+    $stmt = mysqli_prepare($db, "
+        SELECT id, status_kode 
+        FROM tb_kode_guru 
+        WHERE kode = ?
+    ");
+    mysqli_stmt_bind_param($stmt, "s", $token);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $gid, $status_kode);
+    $found_guru = mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+
+    if ($found_guru) {
+        if ($status_kode === 'sudah') {
             echo json_encode(['status' => 'used', 'message' => 'Token Guru ini sudah digunakan untuk memilih.']);
         } else {
-            echo json_encode(['status' => 'valid', 'message' => 'Token Guru tersedia dan valid.']);
+            echo json_encode(['status' => 'valid', 'message' => 'Token Guru tersedia dan valid.', 'role' => 'guru']);
         }
+        exit;
     }
+
+    echo json_encode(['status' => 'invalid', 'message' => 'Token tidak terdaftar dalam database.']);
     exit;
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
     $token_pemilih      = trim($_POST['token_pemilih'] ?? '');
-    $role               = trim($_POST['role'] ?? 'siswa');
-    $kelas_pemilih      = trim($_POST['kelas'] ?? '');
     $kandidat_terpilih  = (int) ($_POST['kandidat_terpilih'] ?? 0);
 
     $errorMessage = "";
@@ -70,39 +70,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
 
     if ($token_pemilih === '' || $kandidat_terpilih <= 0) {
         $errorMessage = "Token dan kandidat wajib diisi!";
-    } elseif (!in_array($role, ['siswa', 'guru'])) {
-        $errorMessage = "Role tidak valid.";
     } else {
         $token_db_id = null;
-        $nama_token = '';
+        $role = '';
         $token_table_name = '';
         $status_check = null;
-        $kelas_token = '';
+        $kelas_voter = '';
 
-        if ($role === 'siswa') {
-            $token_check = mysqli_prepare($db, "
-                SELECT t.id, t.kelas_id, t.status_token, k.nama_kelas 
-                FROM tb_buat_token t
-                LEFT JOIN tb_kelas k ON t.kelas_id = k.id
-                WHERE t.token = ?
-            ");
-            mysqli_stmt_bind_param($token_check, "s", $token_pemilih);
-            mysqli_stmt_execute($token_check);
-            mysqli_stmt_bind_result($token_check, $token_db_id, $kelas_id_token, $status_token, $nama_kelas_token);
-            mysqli_stmt_fetch($token_check);
-            mysqli_stmt_close($token_check);
+        // Cek apakah token milik Siswa (tb_buat_token)
+        $token_check = mysqli_prepare($db, "
+            SELECT id, status_token 
+            FROM tb_buat_token 
+            WHERE token = ?
+        ");
+        mysqli_stmt_bind_param($token_check, "s", $token_pemilih);
+        mysqli_stmt_execute($token_check);
+        mysqli_stmt_bind_result($token_check, $token_db_id_siswa, $status_token);
+        $found_siswa = mysqli_stmt_fetch($token_check);
+        mysqli_stmt_close($token_check);
 
-            if ($token_db_id) {
-                $voter_token_id = $token_db_id;
-                $voter_kode_guru_id = null;
-                $nama_token = $nama_kelas_token ?? '';
-                $token_table_name = 'tb_buat_token';
-                $status_check = $status_token;
-                $kelas_token = $nama_kelas_token ?? '';
-            } else {
-                $errorMessage = "Token tidak terdaftar.";
-            }
-        } elseif ($role === 'guru') {
+        if ($found_siswa) {
+            $token_db_id = $token_db_id_siswa;
+            $voter_token_id = $token_db_id_siswa;
+            $voter_kode_guru_id = null;
+            $role = 'siswa';
+            $token_table_name = 'tb_buat_token';
+            $status_check = $status_token;
+            $kelas_voter = 'Siswa';
+        } else {
+            // Cek apakah token milik Guru (tb_kode_guru)
             $kode_guru_check = mysqli_prepare($db, "
                 SELECT id, status_kode 
                 FROM tb_kode_guru 
@@ -111,16 +107,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['kirim'])) {
             mysqli_stmt_bind_param($kode_guru_check, "s", $token_pemilih);
             mysqli_stmt_execute($kode_guru_check);
             mysqli_stmt_bind_result($kode_guru_check, $token_db_id_guru, $status_kode);
-            mysqli_stmt_fetch($kode_guru_check);
+            $found_guru = mysqli_stmt_fetch($kode_guru_check);
             mysqli_stmt_close($kode_guru_check);
 
-            if ($token_db_id_guru) {
+            if ($found_guru) {
                 $token_db_id = $token_db_id_guru;
                 $voter_kode_guru_id = $token_db_id_guru;
                 $voter_token_id = null;
-                $nama_token = 'Guru/Staf';
+                $role = 'guru';
                 $token_table_name = 'tb_kode_guru';
                 $status_check = $status_kode;
+                $kelas_voter = 'Guru/Staf';
             } else {
                 $errorMessage = "Token tidak terdaftar.";
             }
@@ -381,9 +378,6 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             const kandidatList = document.getElementById('kandidatList');
             const voteButtons = document.querySelectorAll('.vote-btn');
             const inputKandidat = document.getElementById('kandidat_terpilih');
-            const roleInput = document.getElementById('role');
-            const roleButtons = document.querySelectorAll('.role-btn');
-            const kelasWrap = document.getElementById('kelasWrap');
             let selectedCard = null;
             
             const modalSuccess = document.getElementById('modalSuccess');
@@ -415,31 +409,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 }
             }
 
-            const updateKelasVisibility = () => {
-                if (kelasWrap) {
-                    kelasWrap.style.display = 'none';
-                }
-            };
 
-            const setRole = (selectedRole) => {
-                roleInput.value = selectedRole;
-                roleButtons.forEach(btn => {
-                    if (btn.getAttribute('data-role') === selectedRole) {
-                        btn.className = 'role-btn flex-1 py-3 px-4 rounded-xl bg-emerald-50/30 border-2 border-emerald-600 text-emerald-700 font-sans text-sm font-bold transition-all duration-200 cursor-pointer shadow-sm';
-                    } else {
-                        btn.className = 'role-btn flex-1 py-3 px-4 rounded-xl bg-white border border-slate-200 text-slate-600 font-sans text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-slate-50';
-                    }
-                });
-                updateKelasVisibility();
-            };
-
-            roleButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    setRole(this.getAttribute('data-role'));
-                });
-            });
-
-            setRole(roleInput.value || 'siswa');
 
             voteButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
@@ -577,8 +547,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
             const checkTokenAvailability = () => {
                 const tokenVal = tokenInput.value.trim();
-                const roleVal = roleInput.value;
-
+                
                 if (!tokenVal) {
                     tokenFeedback.classList.add('hidden');
                     tokenFeedback.textContent = '';
@@ -590,7 +559,7 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
 
                 tokenSpinner.classList.remove('hidden');
 
-                fetch(`index.php?action=check_token&token=${encodeURIComponent(tokenVal)}&role=${encodeURIComponent(roleVal)}`)
+                fetch(`index.php?action=check_token&token=${encodeURIComponent(tokenVal)}`)
                     .then(res => res.json())
                     .then(data => {
                         tokenSpinner.classList.add('hidden');

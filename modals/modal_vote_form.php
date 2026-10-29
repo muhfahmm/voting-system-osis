@@ -23,7 +23,7 @@
         </div>
         
         <form action="" method="post" id="formVote" novalidate class="mt-4 flex flex-col gap-5">
-            <div class="form-user-group-wrap grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="form-user-group-wrap">
                 <div class="form-group flex flex-col gap-2">
                     <label for="pemilih" class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Token</label>
                     <div class="relative">
@@ -35,19 +35,6 @@
                         <span id="tokenSpinner" class="hidden absolute right-4 top-4 text-slate-400 text-xs">Mengecek...</span>
                     </div>
                     <div id="tokenFeedback" class="hidden text-xs font-semibold mt-1 px-1"></div>
-                </div>
-                
-                <div class="form-group flex flex-col gap-2">
-                    <label class="font-sans font-semibold text-xs text-slate-600 tracking-wider uppercase">Status</label>
-                    <input type="hidden" id="role" name="role" value="<?= htmlspecialchars($_POST['role'] ?? 'siswa') ?>">
-                    <div class="flex gap-3 w-full">
-                        <button type="button" data-role="siswa" class="role-btn flex-1 py-3.5 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
-                            Siswa / Siswi
-                        </button>
-                        <button type="button" data-role="guru" class="role-btn flex-1 py-3.5 px-4 rounded-xl font-sans text-sm font-semibold transition-all duration-200 cursor-pointer text-center">
-                            Guru / Karyawan
-                        </button>
-                    </div>
                 </div>
             </div>
             
