@@ -324,6 +324,12 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
                 </div>
             <?php endwhile; ?>
         </div>
+
+        <!-- Footer Copyright -->
+        <footer class="mt-8 pt-6 pb-4 text-center text-xs text-slate-500 flex flex-col gap-1 border-t border-slate-200">
+            <p>&copy; <?php echo date('Y'); ?> Panitia Pemilihan OSIS Skalsa. All Rights Reserved.</p>
+            <p>Dikembangkan oleh: [Fahiim]</p>
+        </footer>
     </div>
 
     <!-- Include Modal Form Konfirmasi Pilihan -->
@@ -402,12 +408,19 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
             };
 
             const selectedKandidat = inputKandidat.value;
+            <?php if (empty($successMessage) && empty($errorMessage) && empty($tokenUsedMessage)) : ?>
             if (selectedKandidat) {
                 const card = document.querySelector(`.kandidat-card[data-id="${selectedKandidat}"]`);
                 if (card) {
                     selectCard(card);
                 }
             }
+            <?php else : ?>
+            if (modalVoteForm) {
+                modalVoteForm.style.display = 'none';
+                modalVoteForm.classList.remove('show');
+            }
+            <?php endif; ?>
 
 
 
