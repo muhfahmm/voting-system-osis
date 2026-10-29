@@ -52,6 +52,7 @@ $total_token = count($tokens);
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         input:focus, select:focus, textarea:focus, button:focus { outline: none !important; box-shadow: none !important; }
 
@@ -60,8 +61,9 @@ $total_token = count($tokens);
             body {
                 background: #ffffff !important;
                 padding: 0 !important;
+                margin: 0 !important;
             }
-            #sidebarMenu, #sidebarOverlay, header, footer, .screen-controls, .print-hidden {
+            #sidebarMenu, #sidebarOverlay, header, footer, .screen-controls, .print-hidden, #statsOverview {
                 display: none !important;
             }
             main {
@@ -73,20 +75,23 @@ $total_token = count($tokens);
                 border: none !important;
                 box-shadow: none !important;
                 padding: 0 !important;
+                margin: 0 !important;
                 background: transparent !important;
             }
             .token-grid {
+                display: grid !important;
                 grid-template-columns: repeat(4, 1fr) !important;
                 gap: 8px !important;
             }
             .token-slip {
-                border: 1.5px dashed #94a3b8 !important;
-                padding: 10px 12px !important;
+                border: 1.5px dashed #64748b !important;
+                padding: 8px 10px !important;
                 page-break-inside: avoid;
+                break-inside: avoid;
                 background: #ffffff !important;
             }
             .slip-token {
-                font-size: 18px !important;
+                font-size: 16px !important;
                 padding: 6px 0 !important;
                 background: transparent !important;
                 border: none !important;
@@ -94,7 +99,7 @@ $total_token = count($tokens);
             }
             @page {
                 size: A4 portrait;
-                margin: 10mm 10mm;
+                margin: 8mm 8mm;
             }
         }
     </style>
@@ -126,17 +131,21 @@ $total_token = count($tokens);
             <div class="flex flex-wrap items-center gap-3">
                 <a href="../5_token-siswa/token-siswa.php" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm transition-all duration-300 shadow-sm hover:bg-slate-50">
                     <i class="bi bi-arrow-left"></i>
-                    <span>Kembali ke Manajemen Token</span>
+                    <span>Kembali</span>
                 </a>
-                <button type="button" onclick="window.print()" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 border border-emerald-500 text-white font-bold text-sm transition-all duration-300 shadow-sm">
+                <button type="button" onclick="downloadPDF()" id="btnDownloadPDF" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 border border-emerald-500 text-white font-bold text-sm transition-all duration-300 shadow-sm">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                    <span>Unduh File PDF</span>
+                </button>
+                <button type="button" onclick="window.print()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm transition-all duration-300 shadow-sm">
                     <i class="bi bi-printer-fill"></i>
-                    <span>Cetak Lembar Token</span>
+                    <span>Cetak</span>
                 </button>
             </div>
         </header>
 
         <!-- Stats Overview Cards (Fullscreen Wide) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div id="statsOverview" class="grid grid-cols-1 sm:grid-cols-3 gap-4 print-hidden">
             <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex items-center gap-3.5">
                 <div class="w-11 h-11 bg-emerald-100 border border-emerald-200 rounded-xl flex items-center justify-center text-emerald-600 text-xl shrink-0">
                     <i class="bi bi-key-fill"></i>
@@ -169,7 +178,7 @@ $total_token = count($tokens);
         </div>
 
         <!-- Content Sheet Area: Grid Kupon Token Minimalis Bersih -->
-        <div class="print-container bg-white border border-slate-200 rounded-3xl p-5 sm:p-7 shadow-sm">
+        <div id="printArea" class="print-container bg-white border border-slate-200 rounded-3xl p-5 sm:p-7 shadow-sm">
             <?php if ($total_token > 0): ?>
                 <div class="token-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
                     <?php foreach ($tokens as $idx => $t): ?>
@@ -215,5 +224,34 @@ $total_token = count($tokens);
         }
     </script>
 
+    <script>
+        function downloadPDF() {
+            const btn = document.getElementById('btnDownloadPDF');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-arrow-repeat animate-spin"></i><span>Membuat PDF...</span>';
+            btn.disabled = true;
+
+            const element = document.getElementById('printArea');
+            
+            // Konfigurasi html2pdf
+            const opt = {
+                margin:       [8, 8, 8, 8],
+                filename:     'token_siswa.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error(err);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                window.print();
+            });
+        }
+    </script>
 </body>
 </html>
