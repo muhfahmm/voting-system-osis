@@ -132,26 +132,8 @@ $percentGuru = $totalGuruTarget > 0 ? round(($totalVotesGuru / $totalGuruTarget)
                     <i class="bi bi-list"></i>
                 </button>
                 <div>
-                    <div class="flex items-center gap-2.5">
-                        <h1 class="font-sans text-2xl md:text-3xl font-bold text-slate-900">Hasil Pemilihan</h1>
-                        <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold shadow-xs">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 live-pulse"></span>
-                            <span>REALTIME</span>
-                        </span>
-                    </div>
-                    <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
-                        <span>Pembaruan otomatis tiap 2 detik tanpa refresh</span>
-                        <span>&bull;</span>
-                        <span class="text-slate-400">Sinkron terakhir: <span id="lastSyncTime"><?= date('H:i:s') ?></span></span>
-                    </p>
+                    <h1 class="font-sans text-2xl md:text-3xl font-bold text-slate-900">Hasil Pemilihan</h1>
                 </div>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <button type="button" onclick="fetchRealtimeData(true)" id="btnManualSync" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-xs shadow-xs hover:bg-slate-50 transition-all">
-                    <i class="bi bi-arrow-clockwise text-emerald-600 font-bold text-sm" id="iconSync"></i>
-                    <span>Sinkronkan Sekarang</span>
-                </button>
             </div>
         </header>
 
