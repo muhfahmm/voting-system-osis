@@ -208,9 +208,9 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pemilos 2026</title>
-    <link rel="icon" href="admin/assets/img/logo osis.png">
-    <link rel="preload" as="image" href="admin/assets/img/logo osis.png">
-    <link rel="preload" as="image" href="admin/assets/img/logo sekolah.png">
+    <link rel="icon" href="admin/assets/img/logo-osis.png">
+    <link rel="preload" as="image" href="admin/assets/img/logo-osis.png">
+    <link rel="preload" as="image" href="admin/assets/img/logo-sekolah.png">
     <?php 
     mysqli_data_seek($query, 0);
     while ($k = mysqli_fetch_assoc($query)): 
@@ -297,8 +297,8 @@ while ($k = mysqli_fetch_assoc($query_kelas)) {
         
         <div class="flex justify-center">
             <div class="flex justify-center items-center gap-6 bg-white/90 backdrop-blur-md py-4 px-8 rounded-2xl border border-slate-200 shadow-sm">
-                <img src="admin/assets/img/logo osis.png" alt="Logo OSIS" class="h-[75px] lg:h-[95px] object-contain" loading="eager" fetchpriority="high" decoding="async">
-                <img src="admin/assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-[75px] lg:h-[95px] object-contain" loading="eager" fetchpriority="high" decoding="async">
+                <img src="admin/assets/img/logo-osis.png" alt="Logo OSIS" class="h-[75px] lg:h-[95px] object-contain" loading="eager" fetchpriority="high" decoding="async">
+                <img src="admin/assets/img/logo-sekolah.png" alt="Logo Sekolah" class="h-[75px] lg:h-[95px] object-contain" loading="eager" fetchpriority="high" decoding="async">
             </div>
         </div>
         

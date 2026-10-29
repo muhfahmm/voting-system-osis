@@ -39,7 +39,7 @@ if (isset($_POST['login'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin - Voting OSIS</title>
-    <link rel="icon" href="../assets/img/logo osis.png">
+    <link rel="icon" href="../assets/img/logo-osis.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -63,8 +63,8 @@ if (isset($_POST['login'])) {
         
         <div class="text-center flex flex-col items-center gap-3">
             <div class="flex items-center gap-4 justify-center">
-                <img src="../assets/img/logo osis.png" alt="Logo OSIS" class="h-14 object-contain">
-                <img src="../assets/img/logo sekolah.png" alt="Logo Sekolah" class="h-14 object-contain">
+                <img src="../assets/img/logo-osis.png" alt="Logo OSIS" class="h-14 object-contain">
+                <img src="../assets/img/logo-sekolah.png" alt="Logo Sekolah" class="h-14 object-contain">
             </div>
             <div>
                 <h1 class="font-sans text-2xl font-bold text-slate-900 tracking-tight">Login Admin</h1>

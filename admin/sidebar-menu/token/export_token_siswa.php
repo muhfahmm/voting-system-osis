@@ -35,7 +35,7 @@ $total_token = count($tokens);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lembar Token Pemilih Siswa</title>
-    <link rel="icon" href="../../assets/img/logo osis.png">
+    <link rel="icon" href="../../assets/img/logo-osis.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>

@@ -36,7 +36,7 @@ $active = $active ?? ($activeMenu ?? '');
     <div class="flex flex-col gap-4 p-4 flex-1 overflow-y-auto">
         <div class="flex items-center justify-between border-b border-slate-200 pb-6">
             <div class="flex items-center gap-3">
-                <img src="<?= $baseAdmin; ?>assets/img/logo osis.png" alt="Logo OSIS" class="h-9 object-contain">
+                <img src="<?= $baseAdmin; ?>assets/img/logo-osis.png" alt="Logo OSIS" class="h-9 object-contain">
                 <div>
                     <h2 class="font-sans font-extrabold text-lg text-slate-900">Admin Panel</h2>
                 </div>
